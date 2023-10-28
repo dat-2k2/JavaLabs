@@ -28,9 +28,6 @@ public class AppTest {
 			System.out.println("An error occured. ");
 			e.printStackTrace();
 		}
-		catch(Throwable t){
-			System.out.println(t.getMessage());
-		}
 
 		//try overwrite
 		String overwriteString = new String("this is the overwritten data");
@@ -51,9 +48,6 @@ public class AppTest {
 			System.out.println("An error occured. ");
 			e.printStackTrace();
 		}
-		catch(Throwable t){
-			System.out.println(t.getMessage());
-		}
 
 		//delete the file
 		fileTest.delete();
@@ -63,9 +57,9 @@ public class AppTest {
 	};
 
 
-    @Test 	// test if the nonexisted File case is covered. 
+    @Test	// test if the nonexisted File case is covered. 
     public void testFileNotFound(){
-		Lab1.overwriteFile(new String(""), new String(""));
+		assert(Lab1.overwriteFile(new String(""), new String("")) == 1);
     }
 
 }

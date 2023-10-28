@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 public class Lab1{
     	// overwrite a specific file with a buffer
 
-    public static void overwriteFile(String pathName, String buffer){
+    public static int overwriteFile(String pathName, String buffer){
         try {
             if (new File(pathName).exists() == false){
                 throw new FileNotFoundException();
@@ -14,11 +14,14 @@ public class Lab1{
             FileWriter writer = new FileWriter(pathName,false);
             writer.write(buffer);
             writer.close();
+            return 0;
         } catch (FileNotFoundException e){
             System.out.println("File not found ");
+            return 1;
         } catch (Exception e){
             System.out.println("An error occured");
             e.printStackTrace();
+            return -1;
         }
     } 
 }
