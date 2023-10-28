@@ -16,12 +16,7 @@ mvn --version
 git --version
 ```
 ## Create project
-- Create a Git repo online, then clone it to local folder by
-```
-git clone https://github.com/dat-2k2/JavaLabs.git
-```
-
-- Go to the cloned git folder, initialize a Maven project with this command:
+- Initialize a Maven project with this command:
  ``` mvn archetype:generate -DgroupId=[main package] -DartifactId=[repo name] -DarchetypeArtifactId=[project template] -DinteractiveMode=false ``` where:
   - main package = ru.spbstu.telematics.java
   - repo name = JavaLabs
@@ -30,6 +25,7 @@ git clone https://github.com/dat-2k2/JavaLabs.git
 
 - After initialization, create a repo on Git, then use these commands to link the local repo to the upstream branch:
 ```
+git init (initialize git project)
 git remote add origin [repo link] 
 (this will create the local branch "master", which conflicts with the upstream branch "main")
 git branch -m master main 
@@ -85,7 +81,7 @@ The testing class using package **junit** contains every methods to test all fun
 ## Lab 1
 This lab requires to write a program that helps overwrite an *existed* file with a text. 
 ### Overwriting method
-The overwriting method open a file with parameter *pathName*, then overwrite text from parameter *text*. During execution it also needs to handle the case of nonexisted file.
+The overwriting method open a file named *pathName*, then overwrite it by *buffer*. During execution it also needs to handle the case of nonexisted file.
 
 The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else -1. 
 
@@ -111,7 +107,7 @@ The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else
 ```
 
 ### Main method
-The main function executes the main function of package **Lab 1** if it receives argument **ow**. 
+The main function executes the overwriting method of package **Lab 1** if it receives argument **ow**. 
 
 ```
 		if ("ow".equals(args[0])){
@@ -171,7 +167,7 @@ Prepare a file, write some data to it, then run the overwriting method *Lab1.ove
 
 ```
 #### FileNotFound
-Test if the FileNotFound run normal, just check if the method returns 1. 
+Test if the FileNotFound is handled, just check if the method returns 1. 
 
 ```````
     @Test	// test if the nonexisted File case is covered. 
