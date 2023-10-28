@@ -1,40 +1,40 @@
-# Configuration
-System: Windows 11
-## Install JDK, Maven, Git
+# Конфигурация
+ОС: Windows 11
+## Установка JDK, Maven, Git
 - JDK 17: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
 - Maven: https://maven.apache.org/download.cgi
 - Git: https://git-scm.com/downloads
 
-To avoid sensitive characters in path, recommend to create a folder with a "safe" name to install all packages. 
+Чтобы избежать чувствительных символов в пути, рекомендуем создать папку с "безопасным" именем для установки всех пакетов.
 
-After downloading, install those packages and add PATH to make them accessible. 
-
-Check the version:
+После загрузки установите эти пакеты и добавьте PATH, чтобы сделать их доступными.
+Проверить версию:
 ```
 java --version 
 mvn --version
 git --version
 ```
-## Create project
-- Initialize a Maven project with this command:
- ``` mvn archetype:generate -DgroupId=[main package] -DartifactId=[repo name] -DarchetypeArtifactId=[project template] -DinteractiveMode=false ``` where:
-  - main package = ru.spbstu.telematics.java
-  - repo name = JavaLabs
-  - project template = maven-archetype-quickstart
+## Создать проект
+- Перейдите в клонированную папку git, инициализируйте проект Maven с помощью этой команды:
+ ``` mvn archetype:generate -DgroupId=[главный пакет] -DartifactId=[имя репо] -DarchetypeArtifactId=[шаблон проекта] -DinteractiveMode=false ``` при этом:
+  - главный пакет = ru.spbstu.telematics.java
+  - имя репо = JavaLabs
+  - шаблон проекта = maven-archetype-quickstart
  
 
-- After initialization, create a repo on Git, then use these commands to link the local repo to the upstream branch:
+- После инициализации создайте отчет в Git, затем используйте эти команды, чтобы связать локальное репозиторий с вышестоящей веткой:
 ```
-git init (initialize git project)
+git init (инициализировать проект git)
 git remote add origin [repo link] 
-(this will create the local branch "master", which conflicts with the upstream branch "main")
+(это создаст локальную ветку "master", которая конфликтует с вышестоящей веткой "main".)
 git branch -m master main 
-(change the name of branch if needed)
-git pull origin main --allow-unrelated-histories (allow mismatched histories)
+(при необходимости измените название ветки)
+git pull origin main --allow-unrelated-histories (разрешить несовпадающие истории)
 ```
-From now you can commit as usual. 
+Затем вы можете совершать действия как обычно.
 
-- To execute jar file, you need to include *maven jar plugin* into pom.xml
+
+- Чтобы запустить jar-файл, вам необходимо включить *maven jar plugin* info pom.xml
 ```
  <build>
   <plugins>
@@ -54,15 +54,15 @@ From now you can commit as usual.
   </plugins>
 </build>
 ```
-# Execution
-Using jar execution:
+# Выполнение
+Использование jar-выполнения:
 ```
-java -jar target\JavaLabs-1.0-SNAPSHOT.jar [command]
+java -jar target\JavaLabs-1.0-SNAPSHOT.jar [команда]
 ```
-# Program Structure
-Each laboratory (short. *lab*) is put in a separated subpackage of the main pack *ru.spbstu.telematics.java*, named as **lab1, lab2,**... 
+# Структура программы
+Каждая лабораторная работа (сок. *лаб*) находится в отдельном подпакете общего пакета *ru.spbstu.telematics.java*, называемая **lab1, lab2,**... 
 
-The class **App** mocks the CLI, which navigates the program to the respective task by the first argument. For example, the command argument for *Lab 1* is **ow** (overwrite).
+Класс **App** имитирует CLI, где он управляет программу на соответственную задачку при первом аргументе. Например, главный аргумент для *Лаб 1* - **ow** (перезапись)
 
 ```
 public class App 
@@ -75,15 +75,16 @@ public class App
 
 }
 ```
+Тестовый класс использующий пакет **junit** содержает все методы проверки всех функций. 
 
-The testing class using package **junit** contains every methods to test all functions. 
+## Лаб 1
+Этот лаб требует чтобы написал программу, которая перезаписывает существующий файл с заданным текстом. 
+### Метод перезаписи
 
-## Lab 1
-This lab requires to write a program that helps overwrite an *existed* file with a text. 
-### Overwriting method
-The overwriting method open a file named *pathName*, then overwrite it by *buffer*. During execution it also needs to handle the case of nonexisted file.
+Метод перезаписи откроет файл с имени *pathName*, затем перезапишет его с *buffer*. При выполнения надо также обрабатывать случай несуществующего файла. 
 
 The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else -1. 
+Метод возвращает 0 если успешно, иначе 1 если файл несуществует, иначе -1. 
 
 ```
     public static int overwriteFile(String pathName, String buffer){
@@ -106,8 +107,8 @@ The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else
     } 
 ```
 
-### Main method
-The main function executes the overwriting method of package **Lab 1** if it receives argument **ow**. 
+### Главный метод
+Главный метод выполняет метод перезаписи пакета **Lab 1** если он передается аргументом **ow**
 
 ```
 		if ("ow".equals(args[0])){
@@ -115,11 +116,11 @@ The main function executes the overwriting method of package **Lab 1** if it rec
 		}
 ```
 
-### Testing
-We need to test the general case of overwriting and the case of non-existed file. 
+### Тестирование
+Надо тестировать общий случай (перезапись) и случай несуществующего файла. 
+#### Перезапись 
 
-#### Overwriting
-Prepare a file, write some data to it, then run the overwriting method *Lab1.overwriteFile*, read the new data and check whether they are the same with the overwritten. Here used *File*, *FileWriter* and *FileReader*
+Подготовить один файл, туда написать несколько данных, затем запустить метод *Lab1.overwriteFile*, почитать новые данные и проверить одним же ли они с перезаписанными данными. Здесь использовать пакеты *File*, *FileWriter* и *FileReader*.
 ```
 	@Test //test the main function
 	public void testOverWrite(){
@@ -167,7 +168,7 @@ Prepare a file, write some data to it, then run the overwriting method *Lab1.ove
 
 ```
 #### FileNotFound
-Test if the FileNotFound is handled, just check if the method returns 1. 
+Проверка нормально ли работает метод при том, что файл несуществует (метод возвращает 1).
 
 ```````
     @Test	// test if the nonexisted File case is covered. 
