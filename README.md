@@ -81,30 +81,26 @@ public class App
 Этот лаб требует чтобы написал программу, которая перезаписывает существующий файл с заданным текстом. 
 ### Метод перезаписи
 
-Метод перезаписи откроет файл с имени *pathName*, затем перезапишет его с *buffer*. При выполнения надо также обрабатывать случай несуществующего файла. 
-
-The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else -1. 
-Метод возвращает 0 если успешно, иначе 1 если файл несуществует, иначе -1. 
+Метод перезаписи откроет файл с имени *pathName*, затем перезапишет его с *buffer*. При выполнения надо также обрабатывать случай несуществующего файла.
 
 ```
-    public static int overwriteFile(String pathName, String buffer){
+     public static void overwriteFile(String pathName, String buffer) throws FileNotFoundException{
+        //throw exception if the file doesn't exist
+        if (!new File(pathName).exists()){
+            throw new FileNotFoundException();
+        }
+        
+        // if file already exists, write the new data to it. 
         try {
-            if (new File(pathName).exists() == false){
-                throw new FileNotFoundException();
-            }
             FileWriter writer = new FileWriter(pathName,false);
             writer.write(buffer);
             writer.close();
-            return 0;
-        } catch (FileNotFoundException e){
-            System.out.println("File not found ");
-            return 1;
-        } catch (Exception e){
+        }
+        catch (IOException e){
             System.out.println("An error occured");
             e.printStackTrace();
-            return -1;
         }
-    } 
+    }
 ```
 
 ### Главный метод
@@ -112,7 +108,12 @@ The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else
 
 ```
 		if ("ow".equals(args[0])){
-			Lab1.overwriteFile(args[1], args[2]);		
+			try{
+				Lab1.overwriteFile(args[1], args[2]);
+			}
+			catch (FileNotFoundException e) {
+				System.out.println("File " + args[1] + " not found!");
+			}
 		}
 ```
 
@@ -124,7 +125,6 @@ The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else
 ```
 	@Test //test the main function
 	public void testOverWrite(){
-
 		//create new file
 		String testPath = new String("tmp.txt");
 		File fileTest = new File(testPath);
@@ -141,7 +141,12 @@ The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else
 
 		//try overwrite
 		String overwriteString = new String("this is the overwritten data");
-		Lab1.overwriteFile(testPath,overwriteString);
+		try {
+			Lab1.overwriteFile(testPath,overwriteString);
+		} catch (FileNotFoundException e){
+			return;
+		}
+
 
 		//prepare a buffer to read the new data
 		File tmp = new File(testPath);
@@ -168,12 +173,12 @@ The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else
 
 ```
 #### FileNotFound
-Проверка нормально ли работает метод при том, что файл несуществует (метод возвращает 1).
+Проверка нормально ли работает метод при том, что файл несуществует.
 
 ```````
-    @Test	// test if the nonexisted File case is covered. 
-    public void testFileNotFound(){
-		assert(Lab1.overwriteFile(new String(""), new String("")) == 1);
+    @Test(expected = FileNotFoundException.class)	// test if the nonexisted File case is covered.
+    public void testFileNotFound() throws FileNotFoundException {
+		 Lab1.overwriteFile(new String(""), new String(""));
     }
 
 ```

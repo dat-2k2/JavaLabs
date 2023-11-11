@@ -66,13 +66,15 @@ The class **App** mocks the CLI, which navigates the program to the respective t
 
 ```
 public class App 
-{	// main function
-    public static void main(String[] args){
-		if ("ow".equals(args[0])){
-			Lab1.overwriteFile(args[1], args[2]);		
+{	
+        if ("ow".equals(args[0])){
+			try{
+				Lab1.overwriteFile(args[1], args[2]);
+			}
+			catch (FileNotFoundException e) {
+				System.out.println("File " + args[1] + " not found!");
+			}
 		}
-    }
-
 }
 ```
 
@@ -82,8 +84,6 @@ The testing class using package **junit** contains every methods to test all fun
 This lab requires to write a program that helps overwrite an *existed* file with a text. 
 ### Overwriting method
 The overwriting method open a file named *pathName*, then overwrite it by *buffer*. During execution it also needs to handle the case of nonexisted file.
-
-The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else -1. 
 
 ```
     public static int overwriteFile(String pathName, String buffer){
@@ -110,8 +110,13 @@ The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else
 The main function executes the overwriting method of package **Lab 1** if it receives argument **ow**. 
 
 ```
-		if ("ow".equals(args[0])){
-			Lab1.overwriteFile(args[1], args[2]);		
+	    if ("ow".equals(args[0])){
+			try{
+				Lab1.overwriteFile(args[1], args[2]);
+			}
+			catch (FileNotFoundException e) {
+				System.out.println("File " + args[1] + " not found!");
+			}
 		}
 ```
 
@@ -121,9 +126,8 @@ We need to test the general case of overwriting and the case of non-existed file
 #### Overwriting
 Prepare a file, write some data to it, then run the overwriting method *Lab1.overwriteFile*, read the new data and check whether they are the same with the overwritten. Here used *File*, *FileWriter* and *FileReader*
 ```
-	@Test //test the main function
+@Test //test the main function
 	public void testOverWrite(){
-
 		//create new file
 		String testPath = new String("tmp.txt");
 		File fileTest = new File(testPath);
@@ -140,7 +144,12 @@ Prepare a file, write some data to it, then run the overwriting method *Lab1.ove
 
 		//try overwrite
 		String overwriteString = new String("this is the overwritten data");
-		Lab1.overwriteFile(testPath,overwriteString);
+		try {
+			Lab1.overwriteFile(testPath,overwriteString);
+		} catch (FileNotFoundException e){
+			return;
+		}
+
 
 		//prepare a buffer to read the new data
 		File tmp = new File(testPath);
@@ -167,11 +176,11 @@ Prepare a file, write some data to it, then run the overwriting method *Lab1.ove
 
 ```
 #### FileNotFound
-Test if the FileNotFound is handled, just check if the method returns 1. 
+Test if the FileNotFound is handled, check if the method throw the
 
 ```
-    @Test	// test if the nonexisted File case is covered. 
-    public void testFileNotFound(){
-		assert(Lab1.overwriteFile(new String(""), new String("")) == 1);
+    @Test(expected = FileNotFoundException.class)	// test if the nonexisted File case is covered.
+    public void testFileNotFound() throws FileNotFoundException {
+		 Lab1.overwriteFile(new String(""), new String(""));
     }
 ```
