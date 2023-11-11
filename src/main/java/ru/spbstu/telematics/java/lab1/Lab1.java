@@ -2,26 +2,30 @@ package ru.spbstu.telematics.java.lab1;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Lab1{
-    	// overwrite a specific file with a buffer
+    /**
+     * Overwrite a specific file with a buffer
+     * @param pathName to the specific file
+     * @param buffer the string to overwrite
+     * @throws FileNotFoundException throw the FileNotFoundException if there isn't any of specified file
+     */
+    public static void overwriteFile(String pathName, String buffer) throws FileNotFoundException{
+        //throw exception if the file doesn't exist
+        if (!new File(pathName).exists()){
+            throw new FileNotFoundException();
+        }
 
-    public static int overwriteFile(String pathName, String buffer){
+        // if file already exists, write the new data to it.
         try {
-            if (new File(pathName).exists() == false){
-                throw new FileNotFoundException();
-            }
             FileWriter writer = new FileWriter(pathName,false);
             writer.write(buffer);
             writer.close();
-            return 0;
-        } catch (FileNotFoundException e){
-            System.out.println("File not found ");
-            return 1;
-        } catch (Exception e){
+        }
+        catch (IOException e){
             System.out.println("An error occured");
             e.printStackTrace();
-            return -1;
         }
-    } 
+    }
 }
