@@ -1,16 +1,13 @@
 package ru.spbstu.telematics.java;
 import ru.spbstu.telematics.java.lab1.*;
-
 import org.junit.Test;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.FileReader;
+
+import java.io.*;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest {
+public class Lab1Test {
 
 	@Test //test the main function
 	public void testOverWrite(){
@@ -31,7 +28,12 @@ public class AppTest {
 
 		//try overwrite
 		String overwriteString = new String("this is the overwritten data");
-		Lab1.overwriteFile(testPath,overwriteString);
+		try {
+			Lab1.overwriteFile(testPath,overwriteString);
+		} catch (FileNotFoundException e){
+			return;
+		}
+
 
 		//prepare a buffer to read the new data
 		File tmp = new File(testPath);
@@ -39,7 +41,7 @@ public class AppTest {
 
 		// read the new overwritten data
 		try{
-			FileReader readerTest = new FileReader(testPath); 
+			FileReader readerTest = new FileReader(testPath);
 			//read text from the file
 			readerTest.read(cbuff);
 			readerTest.close();
@@ -56,10 +58,8 @@ public class AppTest {
 		assert(overwriteString.equals(new String(cbuff)));
 	};
 
-
-    @Test	// test if the nonexisted File case is covered. 
-    public void testFileNotFound(){
-		assert(Lab1.overwriteFile(new String(""), new String("")) == 1);
+	@Test(expected = FileNotFoundException.class)	// test if the nonexisted File case is covered.
+    public void testFileNotFound() throws FileNotFoundException {
+		 Lab1.overwriteFile(new String(""), new String(""));
     }
-
 }

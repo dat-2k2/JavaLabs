@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Lab1{
+
     /**
      * Overwrite a specific file with a buffer
      * @param pathName to the specific file
@@ -12,12 +13,10 @@ public class Lab1{
      * @throws FileNotFoundException throw the FileNotFoundException if there isn't any of specified file
      */
     public static void overwriteFile(String pathName, String buffer) throws FileNotFoundException{
-        //throw exception if the file doesn't exist
-        if (!new File(pathName).exists()){
+        if (new File(pathName).exists() == false){
             throw new FileNotFoundException();
         }
 
-        // if file already exists, write the new data to it.
         try {
             FileWriter writer = new FileWriter(pathName,false);
             writer.write(buffer);
