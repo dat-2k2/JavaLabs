@@ -1,19 +1,43 @@
-package ru.spbstu.telematics.java.lab2;
+package ru.spbstu.telematics.java.lab2.linkedlist;
 
-import sun.awt.image.ImageWatched;
+import ru.spbstu.telematics.java.lab2.MyIterable;
+import ru.spbstu.telematics.java.lab2.MyIterator;
 
-import javax.lang.model.element.Element;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class LinkedList<E> implements ListCustom<E>{
+/**
+ * An implementation of generic Linked List in Java
+ * @param <E> generic type
+ */
+public class MyLinkedList<E> implements MyLinkedListInterface<E> {
     int sizeList;
     Node<E> headNode;
     Node<E> tailNode;
 
+    @Override
+    public MyIterator<E> iterator() {
+        return new MyIterator<E>() {
+            Node<E> current = headNode;
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public E next() throws NoSuchElementException {
+                if (!hasNext())
+                    throw new NoSuchElementException();
+                E data = current.dataNode;
+                current = current.nextNode;
+                return data;
+
+            }
+        };
+    }
+
 
     /**
-     * Node type
+     * Generic Node class
      * @param <E>
      */
     static class Node<E>{
@@ -28,44 +52,53 @@ public class LinkedList<E> implements ListCustom<E>{
         }
     }
 
-    public LinkedList(){
+    /**
+     * Create an empty list
+     */
+    public MyLinkedList(){
         sizeList = 0;
         headNode = null;
         tailNode = null;
     }
 
-    public LinkedList(Collection<? extends E> collection) throws NullPointerException{
+    /**
+     * Create a list from the given collection
+     * @param collection the collection for the list
+     * @throws NullPointerException if the collection is null object
+     */
+
+    public MyLinkedList(MyIterable<? extends E> collection) throws NullPointerException{
         if (collection == null)
             throw new NullPointerException();
-        for (E e: collection){
-            this.add(e);
-        }
+        collection.forEach(this::add);
     }
 
-    public LinkedList(E[] array){
+    /**
+     * Create a list from a flat array
+     * @param array the flat array for the list
+     */
+    public MyLinkedList(E[] array){
         for (E e: array){
             this.add(e);
         }
     }
-    @Override
     public int size() {
         return sizeList;
     }
 
-    @Override
     public boolean isEmpty() {
+
         return sizeList == 0;
     }
 
-    @Override
-    public boolean contains(E element) {
+    public boolean contains(Object element) {
         if (element == null)
             return isEmpty();
         return indexOf(element) > -1;
     }
 
     @Override
-    public int indexOf(E element) {
+    public int indexOf(Object element) {
         Node<E> tmp = this.headNode;
         int counter = 0;
         while (tmp != null){
@@ -78,7 +111,6 @@ public class LinkedList<E> implements ListCustom<E>{
         return -1;
     }
 
-    @Override
     public void add(E element){
         Node<E> tmp = tailNode;
         tailNode = new Node<>(element);
@@ -94,6 +126,10 @@ public class LinkedList<E> implements ListCustom<E>{
         sizeList++;
     }
 
+    /**
+     * Add an element to the head of list
+     * @param element the element to add
+     */
     public void addHead(E element){
         Node<E> tmp = headNode;
 
@@ -106,7 +142,6 @@ public class LinkedList<E> implements ListCustom<E>{
         sizeList++;
     }
 
-    @Override
     public void remove(int index) throws IndexOutOfBoundsException {
         if (index > sizeList - 1)
             throw new IndexOutOfBoundsException();
@@ -138,7 +173,12 @@ public class LinkedList<E> implements ListCustom<E>{
         sizeList--;
     }
 
-    @Override
+    /**
+     * Get the element at position index
+     * @param index of the element
+     * @return the element at position index
+     * @throws IndexOutOfBoundsException when index is out of range
+     */
     public E get(int index) throws IndexOutOfBoundsException{
         if (index > sizeList - 1 || index < 0)
             throw new IndexOutOfBoundsException();
@@ -150,7 +190,13 @@ public class LinkedList<E> implements ListCustom<E>{
         return res.dataNode;
     }
 
-    @Override
+    /**
+     * Replaces the element at the specified position in the list with the specified element
+     * @param index index of the element to replace
+     * @param element the element to be stored at the specified position
+     * @return the element previously at the specified position
+     * @throws IndexOutOfBoundsException when index is out of range
+     */
     public E set(int index, E element) throws IndexOutOfBoundsException{
         if (index > sizeList - 1 || index < 0)
             throw new IndexOutOfBoundsException();
@@ -164,7 +210,6 @@ public class LinkedList<E> implements ListCustom<E>{
         return oldData;
     }
 
-    @Override
     public void clear() {
         //use automatic garbage collection
         headNode = null;

@@ -1,6 +1,9 @@
 package ru.spbstu.telematics.java;
 
 import org.junit.Test;
+
+import ru.spbstu.telematics.java.lab2.MyIterator;
+import ru.spbstu.telematics.java.lab2.arraylist.MyArrayList;
 import ru.spbstu.telematics.java.lab2.linkedlist.MyLinkedList;
 
 import java.util.ArrayList;
@@ -27,12 +30,12 @@ public class MyLinkedListTest {
      */
     @Test(expected = NullPointerException.class)
     public void testLLConstructFromCollection() throws NullPointerException, IndexOutOfBoundsException{
-        MyLinkedList<Integer> listTest = new MyLinkedList<>(Arrays.asList(arrayTest));
+        MyLinkedList<Integer> listTest = new MyLinkedList<>(new MyArrayList<Integer>(arrayTest));
         for (int i = 0; i < arrayTest.length; i++){
             assert (Objects.equals(listTest.get(i), arrayTest[i]));
         }
         assert(listTest.size() == arrayTest.length);
-        ArrayList<Integer> tmp = null;
+        MyArrayList<Integer> tmp = null;
         listTest = new MyLinkedList<>(tmp);
     }
 
@@ -48,6 +51,16 @@ public class MyLinkedListTest {
         assert(listTest.size() == arrayTest.length);
     }
 
+    @Test
+    public void testIterator(){
+        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
+        MyIterator<Integer> itListTest = listTest.iterator();
+
+        int i = 0;
+        while(itListTest.hasNext()) {
+            assert (itListTest.next().equals(arrayTest[i++]));
+        }
+    }
     /**
      * Test add member to the last
      */
