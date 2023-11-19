@@ -1,44 +1,59 @@
 package ru.spbstu.telematics.java;
 
 import org.junit.Test;
-import ru.spbstu.telematics.java.lab2.LinkedList;
+import ru.spbstu.telematics.java.lab2.linkedlist.MyLinkedList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class LinkedListTest {
+public class MyLinkedListTest {
     static final Integer[] arrayTest = {0,1,2,3,4,5};
 
     //test basic functions
+
+    /**
+     * Test creating an empty Linked List
+     */
     @Test
     public void testLLEmptyCreate(){
-        LinkedList<Integer> listTest = new LinkedList<>();
+        MyLinkedList<Integer> listTest = new MyLinkedList<>();
         assert(listTest.isEmpty());
     }
 
+    /**
+     * Test creating Linked List from a Collection
+     * @throws NullPointerException if the collection is null
+     */
     @Test(expected = NullPointerException.class)
     public void testLLConstructFromCollection() throws NullPointerException, IndexOutOfBoundsException{
-        LinkedList<Integer> listTest = new LinkedList<>(Arrays.asList(arrayTest));
+        MyLinkedList<Integer> listTest = new MyLinkedList<>(Arrays.asList(arrayTest));
         for (int i = 0; i < arrayTest.length; i++){
             assert (Objects.equals(listTest.get(i), arrayTest[i]));
         }
         assert(listTest.size() == arrayTest.length);
         ArrayList<Integer> tmp = null;
-        listTest = new LinkedList<>(tmp);
+        listTest = new MyLinkedList<>(tmp);
     }
 
+    /**
+     * Test creating Linked List from a flat array
+     */
     @Test
     public void testLLConstructFromArray(){
-        LinkedList<Integer> listTest = new LinkedList<>(arrayTest);
+        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
         for (int i = 0; i < arrayTest.length; i++){
             assert (Objects.equals(listTest.get(i), arrayTest[i]));
         }
         assert(listTest.size() == arrayTest.length);
     }
+
+    /**
+     * Test add member to the last
+     */
     @Test
     public void testAdd(){
-        LinkedList<Integer> listTest = new LinkedList<>();
+        MyLinkedList<Integer> listTest = new MyLinkedList<>();
         listTest.add(1);
         listTest.add(2);
         assert(listTest.get(0) == 1);
@@ -46,9 +61,21 @@ public class LinkedListTest {
         assert(listTest.size() == 2);
     }
 
+    /**
+     * Test addHead()
+     */
+    @Test
+    public void testAddHead(){
+        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
+        listTest.addHead(-1);
+        assert (listTest.get(0) == -1);
+    }
+
+
+
     @Test(expected = IndexOutOfBoundsException.class)
     public void testRemove() throws IndexOutOfBoundsException{
-        LinkedList<Integer> listTest = new LinkedList<>(arrayTest);
+        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
         listTest.remove(1);
         assert(!listTest.contains(1));
         assert(listTest.size() == arrayTest.length-1);
@@ -58,7 +85,7 @@ public class LinkedListTest {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testGet() throws IndexOutOfBoundsException{
-        LinkedList<Integer> listTest = new LinkedList<>();
+        MyLinkedList<Integer> listTest = new MyLinkedList<>();
         for (int i = 0; i < 3; i++){
             listTest.add((Integer) i);
         }
@@ -70,7 +97,7 @@ public class LinkedListTest {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testSet() throws IndexOutOfBoundsException{
-        LinkedList<Integer> listTest = new LinkedList<>(arrayTest);
+        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
         assert (listTest.set(0,100) == 0);
         assert (listTest.get(0) == 100);
         listTest.set(100,100);
@@ -78,7 +105,7 @@ public class LinkedListTest {
 
     @Test
     public void testClear(){
-        LinkedList<Integer> listTest = new LinkedList<>(arrayTest);
+        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
         listTest.clear();
         assert (listTest.isEmpty());
     }
