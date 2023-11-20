@@ -1,13 +1,8 @@
 package ru.spbstu.telematics.java.lab2.bag;
-
-
-
 import ru.spbstu.telematics.java.lab2.MyIterable;
 
 
 public interface MyBagInterface<T> extends MyIterable<T> {
-
-
     /**
      * Check if the list is empty
      * @return true if the list is empty
