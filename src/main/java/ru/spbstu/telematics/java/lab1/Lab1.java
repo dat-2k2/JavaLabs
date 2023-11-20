@@ -13,8 +13,8 @@ public class Lab1{
      * @throws FileNotFoundException throw the FileNotFoundException if there isn't any of specified file
      */
     public static void overwriteFile(String pathName, String buffer) throws FileNotFoundException{
-        if (new File(pathName).exists() == false){
-            throw new FileNotFoundException();
+        if (!new File(pathName).exists()){
+            throw new FileNotFoundException("File " + pathName+ " not found");
         }
 
         try {
@@ -23,8 +23,7 @@ public class Lab1{
             writer.close();
         }
         catch (IOException e){
-            System.out.println("An error occured");
-            e.printStackTrace();
+            System.out.println("Cannot open file " + pathName);
         }
     }
 }
