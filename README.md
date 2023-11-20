@@ -59,6 +59,29 @@ git pull origin main --allow-unrelated-histories (разрешить несов�
 ```
 java -jar target\JavaLabs-1.0-SNAPSHOT.jar [команда]
 ```
+
+Чтобы использовать dependencies (commons-cli) с jar, надо добавить/ заменить плагин *maven-jar-plugin* с *maven-assembly-plugin*.
+```
+<plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>ru.spbstu.telematics.java.App</mainClass>
+          </manifest>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+    </plugin>
+```
+и построить с командой:
+```
+mvn clean package assembly:single
+```
+JAR файл с *commons-cli* заканчивается на *jar-with-dependencies*.
+
 # Структура программы
 Каждая лабораторная работа (сок. *лаб*) находится в отдельном подпакете общего пакета *ru.spbstu.telematics.java*, называемая **lab1, lab2,**... 
 
