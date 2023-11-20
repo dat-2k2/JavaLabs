@@ -6,14 +6,10 @@ import ru.spbstu.telematics.java.lab2.MyIterator;
 import ru.spbstu.telematics.java.lab2.arraylist.MyArrayList;
 import ru.spbstu.telematics.java.lab2.linkedlist.MyLinkedList;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class MyLinkedListTest {
     static final Integer[] arrayTest = {0,1,2,3,4,5};
-
-    //test basic functions
 
     /**
      * Test creating an empty Linked List

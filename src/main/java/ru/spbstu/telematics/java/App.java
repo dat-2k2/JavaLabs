@@ -18,13 +18,8 @@ public class App
 		try{
 			actionLab1(args);
 		}
-		catch (FileNotFoundException e){
+		catch (FileNotFoundException | ParseException e){
 			System.out.println(e.getMessage());
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("Usage:", "", options, "", true);
-		}
-		catch (ParseException e){
-			System.out.println("Command error");
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("Usage:", "", options, "", true);
 		}
@@ -47,6 +42,8 @@ public class App
 		if (cmd.hasOption(ow)){
 			String fileName = cmd.getOptionValue(owFile);
 			String data = cmd.getOptionValue(owData);
+			if (fileName == null || data == null)
+				throw new ParseException("Argument error");
 			System.out.println("Overwrite file "+ fileName);
 			Lab1.overwriteFile(fileName, data);
 		}
