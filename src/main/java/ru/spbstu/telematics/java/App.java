@@ -37,9 +37,14 @@ public class App
 		owData.setArgs(1);
 		options.addOption(owData);
 
+		Option help = new Option("h", false, "Instruction");
+		options.addOption(help);
 
 		CommandLine cmd = parser.parse(options,args);
-		if (cmd.hasOption(ow)){
+		if (cmd.hasOption(help)){
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("Usage:", "", options, "", true);
+		}else if (cmd.hasOption(ow)){
 			String fileName = cmd.getOptionValue(owFile);
 			String data = cmd.getOptionValue(owData);
 			if (fileName == null || data == null)

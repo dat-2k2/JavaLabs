@@ -129,79 +129,13 @@ public class App
 ### Главный метод
 Главный метод выполняет метод перезаписи пакета **Lab 1** если он передается аргументом **ow**
 
-```
-		if ("ow".equals(args[0])){
-			try{
-				Lab1.overwriteFile(args[1], args[2]);
-			}
-			catch (FileNotFoundException e) {
-				System.out.println("File " + args[1] + " not found!");
-			}
-		}
-```
 
 ### Тестирование
 Надо тестировать общий случай (перезапись) и случай несуществующего файла. 
 #### Перезапись 
 
 Подготовить один файл, туда написать несколько данных, затем запустить метод *Lab1.overwriteFile*, почитать новые данные и проверить одним же ли они с перезаписанными данными. Здесь использовать пакеты *File*, *FileWriter* и *FileReader*.
-```
-	@Test //test the main function
-	public void testOverWrite(){
-		//create new file
-		String testPath = new String("tmp.txt");
-		File fileTest = new File(testPath);
-		try{
-			FileWriter writerTest = new FileWriter(testPath);
-			//write a text to file
-			writerTest.write("this is a test");
-			writerTest.close();
-		}
-		catch(IOException e){
-			System.out.println("An error occured. ");
-			e.printStackTrace();
-		}
 
-		//try overwrite
-		String overwriteString = new String("this is the overwritten data");
-		try {
-			Lab1.overwriteFile(testPath,overwriteString);
-		} catch (FileNotFoundException e){
-			return;
-		}
-
-
-		//prepare a buffer to read the new data
-		File tmp = new File(testPath);
-		char[] cbuff = new char[(int)tmp.length()];
-
-		// read the new overwritten data
-		try{
-			FileReader readerTest = new FileReader(testPath); 
-			//read text from the file
-			readerTest.read(cbuff);
-			readerTest.close();
-		}
-		catch(IOException e){
-			System.out.println("An error occured. ");
-			e.printStackTrace();
-		}
-
-		//delete the file
-		fileTest.delete();
-
-		//check if the data is overwritten successfully
-		assert(overwriteString.equals(new String(cbuff)));
-	};
-
-```
 #### FileNotFound
 Проверка нормально ли работает метод при том, что файл несуществует.
 
-```````
-    @Test(expected = FileNotFoundException.class)	// test if the nonexisted File case is covered.
-    public void testFileNotFound() throws FileNotFoundException {
-		 Lab1.overwriteFile(new String(""), new String(""));
-    }
-
-```
