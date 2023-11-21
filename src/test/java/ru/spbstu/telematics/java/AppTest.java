@@ -17,9 +17,15 @@ public class AppTest {
         assert(true);
     }
 
-    @Test(expected = FileNotFoundException.class)
-    public void testEmptyFile() throws ParseException, FileNotFoundException{
+    @Test(expected = ParseException.class)
+    public void testNoFileArg() throws ParseException, FileNotFoundException{
         App.actionLab1(new String[]{"-ow", "-d", "Hello world"});
     }
+
+    @Test(expected = ParseException.class)
+    public void testNoDataArg() throws ParseException, FileNotFoundException{
+        App.actionLab1(new String[]{"-ow", "-f", "abc.txt"});
+    }
+
 
 }
