@@ -33,14 +33,11 @@ public class MyBag<Item> implements MyBagInterface<Item> {
             occur = 1;
         }
 
-        public boolean equals(MyBagItem<Item> other) {
-            return item.equals(other.item);
-        }
-
         @Override
         public boolean equals(Object other) {
             return item.equals(other);
         }
+
     }
     public MyBag(){
         sizeBag = 0;
@@ -56,7 +53,7 @@ public class MyBag<Item> implements MyBagInterface<Item> {
         collection.forEach(e ->{
             int pos = listItem.indexOf(new MyBagItem<Item>(e));
             if (pos > -1){
-                listItem.set(pos, new MyBagItem<Item>(e, listItem.get(pos).occur+1));
+                listItem.get(pos).occur++;
             }
             else {
                 listItem.add(new MyBagItem<Item>(e, 1));
@@ -74,7 +71,7 @@ public class MyBag<Item> implements MyBagInterface<Item> {
         for (Item e: arr){
             int pos = listItem.indexOf(e);
             if (pos > -1){
-                listItem.set(pos, new MyBagItem<Item>(e, listItem.get(pos).occur+1));
+                listItem.get(pos).occur++;
             }
             else {
                 listItem.add(new MyBagItem<Item>(e,1));
@@ -110,6 +107,11 @@ public class MyBag<Item> implements MyBagInterface<Item> {
     }
 
     @Override
+    public int howManyItems() {
+        return listItem.size();
+    }
+
+    @Override
     public boolean isEmpty() {
         return listItem.isEmpty();
     }
@@ -134,7 +136,7 @@ public class MyBag<Item> implements MyBagInterface<Item> {
         if (pos > -1){
             int o = listItem.get(pos).occur;
             if (o > 1)
-                listItem.set(pos, new MyBagItem<>(element, o-1));
+                listItem.get(pos).occur--;
             else{
                 listItem.remove(pos);
             }
@@ -147,10 +149,17 @@ public class MyBag<Item> implements MyBagInterface<Item> {
     @Override
     public Integer getOccur(Item element) {
         int pos = listItem.indexOf(element);
-
         if (pos > -1)
             return listItem.get(pos).occur;
         else return 0;
     }
 
+    @Override
+    public MyArrayList<Item> items() {
+        MyArrayList<Item> res = new MyArrayList<>(listItem.size());
+        listItem.forEach(bagItem -> {
+            res.add(bagItem.item);
+        });
+        return res;
+    }
 }

@@ -111,7 +111,33 @@ Test if the FileNotFound is handled, check if the method throw the exception.
 ## Lab 2
 This lab requires to implement a Generic *Bag* in Java, which should include methods *size*, *contains*,  *add*, *remove*, *get* and some others if needed. 
 
-*Bag* has no direct class in Java, just *hashBag* and *treeBag* in Apache. To be simple here it's implemented with ArrayList. The ArrayList is implemented too. 
+*Bag* is a collection which accepts duplicates. It helps users quickly get the statistics of data. 
+
+*Bag* has no direct class in Java, just *hashBag* and *treeBag* in Apache. To be simple here it's implemented with array. 
+
+### Program structure
+
+<p>
+    <img src="lab3UML.png" alt>
+    <em>UML diagram of Lab 2</em>
+</p>
+
+
+*MyBag* takes a *MyArrayList* of *MyBagItem* as underlay array. The *MyBagItem* is simply a map from *T* to an *Integer*, which maps an item to its occurrences in the bag. 
+
+<p>
+    <img src="/img/lab3/add.png" alt>
+    <em>UML diagram of Lab 2</em>
+</p>
+
+
+
+
+
+
+
+
+
 
 
 
