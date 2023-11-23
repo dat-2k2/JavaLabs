@@ -1,4 +1,4 @@
-package ru.spbstu.telematics.java;
+package ru.spbstu.telematics.java.lab2;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
