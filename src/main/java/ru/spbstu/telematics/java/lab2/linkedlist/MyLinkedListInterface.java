@@ -4,9 +4,9 @@ import ru.spbstu.telematics.java.lab2.MyIterable;
 
 /**
  * Mock the List interface in Java
- * @param <E> generic type E
+ * @param <T> generic type T
  */
-interface MyLinkedListInterface<E> extends MyIterable<E> {
+public interface MyLinkedListInterface<T> extends MyIterable<T> {
     /**
      * Check if the list is empty
      * @return true if the list is empty
@@ -15,8 +15,8 @@ interface MyLinkedListInterface<E> extends MyIterable<E> {
 
     /**
      * Return the index of the given element
-     * @param element
-     * @return
+     * @param element the element to take index
+     * @return index of the given element
      */
     int indexOf(Object element);
     /**

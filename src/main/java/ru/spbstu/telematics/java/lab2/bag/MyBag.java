@@ -121,7 +121,7 @@ public class MyBag<Item> implements MyBagInterface<Item> {
     public void add(Item element) {
         int pos = listItem.indexOf(element);
         if (pos>-1){
-            listItem.set(pos, new MyBagItem<>(element, listItem.get(pos).occur+1));
+            listItem.get(pos).occur++;
         }
         else{
             listItem.add(new MyBagItem<Item>(element,1));

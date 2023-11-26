@@ -9,6 +9,7 @@ import ru.spbstu.telematics.java.lab2.arraylist.MyArrayList;
 import ru.spbstu.telematics.java.lab2.linkedlist.MyLinkedList;
 
 public class MyArrayListTest {
+
     @Test(expected = NullPointerException.class)
     public void testConstructor(){
         //test empty constructor

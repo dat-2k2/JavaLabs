@@ -7,27 +7,27 @@ import java.util.NoSuchElementException;
 
 /**
  * An implementation of generic Linked List in Java
- * @param <E> generic type
+ * @param <T> generic type
  */
-public class MyLinkedList<E> implements MyLinkedListInterface<E> {
+public class MyLinkedList<T> implements MyLinkedListInterface<T> {
     int sizeList;
-    Node<E> headNode;
-    Node<E> tailNode;
+    Node<T> headNode;
+    Node<T> tailNode;
 
     @Override
-    public MyIterator<E> iterator() {
-        return new MyIterator<E>() {
-            Node<E> current = headNode;
+    public MyIterator<T> iterator() {
+        return new MyIterator<T>() {
+            Node<T> current = headNode;
             @Override
             public boolean hasNext() {
                 return current != null;
             }
 
             @Override
-            public E next() throws NoSuchElementException {
+            public T next() throws NoSuchElementException {
                 if (!hasNext())
                     throw new NoSuchElementException();
-                E data = current.dataNode;
+                T data = current.dataNode;
                 current = current.nextNode;
                 return data;
 
@@ -38,16 +38,16 @@ public class MyLinkedList<E> implements MyLinkedListInterface<E> {
 
     /**
      * Generic Node class
-     * @param <E>
+     * @param <T>
      */
-    static class Node<E>{
-        E dataNode;
-        Node<E> prevNode;
-        Node<E> nextNode;
+    static class Node<T>{
+        T dataNode;
+        Node<T> prevNode;
+        Node<T> nextNode;
         Node(){
 
         }
-        Node(E element){
+        Node(T element){
             dataNode = element;
         }
     }
@@ -67,7 +67,7 @@ public class MyLinkedList<E> implements MyLinkedListInterface<E> {
      * @throws NullPointerException if the collection is null object
      */
 
-    public MyLinkedList(MyIterable<? extends E> collection) throws NullPointerException{
+    public MyLinkedList(MyIterable<? extends T> collection) throws NullPointerException{
         if (collection == null)
             throw new NullPointerException();
         collection.forEach(this::add);
@@ -77,8 +77,8 @@ public class MyLinkedList<E> implements MyLinkedListInterface<E> {
      * Create a list from a flat array
      * @param array the flat array for the list
      */
-    public MyLinkedList(E[] array){
-        for (E e: array){
+    public MyLinkedList(T[] array){
+        for (T e: array){
             this.add(e);
         }
     }
@@ -99,7 +99,7 @@ public class MyLinkedList<E> implements MyLinkedListInterface<E> {
 
     @Override
     public int indexOf(Object element) {
-        Node<E> tmp = this.headNode;
+        Node<T> tmp = this.headNode;
         int counter = 0;
         while (tmp != null){
             if (tmp.dataNode.equals(element)){
@@ -111,8 +111,8 @@ public class MyLinkedList<E> implements MyLinkedListInterface<E> {
         return -1;
     }
 
-    public void add(E element){
-        Node<E> tmp = tailNode;
+    public void add(T element){
+        Node<T> tmp = tailNode;
         tailNode = new Node<>(element);
         tailNode.prevNode = tmp;
         tailNode.nextNode = null;
@@ -130,8 +130,8 @@ public class MyLinkedList<E> implements MyLinkedListInterface<E> {
      * Add an element to the head of list
      * @param element the element to add
      */
-    public void addHead(E element){
-        Node<E> tmp = headNode;
+    public void addHead(T element){
+        Node<T> tmp = headNode;
 
         headNode = new Node<>(element);
 
@@ -147,7 +147,7 @@ public class MyLinkedList<E> implements MyLinkedListInterface<E> {
             throw new IndexOutOfBoundsException();
 
         //firstly, find the deleting node
-        Node<E> delNode = headNode;
+        Node<T> delNode = headNode;
         for (int i = 0; i < index; i++){
             delNode = delNode.nextNode;
         }
@@ -179,11 +179,11 @@ public class MyLinkedList<E> implements MyLinkedListInterface<E> {
      * @return the element at position index
      * @throws IndexOutOfBoundsException when index is out of range
      */
-    public E get(int index) throws IndexOutOfBoundsException{
+    public T get(int index) throws IndexOutOfBoundsException{
         if (index > sizeList - 1 || index < 0)
             throw new IndexOutOfBoundsException();
 
-        Node<E> res = headNode;
+        Node<T> res = headNode;
         for (int i = 0; i < index; i++){
             res = res.nextNode;
         }
@@ -197,15 +197,15 @@ public class MyLinkedList<E> implements MyLinkedListInterface<E> {
      * @return the element previously at the specified position
      * @throws IndexOutOfBoundsException when index is out of range
      */
-    public E set(int index, E element) throws IndexOutOfBoundsException{
+    public T set(int index, T element) throws IndexOutOfBoundsException{
         if (index > sizeList - 1 || index < 0)
             throw new IndexOutOfBoundsException();
 
-        Node<E> nodeReplace = headNode;
+        Node<T> nodeReplace = headNode;
         for (int i = 0; i < index; i++){
             nodeReplace = nodeReplace.nextNode;
         }
-        E oldData = nodeReplace.dataNode;
+        T oldData = nodeReplace.dataNode;
         nodeReplace.dataNode = element;
         return oldData;
     }
