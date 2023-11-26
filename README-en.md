@@ -81,6 +81,10 @@ and build with command
 mvn clean package assembly:single
 ```
 The jar file with cli ends with *jar-with-dependencies*.
+
+## Documentation
+Visit https://dat-2k2.github.io/ to see the docs.
+
 # Program Structure
 Each laboratory (short. *lab*) is put in a separated subpackage of the main pack *ru.spbstu.telematics.java*, named as **lab1, lab2,**... 
 
@@ -115,20 +119,21 @@ This lab requires to implement a Generic *Bag* in Java, which should include met
 
 *Bag* has no direct class in Java, just *hashBag* and *treeBag* in Apache. To be simple here it's implemented with array. 
 
+In addition, need to implement the _Iterable_ and _Iterator_ interfaces. 
 ### Program structure
 
+<h4>Main</h4>
 <p>
-    <img src="lab3UML.png" alt>
+    <img src="img/lab3/lab3UML.png" alt>
     <em>UML diagram of Lab 2</em>
 </p>
-
 
 *MyBag* takes a *MyArrayList* of *MyBagItem* as underlay array. The *MyBagItem* is simply a map from *T* to an *Integer*, which maps an item to its occurrences in the bag. 
 
-<p>
-    <img src="/img/lab3/add.png" alt>
-    <em>UML diagram of Lab 2</em>
-</p>
+<h4>Test</h4>
+Need to test every function of the MyArrayList and the MyBag, listed in the diagram. 
+
+
 
 
 
