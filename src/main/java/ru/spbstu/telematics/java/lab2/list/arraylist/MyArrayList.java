@@ -137,13 +137,13 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void set(int index, T newValue) throws IndexOutOfBoundsException {
+    public T set(int index, T newValue) throws IndexOutOfBoundsException {
         if (index >= size())
             throw new IndexOutOfBoundsException();
 
         T oldValue = (T) itemArray[index];
         itemArray[index] = newValue;
-
+        return oldValue;
     }
 
     @Override

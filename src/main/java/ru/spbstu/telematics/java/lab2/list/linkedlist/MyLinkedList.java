@@ -212,7 +212,7 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void set(int index, T element) throws IndexOutOfBoundsException {
+    public T set(int index, T element) throws IndexOutOfBoundsException {
         if (index > sizeList - 1 || index < 0)
             throw new IndexOutOfBoundsException();
 
@@ -222,6 +222,7 @@ public class MyLinkedList<T> implements MyList<T> {
         }
         Object oldData = nodeReplace.value;
         nodeReplace.value = element;
+        return (T) oldData;
     }
 
     public void clear() {

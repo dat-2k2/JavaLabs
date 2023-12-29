@@ -24,7 +24,7 @@ public interface MyList<T> extends MyIterable<T> {
      * @param element the element to be stored at the specified position
      * @throws IndexOutOfBoundsException when index is out of range
      */
-    void set(int index, T element) throws IndexOutOfBoundsException;
+    T set(int index, T element) throws IndexOutOfBoundsException;
     /**
      * Clear the whole list
      */
