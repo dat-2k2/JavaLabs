@@ -1,115 +1,131 @@
 package ru.spbstu.telematics.java.lab2;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 import org.junit.Test;
-import ru.spbstu.telematics.java.lab2.MyIterator;
-import ru.spbstu.telematics.java.lab2.arraylist.MyArrayList;
-import ru.spbstu.telematics.java.lab2.linkedlist.MyLinkedList;
+import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+
+/**
+ * Test class MyArrayList
+ */
 public class MyArrayListTest {
 
+    final A[] testData = {new A(1), new B(2), new C(3), new A(4), new C(5)};
+    final MyArrayList<A> testArray = new MyArrayList<>(Arrays.asList(testData));
+    ArrayList<A> validArray = new ArrayList<>(Arrays.asList(testData));
+
+    //---------------------------------------------------------------
     @Test(expected = NullPointerException.class)
-    public void testConstructor(){
-        //test empty constructor
-        MyArrayList<Integer> testArray = new MyArrayList<>();
-        MyLinkedList<Integer> checkArray = new MyLinkedList<>();
+    public void testConstructor() {
+        assert ((new MyArrayList<>()).isEmpty());
+        assert (testArray.size() == validArray.size());
 
-        assert(testArray.size() == checkArray.size());
-        assert(testArray.isEmpty() == checkArray.isEmpty());
-
-        //test constructor from collection
-        for (int i = 0; i < 5; i ++){
-            checkArray.add(i);
-        }
-
-        testArray = new MyArrayList<>(checkArray);
-        assert(testArray.size() == checkArray.size());
-
-        MyIterator<Integer> itCheckArray = checkArray.iterator();
-        testArray.forEach(item -> {
-            assert (item.equals(itCheckArray.next()));
-        });
-
-        Integer[] checkFlatArray = new Integer[]{0,1,2,3,4,5};
-        testArray = new MyArrayList<>(checkFlatArray);
-        assert(testArray.size() == checkFlatArray.length);
-        for(int i = 0; i < testArray.size(); i++) {
-            assert(testArray.get(i) == checkFlatArray[i]);
-        }
-
-        checkArray = null;
-        testArray = new MyArrayList<>(checkArray);
+        ArrayList<Object> nullObj = null;
+        new MyArrayList<Object>(nullObj);
     }
 
-
+    /**
+     * Test iterator function of MyArrayList, comparing to the built-in ArrayList.
+     */
     @Test(expected = NoSuchElementException.class)
-    public void testIterator(){
-        MyArrayList<Integer> testArray = new MyArrayList<>();
-        ArrayList<Integer> checkArray = new ArrayList<>();
-
-        for (int i = 0 ; i<5 ; i++){
-            testArray.add(i);
-            checkArray.add(i);
-        }
-
-        MyIterator<Integer> itTestArray = testArray.iterator();
-        Iterator<Integer> itCheckArray = checkArray.iterator();
-
-        for (int i = 0; i < 5; i++){
-            assert (itTestArray.hasNext() == itCheckArray.hasNext());
-            assert (itTestArray.next().equals(itCheckArray.next()));
-        }
+    public void testIterator() {
+        MyIterator<A> itTestArray = testArray.iterator();
+        validArray.forEach((item) -> {
+            assert (itTestArray.next().equals(item));
+        });
 
         itTestArray.next();
     }
 
+    /**
+     * Test method add() of MyArrayList, comparing to the built-in ArrayList
+     */
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testAdd(){
-        MyArrayList<Integer> testArray = new MyArrayList<>();
-        ArrayList<Integer> checkArray = new ArrayList<>();
+    public void testAdd() {
+        A addObject1 = new B(10);
+        testArray.add(addObject1);
+        validArray.add(addObject1);
 
-        for (int i = 0 ; i<20 ; i++){
-            testArray.add(i);
-            checkArray.add(i);
-        }
+        int sizeArr = testArray.size();
+        assert (sizeArr == validArray.size());
 
-        assert (testArray.size() == 20);
-        for(int  i =0 ; i < 20; i++){
-            assert(testArray.get(i) == checkArray.get(i));
-        }
-        checkArray.add(10,100);
-        testArray.add(10,100);
+        assert (testArray.get(sizeArr - 1).equals(validArray.get(sizeArr - 1)));
 
-        assert (testArray.get(10).equals(checkArray.get(10)));
-        testArray.add(100,0);
+        // test add to specific index
+        int indexAdd = sizeArr / 2;
+        testArray.add(indexAdd, addObject1);
+        validArray.add(indexAdd, addObject1);
 
+        assert (testArray.get(indexAdd).equals(validArray.get(indexAdd)));
+
+        testArray.add(100, new A(0));
     }
 
+    /**
+     * Test remove() method of MyArrayList.
+     */
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testRemove(){
-        MyArrayList<Integer> testArray = new MyArrayList<>(new Integer[]{0,1,2,3,4});
-        testArray.remove(1);
-        assert(!testArray.contains(1));
+    public void testRemove() {
+        assert (testArray.remove(1).equals(validArray.remove(1)));
         testArray.remove(testArray.size());
     }
 
+    /**
+     * Test set() method of MyArrayList
+     */
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testSet(){
-        MyArrayList<Integer> testArray = new MyArrayList<>(new Integer[]{0,1,2,3});
-        Integer oldVal = testArray.set(1,5);
-        assert (oldVal == 1);
-        assert (testArray.get(1) == 5);
-
-        testArray.set(100,0);
+    public void testSet() {
+        int setIndex = 3;
+        A setObject = new C(15);
+        testArray.set(setIndex, setObject);
+        validArray.set(setIndex, setObject);
+        assert (testArray.get(setIndex).equals(validArray.get(setIndex)));
+        testArray.set(100, new A(100));
     }
 
+    /**
+     * Test get() method of MyArrayList
+     */
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testGet(){
-        MyArrayList<Integer> testArray = new MyArrayList<>(new Integer[]{0,1,2,3});
-        assert(testArray.get(1) == 1);
-        testArray = new MyArrayList<>();
-        testArray.get(0);
+    public void testGet() {
+        assert (testArray.get(1).equals(validArray.get(1)));
+        testArray.get(testArray.size());
+    }
+
+    /**
+     * Test all constructors of MyArrayList: empty, from collection, from flat array and null case.
+     */
+    static class A {
+        int id;
+
+        A(int id) {
+            this.id = id;
+        }
+
+        public final int getId() {
+            return id;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return id == a.id;
+        }
+    }
+
+    static class B extends A {
+        B(int id) {
+            super(id);
+        }
+    }
+
+    static class C extends A {
+        C(int id) {
+            super(id);
+        }
     }
 }

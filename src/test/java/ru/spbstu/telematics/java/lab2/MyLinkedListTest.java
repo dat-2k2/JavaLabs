@@ -1,121 +1,141 @@
 package ru.spbstu.telematics.java.lab2;
 
 import org.junit.Test;
+import ru.spbstu.telematics.java.lab2.list.linkedlist.MyLinkedList;
 
-import ru.spbstu.telematics.java.lab2.MyIterator;
-import ru.spbstu.telematics.java.lab2.arraylist.MyArrayList;
-import ru.spbstu.telematics.java.lab2.linkedlist.MyLinkedList;
-
-import java.util.Objects;
+import java.util.*;
 
 public class MyLinkedListTest {
-    static final Integer[] arrayTest = {0,1,2,3,4,5};
+    final A[] testData = {new A(1), new B(2), new C(3), new A(4), new C(5)};
+    MyLinkedList<A> testArray = new MyLinkedList<>(Arrays.asList(testData));
+    LinkedList<A> validArray = new LinkedList<>(Arrays.asList(testData));
 
     /**
-     * Test creating an empty Linked List
-     */
-    @Test
-    public void testLLEmptyCreate(){
-        MyLinkedList<Integer> listTest = new MyLinkedList<>();
-        assert(listTest.isEmpty());
-    }
-
-    /**
-     * Test creating Linked List from a Collection
+     * Test constructor Linked List
+     *
      * @throws NullPointerException if the collection is null
      */
     @Test(expected = NullPointerException.class)
-    public void testLLConstructFromCollection() throws NullPointerException, IndexOutOfBoundsException{
-        MyLinkedList<Integer> listTest = new MyLinkedList<>(new MyArrayList<Integer>(arrayTest));
-        for (int i = 0; i < arrayTest.length; i++){
-            assert (Objects.equals(listTest.get(i), arrayTest[i]));
-        }
-        assert(listTest.size() == arrayTest.length);
-        MyArrayList<Integer> tmp = null;
-        listTest = new MyLinkedList<>(tmp);
+    public void testLLConstructFromCollection() throws NullPointerException, IndexOutOfBoundsException {
+        assert (new MyLinkedList<A>().isEmpty());
+        assert (testArray.size() == validArray.size());
+        Iterator<A> validIt = validArray.iterator();
+        testArray.forEach((item) -> {
+            assert (item.equals(validIt.next()));
+        });
+
+        ArrayList<A> nullObj = null;
+        new MyLinkedList<A>(nullObj);
     }
 
-    /**
-     * Test creating Linked List from a flat array
-     */
-    @Test
-    public void testLLConstructFromArray(){
-        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
-        for (int i = 0; i < arrayTest.length; i++){
-            assert (Objects.equals(listTest.get(i), arrayTest[i]));
+    @Test(expected = NoSuchElementException.class)
+    public void testIterator() {
+        MyIterator<A> testIt = testArray.iterator();
+        Iterator<A> validIt = validArray.iterator();
+        while (testIt.hasNext()) {
+            assert (testIt.next() == validIt.next());
         }
-        assert(listTest.size() == arrayTest.length);
+
+        testIt.next();
     }
 
-    @Test
-    public void testIterator(){
-        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
-        MyIterator<Integer> itListTest = listTest.iterator();
-
-        int i = 0;
-        while(itListTest.hasNext()) {
-            assert (itListTest.next().equals(arrayTest[i++]));
-        }
-    }
     /**
      * Test add member to the last
      */
     @Test
-    public void testAdd(){
-        MyLinkedList<Integer> listTest = new MyLinkedList<>();
-        listTest.add(1);
-        listTest.add(2);
-        assert(listTest.get(0) == 1);
-        assert(listTest.get(1) == 2);
-        assert(listTest.size() == 2);
+    public void testAdd() {
+        A addObj = new C(10);
+        testArray.add(addObj);
+        validArray.add(addObj);
     }
 
     /**
      * Test addHead()
      */
     @Test
-    public void testAddHead(){
-        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
-        listTest.addHead(-1);
-        assert (listTest.get(0) == -1);
-    }
-
-
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testRemove() throws IndexOutOfBoundsException{
-        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
-        listTest.remove(1);
-        assert(!listTest.contains(1));
-        assert(listTest.size() == arrayTest.length-1);
-        //test the exception
-        listTest.remove(10);
-    }
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testGet() throws IndexOutOfBoundsException{
-        MyLinkedList<Integer> listTest = new MyLinkedList<>();
-        for (int i = 0; i < 3; i++){
-            listTest.add((Integer) i);
-        }
-        assert(listTest.get(2) == 2);
-
-        //test the exception
-        listTest.get(5);
-    }
-
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testSet() throws IndexOutOfBoundsException{
-        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
-        assert (listTest.set(0,100) == 0);
-        assert (listTest.get(0) == 100);
-        listTest.set(100,100);
+    public void testAddHead() {
+        A addObj = new C(1000);
+        validArray.addFirst(addObj);
+        testArray.addHead(addObj);
+        assert (testArray.get(0).equals(validArray.get(0)));
     }
 
     @Test
-    public void testClear(){
-        MyLinkedList<Integer> listTest = new MyLinkedList<>(arrayTest);
-        listTest.clear();
-        assert (listTest.isEmpty());
+    public void testAddPosition() {
+        A addObj = new B(100);
+        validArray.add(3, addObj);
+        testArray.add(3, addObj);
+
+        for (int i = 0; i < validArray.size(); i++)
+            assert (testArray.get(i).equals(validArray.get(i)));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testRemove() throws IndexOutOfBoundsException {
+        A removeObj = new C(1000);
+        validArray.addFirst(removeObj);
+        testArray.addHead(removeObj);
+        assert (testArray.remove(0).equals(validArray.remove(0)));
+        //test the exception
+        testArray.remove(testArray.size());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testGet() throws IndexOutOfBoundsException {
+        for (int i = 0; i < validArray.size(); i++) {
+            assert (testArray.get(i).equals(validArray.get(i)));
+        }
+
+        testArray.get(testArray.size());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testSet() throws IndexOutOfBoundsException {
+        C setObj = new C(100);
+        testArray.set(2, setObj);
+        validArray.set(2, setObj);
+        assert (testArray.get(2) == validArray.get(2));
+        assert (testArray.get(2) == setObj);
+
+        testArray.set(testArray.size(), new A(1));
+    }
+
+    @Test
+    public void testClear() {
+        testArray.clear();
+        validArray.clear();
+        assert (testArray.size() == validArray.size());
+    }
+
+    static class A {
+        int id;
+
+        A(int id) {
+            this.id = id;
+        }
+
+        public final int getId() {
+            return id;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            A a = (A) o;
+            return id == a.id;
+        }
+    }
+
+    static class B extends A {
+        B(int id) {
+            super(id);
+        }
+    }
+
+    static class C extends A {
+        C(int id) {
+            super(id);
+        }
     }
 }
