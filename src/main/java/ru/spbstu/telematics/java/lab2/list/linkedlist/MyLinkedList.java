@@ -14,8 +14,8 @@ import java.util.NoSuchElementException;
  */
 public class MyLinkedList<T> implements MyList<T> {
     int sizeList;
-    Node headNode;
-    Node tailNode;
+    transient Node headNode;
+    transient Node tailNode;
 
     /**
      * Create an empty list
@@ -82,7 +82,7 @@ public class MyLinkedList<T> implements MyList<T> {
     public boolean contains(Object element) {
         if (element == null)
             return isEmpty();
-        return indexOf(element) > -1;
+        return (indexOf(element) > -1);
     }
 
     @Override
@@ -129,8 +129,9 @@ public class MyLinkedList<T> implements MyList<T> {
         headNode = new Node(element);
 
         headNode.nextNode = tmp;
-        headNode.prevNode = tmp.prevNode;
-        tmp.prevNode = headNode;
+        headNode.prevNode = null;
+        if (tmp != null)
+            tmp.prevNode = headNode;
 
         sizeList++;
     }
@@ -165,13 +166,19 @@ public class MyLinkedList<T> implements MyList<T> {
         }
 
         Object returnVal = delNode.value;
+        //size = 1;
+        if (sizeList == 1){
+            this.clear();
+            return (T) returnVal;
+        }
         //reassign ref to neighbor Nodes
         //the previous one
         if (delNode.prevNode != null)
             delNode.prevNode.nextNode = delNode.nextNode;
         else {//remove the head
             headNode = headNode.nextNode;
-            headNode.prevNode = null;
+            if (headNode != null)
+                headNode.prevNode = null;
         }
 
         //the successive one
@@ -179,7 +186,8 @@ public class MyLinkedList<T> implements MyList<T> {
             delNode.nextNode.prevNode = delNode.prevNode;
         else {//remove the tail
             tailNode = tailNode.prevNode;
-            tailNode.nextNode = null;
+            if (tailNode != null)
+                tailNode.nextNode = null;
         }
 
         //remember to update the size
@@ -247,5 +255,23 @@ public class MyLinkedList<T> implements MyList<T> {
         Node(Object element) {
             value = element;
         }
+        @Override
+        public String toString(){
+            if (value != null)
+                return value.toString();
+            else
+                return "null";
+        }
+    }
+
+    @Override
+    public String toString(){
+        String res = "";
+        Node tmp = headNode;
+        while (tmp != null){
+            res += (tmp.toString() + ", ");
+            tmp=tmp.nextNode;
+        }
+        return res;
     }
 }

@@ -131,6 +131,7 @@ In addition, need to implement the _Iterable_ and _Iterator_ interfaces.
 *MyBag* takes a *MyArrayList* of *MyBagItem* as underlay array. The *MyBagItem* is simply a map from *T* to an *Integer*, which maps an item to its occurrences in the bag. 
 
 <h4>Test</h4>
+
 Need to test every function of the MyArrayList and the MyBag, listed in the diagram. 
 
 

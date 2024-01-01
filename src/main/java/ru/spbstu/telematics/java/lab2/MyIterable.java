@@ -32,4 +32,6 @@ public interface MyIterable<T> {
      * @param item the item to add
      */
     void add(T item) throws NullPointerException;
+
+    boolean remove(Object item);
 }

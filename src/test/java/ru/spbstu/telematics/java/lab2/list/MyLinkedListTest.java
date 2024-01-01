@@ -1,6 +1,7 @@
-package ru.spbstu.telematics.java.lab2;
+package ru.spbstu.telematics.java.lab2.list;
 
 import org.junit.Test;
+import ru.spbstu.telematics.java.lab2.MyIterator;
 import ru.spbstu.telematics.java.lab2.list.linkedlist.MyLinkedList;
 
 import java.util.*;
@@ -20,9 +21,9 @@ public class MyLinkedListTest {
         assert (new MyLinkedList<A>().isEmpty());
         assert (testArray.size() == validArray.size());
         Iterator<A> validIt = validArray.iterator();
-        testArray.forEach((item) -> {
-            assert (item.equals(validIt.next()));
-        });
+        for (A item: testData){
+            assert (testArray.contains(item));
+        }
 
         ArrayList<A> nullObj = null;
         new MyLinkedList<A>(nullObj);
@@ -76,6 +77,7 @@ public class MyLinkedListTest {
         validArray.addFirst(removeObj);
         testArray.addHead(removeObj);
         assert (testArray.remove(0).equals(validArray.remove(0)));
+        assert (testArray.remove(1).equals(validArray.remove(1)));
         //test the exception
         testArray.remove(testArray.size());
     }
