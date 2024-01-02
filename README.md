@@ -59,6 +59,29 @@ git pull origin main --allow-unrelated-histories (разрешить несов�
 ```
 java -jar target\JavaLabs-1.0-SNAPSHOT.jar [команда]
 ```
+
+Чтобы использовать dependencies (commons-cli) с jar, надо добавить/ заменить плагин *maven-jar-plugin* с *maven-assembly-plugin*.
+```
+<plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>ru.spbstu.telematics.java.App</mainClass>
+          </manifest>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+    </plugin>
+```
+и построить с командой:
+```
+mvn clean package assembly:single
+```
+JAR файл с *commons-cli* заканчивается на *jar-with-dependencies*.
+
 # Структура программы
 Каждая лабораторная работа (сок. *лаб*) находится в отдельном подпакете общего пакета *ru.spbstu.telematics.java*, называемая **lab1, lab2,**... 
 
@@ -81,99 +104,38 @@ public class App
 Этот лаб требует чтобы написал программу, которая перезаписывает существующий файл с заданным текстом. 
 ### Метод перезаписи
 
-Метод перезаписи откроет файл с имени *pathName*, затем перезапишет его с *buffer*. При выполнения надо также обрабатывать случай несуществующего файла. 
-
-The method returns 0 if succeeds, otherwise 1 if the file doesn't exist, or else -1. 
-Метод возвращает 0 если успешно, иначе 1 если файл несуществует, иначе -1. 
+Метод перезаписи откроет файл с имени *pathName*, затем перезапишет его с *buffer*. При выполнения надо также обрабатывать случай несуществующего файла.
 
 ```
-    public static int overwriteFile(String pathName, String buffer){
+     public static void overwriteFile(String pathName, String buffer) throws FileNotFoundException{
+        //throw exception if the file doesn't exist
+        if (!new File(pathName).exists()){
+            throw new FileNotFoundException();
+        }
+        
+        // if file already exists, write the new data to it. 
         try {
-            if (new File(pathName).exists() == false){
-                throw new FileNotFoundException();
-            }
             FileWriter writer = new FileWriter(pathName,false);
             writer.write(buffer);
             writer.close();
-            return 0;
-        } catch (FileNotFoundException e){
-            System.out.println("File not found ");
-            return 1;
-        } catch (Exception e){
+        }
+        catch (IOException e){
             System.out.println("An error occured");
             e.printStackTrace();
-            return -1;
         }
-    } 
+    }
 ```
 
 ### Главный метод
 Главный метод выполняет метод перезаписи пакета **Lab 1** если он передается аргументом **ow**
 
-```
-		if ("ow".equals(args[0])){
-			Lab1.overwriteFile(args[1], args[2]);		
-		}
-```
 
 ### Тестирование
 Надо тестировать общий случай (перезапись) и случай несуществующего файла. 
 #### Перезапись 
 
 Подготовить один файл, туда написать несколько данных, затем запустить метод *Lab1.overwriteFile*, почитать новые данные и проверить одним же ли они с перезаписанными данными. Здесь использовать пакеты *File*, *FileWriter* и *FileReader*.
-```
-	@Test //test the main function
-	public void testOverWrite(){
 
-		//create new file
-		String testPath = new String("tmp.txt");
-		File fileTest = new File(testPath);
-		try{
-			FileWriter writerTest = new FileWriter(testPath);
-			//write a text to file
-			writerTest.write("this is a test");
-			writerTest.close();
-		}
-		catch(IOException e){
-			System.out.println("An error occured. ");
-			e.printStackTrace();
-		}
-
-		//try overwrite
-		String overwriteString = new String("this is the overwritten data");
-		Lab1.overwriteFile(testPath,overwriteString);
-
-		//prepare a buffer to read the new data
-		File tmp = new File(testPath);
-		char[] cbuff = new char[(int)tmp.length()];
-
-		// read the new overwritten data
-		try{
-			FileReader readerTest = new FileReader(testPath); 
-			//read text from the file
-			readerTest.read(cbuff);
-			readerTest.close();
-		}
-		catch(IOException e){
-			System.out.println("An error occured. ");
-			e.printStackTrace();
-		}
-
-		//delete the file
-		fileTest.delete();
-
-		//check if the data is overwritten successfully
-		assert(overwriteString.equals(new String(cbuff)));
-	};
-
-```
 #### FileNotFound
-Проверка нормально ли работает метод при том, что файл несуществует (метод возвращает 1).
+Проверка нормально ли работает метод при том, что файл несуществует.
 
-```````
-    @Test	// test if the nonexisted File case is covered. 
-    public void testFileNotFound(){
-		assert(Lab1.overwriteFile(new String(""), new String("")) == 1);
-    }
-
-```

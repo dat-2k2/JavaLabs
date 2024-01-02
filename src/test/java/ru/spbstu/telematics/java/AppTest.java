@@ -1,65 +1,61 @@
 package ru.spbstu.telematics.java;
-import ru.spbstu.telematics.java.lab1.*;
 
+import org.apache.commons.cli.ParseException;
 import org.junit.Test;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.FileReader;
 
-/**
- * Unit test for simple App.
- */
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+
 public class AppTest {
 
-	@Test //test the main function
-	public void testOverWrite(){
+    File testFile = new File("~tmp.txt");
 
-		//create new file
-		String testPath = new String("tmp.txt");
-		File fileTest = new File(testPath);
-		try{
-			FileWriter writerTest = new FileWriter(testPath);
-			//write a text to file
-			writerTest.write("this is a test");
-			writerTest.close();
-		}
-		catch(IOException e){
-			System.out.println("An error occured. ");
-			e.printStackTrace();
-		}
+    @Test
+    public void testLab1Normal() {
+        try {
+            assert (testFile.createNewFile());
+            App.actionLab1(new String[]{"-ow", "-f", testFile.getName(), "-d", "Hello world"});
+            assert (true);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error in overwrite function");
+        } catch (IOException e) {
+            System.out.println("Create test file " + testFile.getName() + " failed");
+        } catch (ParseException e) {
+            System.out.println("Error while execute CmdLine");
+        } finally {
+            assert (testFile.delete());
+        }
 
-		//try overwrite
-		String overwriteString = new String("this is the overwritten data");
-		Lab1.overwriteFile(testPath,overwriteString);
-
-		//prepare a buffer to read the new data
-		File tmp = new File(testPath);
-		char[] cbuff = new char[(int)tmp.length()];
-
-		// read the new overwritten data
-		try{
-			FileReader readerTest = new FileReader(testPath); 
-			//read text from the file
-			readerTest.read(cbuff);
-			readerTest.close();
-		}
-		catch(IOException e){
-			System.out.println("An error occured. ");
-			e.printStackTrace();
-		}
-
-		//delete the file
-		fileTest.delete();
-
-		//check if the data is overwritten successfully
-		assert(overwriteString.equals(new String(cbuff)));
-	};
-
-
-    @Test	// test if the nonexisted File case is covered. 
-    public void testFileNotFound(){
-		assert(Lab1.overwriteFile(new String(""), new String("")) == 1);
     }
 
+    @Test(expected = ParseException.class)
+    public void testNoFileArg() throws ParseException {
+        try {
+            assert (testFile.createNewFile());
+            App.actionLab1(new String[]{"-ow", "-d", "Hello world"});
+        } catch (FileNotFoundException e) {
+            System.out.println("Error in overwrite function");
+        } catch (IOException e) {
+            System.out.println("Create test file " + testFile.getName() + " failed");
+        } finally {
+            assert (testFile.delete());
+        }
+
+    }
+
+    @Test(expected = ParseException.class)
+    public void testNoDataArg() throws ParseException, FileNotFoundException {
+        try {
+            assert (testFile.createNewFile());
+            App.actionLab1(new String[]{"-ow", "-f", "abc.txt"});
+        } catch (FileNotFoundException e) {
+            System.out.println("Error in overwrite function");
+        } catch (IOException e) {
+            System.out.println("Create test file " + testFile.getName() + " failed");
+        } finally {
+            assert (testFile.delete());
+        }
+    }
 }
