@@ -36,7 +36,6 @@ public class MyLinkedListTest {
         while (testIt.hasNext()) {
             assert (testIt.next() == validIt.next());
         }
-
         testIt.next();
     }
 

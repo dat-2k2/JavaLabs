@@ -15,10 +15,10 @@ import java.util.NoSuchElementException;
  * @param <T>
  */
 public class MyHashBag<T> implements MyBagInterface<T> {
-    transient MyHashMap<T, Integer> listItem;
-    int size = 0;
+    private transient MyHashMap<T, Integer> listItem;
+    private int size = 0;
 
-    String repr = "";
+    private String repr = "";
 
     public MyHashBag() {
         listItem = new MyHashMap<>();
