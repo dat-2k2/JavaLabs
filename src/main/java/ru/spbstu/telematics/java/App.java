@@ -69,12 +69,12 @@ public class App {
                 while (true){
                     int id = rand.nextInt();
                     if (id > 0){
-                        new BraveBuyer("Brave "+id%50, cashier).start();
-                        new BraveBuyer("Brave "+(id+1)%50, cashier).start();
+                        new HurryBuyer("Hurry "+id%50, cashier).start();
+                        new HurryBuyer("Hurry "+(id+1)%50, cashier).start();
                     }
                     else {
-                        new HumbleBuyer("Humble "+ (-id)%50, cashier).start();
-                        new HumbleBuyer("Humble "+ (-id+1)%50, cashier).start();
+                        new CalmBuyer("Calm "+ (-id)%50, cashier).start();
+                        new CalmBuyer("Calm "+ (-id+1)%50, cashier).start();
 
                     }
                     synchronized (this) {

@@ -3,13 +3,19 @@ package ru.spbstu.telematics.java.lab3;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+/**
+ * Class for Cashier. Cashier eventually serve the first in queue, while new Buyers are added to queue concurrently.
+ */
 public class Cashier extends Thread{
     final BlockingDeque<Buyer> allBuyer;
     static final int TIME_SERVE = 1000;
     public Cashier() {
         this.allBuyer = new LinkedBlockingDeque<>(100);
     }
-    
+
+    /**
+     * Cashier continuously serve the first in queue
+     */
     @Override
     public void run(){
         while(true){
@@ -40,6 +46,7 @@ public class Cashier extends Thread{
         if (currentBuyer != null){
             //wake it up
             synchronized (currentBuyer){
+                currentBuyer.setYourTurn(true);
                 currentBuyer.notifyAll();
             }
             //sell it

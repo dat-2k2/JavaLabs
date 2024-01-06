@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public class CashierTest {
     CashierWithLog testCashier = new CashierWithLog();
-    Buyer hb1 = new HumbleBuyer("Humber 1", testCashier);
-    Buyer hb2 = new HumbleBuyer("Humber 2", testCashier);
-    Buyer bb1 = new BraveBuyer("Brave 1", testCashier);
-    Buyer bb2 = new BraveBuyer("Brave 2", testCashier);
+    Buyer hb1 = new CalmBuyer("Calm 1", testCashier);
+    Buyer hb2 = new CalmBuyer("Calm 2", testCashier);
+    Buyer bb1 = new HurryBuyer("Hurry 1", testCashier);
+    Buyer bb2 = new HurryBuyer("Hurry 2", testCashier);
     @Test
     public void testRun() {
         testCashier.start();
@@ -53,10 +53,10 @@ public class CashierTest {
                     }
                 }
             }
-            assert (log.get(0).equals(BraveBuyer.class));
-            assert (log.get(1).equals(BraveBuyer.class));
-            assert (log.get(2).equals(HumbleBuyer.class));
-            assert (log.get(3).equals(HumbleBuyer.class));
+            assert (log.get(0).equals(HurryBuyer.class));
+            assert (log.get(1).equals(HurryBuyer.class));
+            assert (log.get(2).equals(CalmBuyer.class));
+            assert (log.get(3).equals(CalmBuyer.class));
         }
     }
 }
