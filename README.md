@@ -139,4 +139,4 @@ public class App
 #### FileNotFound
 Проверка нормально ли работает метод при том, что файл несуществует.
 
-[Docs](./doc)
+[Docs](./docs)
