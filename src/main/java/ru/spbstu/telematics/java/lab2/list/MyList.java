@@ -51,7 +51,6 @@ public interface MyList<T> extends MyIterable<T> {
      */
     T remove(int index) throws IndexOutOfBoundsException;
 
-
     /**
      * Remove the item
      * @param o the item to remove

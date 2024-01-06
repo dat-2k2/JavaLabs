@@ -4,11 +4,8 @@ package ru.spbstu.telematics.java.lab2.bag;
 import org.apache.commons.collections4.bag.HashBag;
 import org.junit.Test;
 import ru.spbstu.telematics.java.lab2.hashbag.MyHashBag;
-import ru.spbstu.telematics.java.lab2.hashmap.MyHashMapTest;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -36,8 +33,7 @@ public class MyHashBagTest {
 
     void equal(MyHashBag<A> test, HashBag<A> valid){
         assert(test.size() == valid.size());
-
-        valid.forEach((item)->{
+        test.forEach((item)->{
             assert (valid.getCount(item) == test.getCount(item));
         });
     }
@@ -74,8 +70,6 @@ public class MyHashBagTest {
     public void testAdd() {
         testBag.add(testData[1]);
         validBag.add(testData[1]);
-        System.out.println(testBag);
-        System.out.println(validBag);
         equal(testBag,validBag);
 
         testBag.add(null);
@@ -88,8 +82,6 @@ public class MyHashBagTest {
     public void testRemove() {
         assert (testBag.remove(testData[2]));
         assert (validBag.remove(testData[2]));
-        System.out.println(testBag);
-        System.out.println(validBag);
         assert(testBag.size() == validBag.size());
 
         equal(testBag,validBag);

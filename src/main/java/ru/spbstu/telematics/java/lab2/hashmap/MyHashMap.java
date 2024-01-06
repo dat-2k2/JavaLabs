@@ -5,31 +5,24 @@ import ru.spbstu.telematics.java.lab2.list.linkedlist.MyLinkedList;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 
 public class MyHashMap<K, V> implements MyMapInterface<K, V> {
-    final float MAX_LOAD_FACTOR = 0.75F;
-    final int DEFAULT_CAPACITY = 16;
-    transient MyTable<K, V> hashTable;
+    private final float MAX_LOAD_FACTOR = 0.75F;
+    private final int DEFAULT_CAPACITY = 16;
+    private transient MyTable<K, V> hashTable;
 
-    int size;
-    int usedSlots;
-    float loadFactor;
+    private int size;
 
     public MyHashMap() {
-        loadFactor = 0;
         hashTable = new MyTable<>(DEFAULT_CAPACITY);
         size = 0;
-        usedSlots = 0;
     }
 
 
     @Override
     public void clear() {
-        loadFactor = 0;
         hashTable = new MyTable<>(hashTable.size());
         size = 0;
-        usedSlots = 0;
     }
 
     void reHashing() {
@@ -43,15 +36,6 @@ public class MyHashMap<K, V> implements MyMapInterface<K, V> {
             newTable.get(newIndex).addHead(rehashItem);
         }));
         hashTable = newTable;
-
-        //load factor update
-        AtomicInteger used_slots = new AtomicInteger();
-        hashTable.forEach((bucket) -> {
-            if (!bucket.isEmpty())
-                used_slots.getAndIncrement();
-        });
-        usedSlots = used_slots.get();
-        loadFactor = (float) usedSlots / hashTable.size();
     }
 
     MyBucketType<K, V> getBucket(Object key) {
@@ -59,19 +43,17 @@ public class MyHashMap<K, V> implements MyMapInterface<K, V> {
     }
 
     @Override
-    public V put(K key, V value) {
+    public V put(K key, V value) throws NullPointerException{
         MyBucketType<K, V> bucket = getBucket(key);
         MyEntry<K, V> possibleEntry = bucket.get(key);
         V oldValue = null;
-        if (possibleEntry == null) { // add new entry
+
+        if (possibleEntry == null) { // add new entry if the key is not presented
+            bucket.addHead(new MyEntry<>(key, value));
             size++;
             //rehash if needed
-            if (loadFactor >= MAX_LOAD_FACTOR)
+            if (size > MAX_LOAD_FACTOR * hashTable.size())
                 reHashing();
-
-            bucket.addHead(new MyEntry<>(key, value));
-            if (bucket.size() == 1)
-                loadFactor = (float) (++usedSlots) / hashTable.size();
         } else {// change value of existed entry
             oldValue = possibleEntry.value;
             possibleEntry.value = value;
@@ -89,15 +71,9 @@ public class MyHashMap<K, V> implements MyMapInterface<K, V> {
 
     @Override
     public boolean remove(Object key) {
-        if (containsKey(key)) {
-            size--;
-            MyBucketType<K, V> bucket = getBucket(key);
-            if (bucket.size() == 1)
-                loadFactor = (float) (--usedSlots) / hashTable.size();
-            bucket.remove(key);
-            return true;
-        }
-        return false;
+        boolean success = getBucket(key).remove(key);
+        if (success) size--;
+        return success;
     }
 
     @Override
@@ -110,7 +86,7 @@ public class MyHashMap<K, V> implements MyMapInterface<K, V> {
         return hashTable.get(indexOf(item)).contains(item);
     }
 
-    int indexOf(Object element) {
+    private int indexOf(Object element) {
         return (element == null) ? 0 : (element.hashCode() & (hashTable.size() - 1));
     }
 
@@ -121,7 +97,7 @@ public class MyHashMap<K, V> implements MyMapInterface<K, V> {
 
     @Override
     public boolean isEmpty() {
-        return usedSlots == 0;
+        return size == 0;
     }
 
     @Override
@@ -138,6 +114,7 @@ public class MyHashMap<K, V> implements MyMapInterface<K, V> {
         return entries;
     }
 
+    //class for buckets in table
     static class MyBucketType<K, V> extends MyLinkedList<MyEntry<K, V>> {
         MyBucketType() {
             super();
@@ -152,6 +129,8 @@ public class MyHashMap<K, V> implements MyMapInterface<K, V> {
         }
     }
 
+
+    //the table should be initialized with empty buckets and not null type
     static class MyTable<K, V> extends MyArrayList<MyBucketType<K, V>> {
         MyTable(int cap) {
             super(cap);

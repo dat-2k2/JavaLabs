@@ -100,7 +100,7 @@ public class MyHashBag<T> implements MyBagInterface<T> {
     @SuppressWarnings("unchecked")
     public boolean remove(Object element, int nCopies) {
         if (nCopies == 0) return false;
-        Integer count = getCount(element);
+        int count = getCount(element);
         if (count < nCopies)
             return false;
         else if (count > nCopies) {
