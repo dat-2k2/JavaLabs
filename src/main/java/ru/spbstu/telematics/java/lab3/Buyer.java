@@ -1,7 +1,7 @@
 package ru.spbstu.telematics.java.lab3;
 
 /**
- * Abstract class for Buyer
+ * Abstract class for Buyer. Buyer comes to queue, request order and finished after being served
  */
 public abstract class Buyer extends Thread {
     final Cashier cashier;
@@ -30,10 +30,8 @@ public abstract class Buyer extends Thread {
             return;
         }
         waitTillTurn();
-
         //request order
         System.out.println(this.nameBuyer + " get cheese");
-
     }
 
     synchronized void waitTillTurn(){
@@ -52,6 +50,7 @@ public abstract class Buyer extends Thread {
     public String toString() {
         return this.nameBuyer;
     }
+
 
     public void setYourTurn(boolean yourTurn) {
         isYourTurn = yourTurn;

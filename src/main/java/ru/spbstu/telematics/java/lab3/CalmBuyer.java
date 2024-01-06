@@ -10,6 +10,7 @@ public class CalmBuyer extends Buyer{
 
     /**
      * {@inheritDoc}
+     * Calm Buyer comes after the end of queue
      */
     @Override
     public boolean toQueue() {

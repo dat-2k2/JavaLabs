@@ -10,6 +10,7 @@ public class HurryBuyer extends Buyer{
 
     /**
      * {@inheritDoc}
+     * Hurry Buyer comes to the head of queue
      */
     @Override
     public boolean toQueue() {
