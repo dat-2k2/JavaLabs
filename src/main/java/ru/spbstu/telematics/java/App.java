@@ -87,7 +87,6 @@ public class App {
                 }
             }
         };
-
         buyerFactory.start();
     }
 }

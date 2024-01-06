@@ -1,4 +1,5 @@
 package ru.spbstu.telematics.java.lab3;
+
 public abstract class Buyer extends Thread {
     final Cashier cashier;
     String nameBuyer;

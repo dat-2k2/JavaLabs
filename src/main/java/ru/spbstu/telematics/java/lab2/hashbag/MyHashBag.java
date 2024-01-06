@@ -15,10 +15,10 @@ import java.util.NoSuchElementException;
  * @param <T>
  */
 public class MyHashBag<T> implements MyBagInterface<T> {
-    private transient MyHashMap<T, Integer> listItem;
-    private int size = 0;
+    transient MyHashMap<T, Integer> listItem;
+    int size = 0;
 
-    private String repr = "";
+    String repr = "";
 
     public MyHashBag() {
         listItem = new MyHashMap<>();
@@ -100,7 +100,7 @@ public class MyHashBag<T> implements MyBagInterface<T> {
     @SuppressWarnings("unchecked")
     public boolean remove(Object element, int nCopies) {
         if (nCopies == 0) return false;
-        Integer count = getCount(element);
+        int count = getCount(element);
         if (count < nCopies)
             return false;
         else if (count > nCopies) {
