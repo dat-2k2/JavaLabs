@@ -6,6 +6,8 @@ import ru.spbstu.telematics.java.lab3.*;
 
 import java.io.FileNotFoundException;
 import java.util.Random;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 
 public class App {
@@ -15,18 +17,19 @@ public class App {
     // main function
     public static void main(String[] args) {
         // Lab 1, using the cli
-//        try {
-//            actionLab1(args);
-//        } catch (FileNotFoundException | ParseException e) {
-//            System.out.println(e.getMessage());
-//            HelpFormatter formatter = new HelpFormatter();
-//            formatter.printHelp("Usage:", "", options, "", true);
-//        }
+        //        try {
+        //            actionLab1(args);
+        //        } catch (FileNotFoundException | ParseException e) {
+        //            System.out.println(e.getMessage());
+        //            HelpFormatter formatter = new HelpFormatter();
+        //            formatter.printHelp("Usage:", "", options, "", true);
+        //        }
 
         //Lab3
         actionLab3();
 
     }
+
 
     public static void actionLab1(String[] args) throws ParseException, FileNotFoundException {
         Option ow = new Option("ow", false, "Run lab 1: Overwrite File");
@@ -58,9 +61,9 @@ public class App {
     }
 
     public static void actionLab3(){
-        Cashier cashier = new Cashier();
-        cashier.start();
+        BlockingDeque<Buyer> allBuyer = new LinkedBlockingDeque<>();
         Random rand = new Random(31);
+
         //continuously add new customer
         Thread buyerFactory = new Thread() {
             @Override
@@ -69,12 +72,12 @@ public class App {
                 while (true){
                     int id = rand.nextInt();
                     if (id > 0){
-                        new HurryBuyer("Hurry "+id%50, cashier).start();
-                        new HurryBuyer("Hurry "+(id+1)%50, cashier).start();
+                        new HurryBuyer("Hurry "+id%50, allBuyer).start();
+                        new HurryBuyer("Hurry "+(id+1)%50, allBuyer).start();
                     }
                     else {
-                        new CalmBuyer("Calm "+ (-id)%50, cashier).start();
-                        new CalmBuyer("Calm "+ (-id+1)%50, cashier).start();
+                        new CalmBuyer("Calm "+ (-id)%50, allBuyer).start();
+                        new CalmBuyer("Calm "+ (-id+1)%50, allBuyer).start();
 
                     }
                     synchronized (this) {
@@ -88,5 +91,6 @@ public class App {
             }
         };
         buyerFactory.start();
+        Cashier.run(allBuyer);
     }
 }

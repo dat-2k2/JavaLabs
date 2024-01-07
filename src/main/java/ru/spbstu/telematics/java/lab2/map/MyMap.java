@@ -1,4 +1,4 @@
-package ru.spbstu.telematics.java.lab2.hashmap;
+package ru.spbstu.telematics.java.lab2.map;
 
 import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
 
@@ -10,7 +10,7 @@ import java.util.function.BiConsumer;
  * @param <K> the type of keys maintained by this map.
  * @param <V> the type of mapped values
  */
-public interface MyMapInterface<K, V> {
+public interface MyMap<K, V> {
 
     /**
      * Removes all of the elements from this map

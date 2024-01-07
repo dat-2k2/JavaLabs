@@ -4,7 +4,7 @@ package ru.spbstu.telematics.java.lab2.bag;
 import org.apache.commons.collections4.bag.HashBag;
 import org.junit.Test;
 import ru.spbstu.telematics.java.lab2.hashbag.MyHashBag;
-
+import ru.spbstu.telematics.java.lab2.*;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -51,6 +51,23 @@ public class MyHashBagTest {
     @Test
     public void testIterator(){
         assert (!new MyHashBag<A>().iterator().hasNext());
+        MyIterator<A> it = testBag.iterator();
+        int count = 1;
+        A currentItem = null;
+        while (it.hasNext()){
+            A item = it.next();
+            if (currentItem == null)
+                currentItem = item;
+
+            if (count < testBag.getCount(item)){
+                count++;
+                assert (currentItem.equals(item));
+            }
+            else {
+                count = 1;
+                currentItem = null;
+            }
+        }
 
     }
     /**

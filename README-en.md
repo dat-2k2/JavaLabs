@@ -88,7 +88,7 @@ Visit https://dat-2k2.github.io/JavaLabs to see the docs.
 # Program Structure
 Each laboratory (short. *lab*) is put in a separated subpackage of the main pack *ru.spbstu.telematics.java*, named as **lab1, lab2,**... 
 
-The class **App** mocks the CLI, which navigates the program to the respective task by the first argument. For example, the command argument for *Lab 1* is **ow** (overwrite).
+The class **App** mocks the CLI, which navigates the program to the respective task by the first argument. For example, the command argument for *Lab 1* is **ow** (overwrite). However for lab 2 and lab 3 argument is not required, just run the main method.
 
 
 
@@ -113,37 +113,118 @@ Prepare a file, write some data to it, then run the overwriting method *Lab1.ove
 Test if the FileNotFound is handled, check if the method throw the exception.
 
 ## Lab 2
-This lab requires to implement a Generic *Bag* in Java, which should include methods *size*, *contains*,  *add*, *remove*, *get* and some others if needed. 
+This lab requires to implement a *Bag* in Java, which should include methods *size*, *contains*,  *add*, *remove*, *get* and some others if needed.
 
-*Bag* is a collection which accepts duplicates. It helps users quickly get the statistics of data. 
+*Bag* is an **unordered** collection which accepts duplicates. It helps users quickly get the statistics of data.
 
-*Bag* has no direct class in Java, just *hashBag* and *treeBag* in Apache. To be simple here it's implemented with array. 
+The basic implementation of *Bag* is *HashBag*, using *HashMap* as underlay structure. The *HashMap* support getting count of an item with complexity O(1).
 
-In addition, need to implement the _Iterable_ and _Iterator_ interfaces. 
 ### Program structure
 
 <h4>Main</h4>
 <p>
-    <img src="img/lab3/lab3UML.png" alt>
-    <em>UML diagram of Lab 2</em>
+    <img src="resource/lab2UML.png" alt>
+    </img>
 </p>
 
-*MyBag* takes a *MyArrayList* of *MyBagItem* as underlay array. The *MyBagItem* is simply a map from *T* to an *Integer*, which maps an item to its occurrences in the bag. 
+The *MyArrayList* and the *MyLinkedList*, in fact, were not required to implement, instead the HashMap could use flat array and *Node* only. However, the Map must be added resizing and main methods of LinkedList must be implemented.
 
-<h4>Test</h4>
+Need to implement a *Map* at first, then a *Bag* would be a Map with key as item and value as item's count.
 
-Need to test every function of the MyArrayList and the MyBag, listed in the diagram. 
+<h4>Iterate</h4>
+
+Iterate through all elements of Bag including it duplicates. However, action applied on each item will also effect other duplicates, since the return value is the key of item's entry in the hash table.
+
+<h4>Add</h4>
+
+An item added to *Bag* will increase its count there, or create a new entry with count 1 if there hasn't been any entry of the item. Due to hashing, adding order is not reserved.
+
+<h4>Remove</h4>
+
+Remove an item will remove all its counts in the bag, or remove a certain quantity if the number is specified. 
+
+<h4>Get (getCount)</h4>
+
+Get in *Bag* means getting its count. Non-presented item has count 0.
+
+### Test
+
+Use a valid HashBag from Common Apache to validate the MyHashBag. A class *A* with 2 child classes *B* and *C* were created to ensure generality in testing. Test includes 3 main methods above and compare with valid methods of HashBag. 
+
+## Lab 3
+
+**Customers**. The cheese department in the supermarket continuously gathers hungry customers. There are two types of buyers: **hurry buyers** who push to get ahead and demand service; and **calm buyers** who patiently wait for service. The service request is indicated by the “getCheese” action, and the end of the service is indicated by the “Cheese” action. There is always cheese available, and a constant number of two **hurry** buyers and two **calm** ones. Each customer must be created as a separate thread that enters the queue, is served, and stops working.
+
+### Program structure
+<h4>Main</h4>
+<p>
+    <img src="resource/lab3UML.png" alt>
+    </img>
+</p>
+
+A *Buyer* is initialized with a name and a queue of *Buyer*. Depending on behaviour, it will be added to the first or last of the queue. Each Buyer will wait until its turn indicator is true. Utility class *Cashier* concurrently gets the first buyer of the queue, wakes them up and sells cheese to them. After that the *Buyer* ends its routine.
+
+The main method randomly and eventually generates *Buyer* to simulate the problem scene.
+
+<h4>Buyer </h4>
+
+Buyer waits until *isYourTurn* is true. *wait()* should be inside a while loop.
+After the cashier wakes the *Buyer* up, start to order. 
+```
+    @Override
+    public void run() {
+        //come to the queue
+        if (!toQueue(queue)) {
+            System.out.println("[" + nameBuyer + "]: Queue full");
+            return;
+        }
+
+        waitTillTurn();
+        //request order
+        System.out.println(this.nameBuyer + " get cheese");
+        waitTillServed();
+        System.out.println(this.nameBuyer + " cheese");
+    }
+```
+
+<h4>Cashier</h4>
+
+*Cashier* is an utility class. Its method *sell()* takes the first *Buyer* out of the queue, serve it and waits until the *Buyer* ends its routine.
+
+```
+static void sell(BlockingDeque<Buyer> allBuyer){
+        Buyer currentBuyer;
+        System.out.println("Current queue " + allBuyer);
+        currentBuyer = allBuyer.pollFirst();
+
+        //Buyer can join the queue while Cashier is selling so no sync here.
+        if (currentBuyer != null){
+            System.out.println("Serving "+currentBuyer.nameBuyer);
+            //wake it up
+            synchronized (currentBuyer){
+                currentBuyer.setYourTurn(true);
+                currentBuyer.notifyAll();
+                waiting(TIME_SERVE);
+                currentBuyer.setServed(true);
+                currentBuyer.notifyAll();
+                //wait till the Buyer exit before serving another
+                try {
+                    currentBuyer.join();
+                } catch (InterruptedException e) {
+                    System.out.println("Buyer "+ currentBuyer.nameBuyer +" is interrupted");
+                }
+            }
+        }
+}
+```
+### Result
+This solution doensn't take account of the condition of 2 Calm and 2 Hurry Buyers in a queue, instead it solves the problem with any queue of buyers.
 
 
-
-
-
-
-
-
-
-
-
+<p>
+    <img src="resource/result.png" alt>
+    </img>
+</p>
 
 
 

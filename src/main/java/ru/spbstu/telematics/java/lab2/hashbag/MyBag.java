@@ -8,7 +8,7 @@ import ru.spbstu.telematics.java.lab2.MyIterable;
  * @param <T>
  */
 
-public interface MyBagInterface<T> extends MyIterable<T> {
+public interface MyBag<T> extends MyIterable<T> {
     /**
      * Check if the list is empty
      *

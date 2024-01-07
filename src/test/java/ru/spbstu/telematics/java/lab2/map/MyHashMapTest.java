@@ -1,4 +1,4 @@
-package ru.spbstu.telematics.java.lab2.hashmap;
+package ru.spbstu.telematics.java.lab2.map;
 
 import org.junit.Test;
 
