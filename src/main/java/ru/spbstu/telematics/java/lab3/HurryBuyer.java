@@ -1,19 +1,27 @@
 package ru.spbstu.telematics.java.lab3;
 
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.TimeUnit;
+
 /**
  * HurryBuyer, which will come to the head of queue
  */
 public class HurryBuyer extends Buyer{
-    public HurryBuyer(String name, Cashier cashier) {
-        super(name, cashier);
+    public HurryBuyer(String name, BlockingDeque<Buyer> queue) {
+        super(name, queue);
     }
 
     /**
      * {@inheritDoc}
-     * Hurry Buyer comes to the head of queue
+     * Calm Buyer comes after the end of queue
      */
     @Override
-    public boolean toQueue() {
-        return cashier.allBuyer.offerFirst(this);
+    public boolean toQueue(BlockingDeque<Buyer> queue) {
+        try {
+            return queue.offerFirst(this, TIME_WAIT, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            System.out.println(nameBuyer + " is interrupted");
+            return false;
+        }
     }
 }

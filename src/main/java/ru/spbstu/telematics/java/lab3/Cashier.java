@@ -1,35 +1,23 @@
 package ru.spbstu.telematics.java.lab3;
 
 import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+
 
 /**
  * Class for Cashier. Cashier eventually serve the first in queue, while new Buyers are added to queue concurrently.
  */
-public class Cashier extends Thread{
-    final BlockingDeque<Buyer> allBuyer;
+public class Cashier{
     static final int TIME_SERVE = 1000;
-    public Cashier() {
-        this.allBuyer = new LinkedBlockingDeque<>(100);
-    }
-
     /**
      * Cashier continuously serve the first in queue
      */
-    @Override
-    public void run(){
+    public static void run(BlockingDeque<Buyer> allBuyer){
         while(true){
             if (!allBuyer.isEmpty()) {
-                sell();
+                sell(allBuyer);
             }
             else {
-                synchronized (this) {
-                    try {
-                        wait(2000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                waiting(TIME_SERVE);
                 if (allBuyer.isEmpty()){
                     return;
                 }
@@ -37,30 +25,48 @@ public class Cashier extends Thread{
         }
     }
 
-    void sell(){
+    static void waiting(int time){
+        try {
+            Thread tmp = new Thread(){
+                @Override
+                public synchronized void run() {
+                    try {
+                        wait(time);
+                    } catch (InterruptedException e) {
+                        System.out.println("Cashier is interrupted");
+                    }
+                }
+            };
+            tmp.start();
+            tmp.join();
+        } catch (InterruptedException e) {
+            System.out.println("Cashier is interrupted");
+        }
+    }
+
+
+    static void sell(BlockingDeque<Buyer> allBuyer){
         Buyer currentBuyer;
         System.out.println("Current queue " + allBuyer);
         currentBuyer = allBuyer.pollFirst();
 
         //Buyer can join the queue while Cashier is selling so no sync here.
         if (currentBuyer != null){
+            System.out.println("Serving "+currentBuyer.nameBuyer);
             //wake it up
             synchronized (currentBuyer){
                 currentBuyer.setYourTurn(true);
                 currentBuyer.notifyAll();
+                waiting(TIME_SERVE);
+                currentBuyer.setServed(true);
+                currentBuyer.notifyAll();
+                //wait till the Buyer exit before serving another
+                try {
+                    currentBuyer.join();
+                } catch (InterruptedException e) {
+                    System.out.println("Buyer "+ currentBuyer.nameBuyer +" is interrupted");
+                }
             }
-            //sell it
-            sellCheese(currentBuyer);
         }
-    }
-
-    //Only sell to one customer at a time
-     synchronized void sellCheese(Buyer buyer){
-        try {
-            wait(TIME_SERVE);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(buyer.nameBuyer + " cheese");
     }
 }

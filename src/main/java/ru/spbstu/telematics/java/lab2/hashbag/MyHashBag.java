@@ -2,7 +2,7 @@ package ru.spbstu.telematics.java.lab2.hashbag;
 
 import ru.spbstu.telematics.java.lab2.MyIterable;
 import ru.spbstu.telematics.java.lab2.MyIterator;
-import ru.spbstu.telematics.java.lab2.hashmap.MyHashMap;
+import ru.spbstu.telematics.java.lab2.map.MyHashMap;
 import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
 
 import java.util.Collection;
@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
  *
  * @param <T>
  */
-public class MyHashBag<T> implements MyBagInterface<T> {
+public class MyHashBag<T> implements MyBag<T> {
     transient MyHashMap<T, Integer> listItem;
     int size = 0;
 
@@ -122,12 +122,7 @@ public class MyHashBag<T> implements MyBagInterface<T> {
 
     @Override
     public String toString() {
-        repr = "{";
-        listItem.forEach((key, val) -> {
-            repr += key + ":" + val + ",";
-        });
-        repr += "}";
-        return repr;
+        return listItem.entryArray().toString();
     }
 
     @Override

@@ -184,4 +184,17 @@ public class MyArrayList<T> implements MyList<T> {
         }
         return -1;
     }
+
+    @Override
+    public String toString(){
+        String repr = "[";
+        MyIterator<T> it = this.iterator();
+        while (it.hasNext()){
+            repr += it.next();
+            if(it.hasNext())
+                repr += ",";
+        }
+        repr += "]";
+        return repr;
+    }
 }

@@ -1,12 +1,11 @@
-package ru.spbstu.telematics.java.lab2.hashmap;
+package ru.spbstu.telematics.java.lab2.map;
 
 import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
 import ru.spbstu.telematics.java.lab2.list.linkedlist.MyLinkedList;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
-public class MyHashMap<K, V> implements MyMapInterface<K, V> {
+public class MyHashMap<K, V> implements MyMap<K, V> {
     private final float MAX_LOAD_FACTOR = 0.75F;
     private final int DEFAULT_CAPACITY = 16;
     private transient MyTable<K, V> hashTable;
