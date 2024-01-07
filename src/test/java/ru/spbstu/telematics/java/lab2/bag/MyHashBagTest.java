@@ -3,7 +3,6 @@ package ru.spbstu.telematics.java.lab2.bag;
 
 import org.apache.commons.collections4.bag.HashBag;
 import org.junit.Test;
-import ru.spbstu.telematics.java.lab2.hashbag.MyHashBag;
 import ru.spbstu.telematics.java.lab2.*;
 import java.util.Arrays;
 import java.util.Objects;

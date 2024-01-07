@@ -1,4 +1,4 @@
-package ru.spbstu.telematics.java.lab2.hashbag;
+package ru.spbstu.telematics.java.lab2.bag;
 
 import ru.spbstu.telematics.java.lab2.MyIterable;
 
