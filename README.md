@@ -139,9 +139,6 @@ public class App
 #### FileNotFound
 Проверка нормально ли работает метод при том, что файл несуществует.
 
-<<<<<<< HEAD
-[Docs](./docs)
-=======
 ## Lab 2
 
 В этой лабораторной работе требуется реализовать *Bag* на Java, который должен включать методы *size*, *contains*, *add*, *remove*, *get* и некоторые другие, если необходимо.
@@ -260,4 +257,3 @@ static void sell(BlockingDeque<Buyer> allBuyer){
     <img src="resource/result.png" alt>
     </img>
 </p>
->>>>>>> 7745c77fa7d1ba1ef2f6128df2332197c17b914a
