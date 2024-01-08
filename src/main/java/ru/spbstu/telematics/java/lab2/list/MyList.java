@@ -38,13 +38,6 @@ public interface MyList<T> extends MyIterable<T> {
     void add(int index, T item) throws IndexOutOfBoundsException;
 
     /**
-     * Add a new item to the end of the array
-     * @param item the item to add
-     */
-    void add(T item);
-
-
-    /**
      * Remove the item
      * @param index index of the item to remove
      * @return the removed item
