@@ -90,10 +90,7 @@ Each laboratory (short. *lab*) is put in a separated subpackage of the main pack
 
 The class **App** mocks the CLI, which navigates the program to the respective task by the first argument. For example, the command argument for *Lab 1* is **ow** (overwrite). However for lab 2 and lab 3 argument is not required, just run the main method.
 
-
-
-The testing class using package **junit** contains every methods to test all functions. 
-
+The testing class using package **junit** contains every methods to test all functions.
 ## Lab 1
 This lab requires to write a program that helps overwrite an *existed* file with a text. 
 ### Overwriting method
