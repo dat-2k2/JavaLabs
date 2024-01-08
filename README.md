@@ -82,6 +82,9 @@ mvn clean package assembly:single
 ```
 JAR файл с *commons-cli* заканчивается на *jar-with-dependencies*.
 
+# Документация
+См. [документация](https://dat-2k2.github.io/JavaLabs/docs/)
+
 # Структура программы
 Каждая лабораторная работа (сок. *лаб*) находится в отдельном подпакете общего пакета *ru.spbstu.telematics.java*, называемая **lab1, lab2,**... 
 
