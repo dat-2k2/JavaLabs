@@ -4,6 +4,7 @@ import ru.spbstu.telematics.java.lab2.MyIterable;
 import ru.spbstu.telematics.java.lab2.MyIterator;
 import ru.spbstu.telematics.java.lab2.map.MyHashMap;
 import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
+import ru.spbstu.telematics.java.lab2.map.MyMap;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
@@ -15,7 +16,7 @@ import java.util.NoSuchElementException;
  * @param <T>
  */
 public class MyHashBag<T> implements MyBag<T> {
-    transient MyHashMap<T, Integer> listItem;
+    transient MyMap<T, Integer> listItem;
     int size = 0;
 
     String repr = "";

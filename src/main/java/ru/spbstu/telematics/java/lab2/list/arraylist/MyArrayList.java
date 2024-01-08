@@ -85,7 +85,9 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     @Override
-    public void add(T item) {
+    public void add(T item) throws NullPointerException{
+        if (item == null)
+            throw new NullPointerException();
         add(sizeArray, item);
     }
 
