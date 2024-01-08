@@ -35,25 +35,25 @@ git pull origin main --allow-unrelated-histories (allow mismatched histories)
 From now you can commit as usual. 
 
 - To execute jar file, you need to include *maven jar plugin* into pom.xml
-```
- <build>
-  <plugins>
-    <plugin>
-      <!-- Build an executable JAR -->
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-jar-plugin</artifactId>
-      <version>3.1.0</version>
-      <configuration>
-        <archive>
-          <manifest>
-            <mainClass>ru.spbstu.telematics.java.App</mainClass>
-          </manifest>
-        </archive>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
-```
+<pre>
+ &#60build>
+  &#60plugins>
+    &#60plugin>
+      &#60!-- Build an executable JAR -->
+      &#60groupId>org.apache.maven.plugins&#60/groupId>
+      &#60artifactId>maven-jar-plugin&#60/artifactId>
+      &#60version>3.1.0&#60/version>
+      &#60configuration>
+        &#60archive>
+          &#60manifest>
+            &#60mainClass>ru.spbstu.telematics.java.App&#60/mainClass>
+          &#60/manifest>
+        &#60/archive>
+      &#60/configuration>
+    &#60/plugin>
+  &#60/plugins>
+&#60/build>
+</pre>
 # Execution
 Using jar execution:
 ```
