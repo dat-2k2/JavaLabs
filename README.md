@@ -16,11 +16,14 @@ git --version
 ```
 ## Создать проект
 - Перейдите в клонированную папку git, инициализируйте проект Maven с помощью этой команды:
- ``` mvn archetype:generate -DgroupId=[главный пакет] -DartifactId=[имя репо] -DarchetypeArtifactId=[шаблон проекта] -DinteractiveMode=false ``` при этом:
+ ```
+ mvn archetype:generate -DgroupId=[главный пакет] -DartifactId=[имя репо] -DarchetypeArtifactId=[шаблон проекта] -DinteractiveMode=false  
+ ```
+ при этом:
   - главный пакет = ru.spbstu.telematics.java
   - имя репо = JavaLabs
   - шаблон проекта = maven-archetype-quickstart
- 
+
 
 - После инициализации создайте отчет в Git, затем используйте эти команды, чтобы связать локальное репозиторий с вышестоящей веткой:
 ```
