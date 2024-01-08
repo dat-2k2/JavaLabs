@@ -2,6 +2,11 @@ package ru.spbstu.telematics.java.lab2;
 
 import java.util.NoSuchElementException;
 
+
+/**
+ * An iterator over a collection.
+ * @param <T> the type of elements returned by this iterator
+ */
 public interface MyIterator<T> {
     /**
      * Check if there is any next one of the specified item

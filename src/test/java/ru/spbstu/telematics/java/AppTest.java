@@ -7,11 +7,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-
+/**
+ * Test main action for Lab 1 only
+ */
 public class AppTest {
-
     File testFile = new File("~tmp.txt");
 
+    /**
+     * Test if CLI was handled correctly
+     */
     @Test
     public void testLab1Normal() {
         try {
@@ -45,8 +49,12 @@ public class AppTest {
 
     }
 
+    /**
+     * Test for the wrong passing argument case
+     * @throws ParseException expect to throw this exception
+     */
     @Test(expected = ParseException.class)
-    public void testNoDataArg() throws ParseException, FileNotFoundException {
+    public void testNoDataArg() throws ParseException {
         try {
             assert (testFile.createNewFile());
             App.actionLab1(new String[]{"-ow", "-f", "abc.txt"});

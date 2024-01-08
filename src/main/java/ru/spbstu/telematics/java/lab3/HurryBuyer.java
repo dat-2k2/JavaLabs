@@ -7,6 +7,9 @@ import java.util.concurrent.TimeUnit;
  * HurryBuyer, which will come to the head of queue
  */
 public class HurryBuyer extends Buyer{
+    /**
+     * {@inheritDoc}
+     */
     public HurryBuyer(String name, BlockingDeque<Buyer> queue) {
         super(name, queue);
     }

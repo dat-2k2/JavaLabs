@@ -3,18 +3,28 @@ package ru.spbstu.telematics.java.lab2.map;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
+/**
+ * A test class for MyHashMap. Validate with a HashMap object
+ */
 public class MyHashMapTest {
     final A[] testKey = {new A(1), new B(2), new C(3), new A(4), new C(5)};
     final Avalue[] testValue = {new Bvalue(), new Avalue(), new Cvalue(), new Cvalue(), new Cvalue()};
-    MyHashMap<A, Avalue> testHashMap = new MyHashMap<>();
-    HashMap<A, Avalue> validHashMap = new HashMap<>();
+    MyMap<A, Avalue> testHashMap = new MyHashMap<>();
+    Map<A, Avalue> validHashMap = new HashMap<>();
 
+    /**
+     * Just test the put method for 2 maps
+     */
     public MyHashMapTest() {
         testPut();
     }
 
+    /**
+     * Test put() method
+     */
     @Test
     public void testPut() {
         for (int i = 0; i < testKey.length; i++) {
@@ -26,6 +36,9 @@ public class MyHashMapTest {
         assert (tmpHashMap.equals(validHashMap));
     }
 
+    /**
+     * Test replace() method.
+     */
     @Test
     public void testReplace() {
         assert (testHashMap.containsKey(testKey[0]));
@@ -33,6 +46,9 @@ public class MyHashMapTest {
         assert (testHashMap.replace(new A(1), new Cvalue()).equals(oldVal));
     }
 
+    /**
+     * Test remove() method
+     */
     @Test
     public void testRemove() {
         assert (testHashMap.remove(testKey[0]));

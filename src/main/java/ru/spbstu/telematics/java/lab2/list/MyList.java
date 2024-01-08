@@ -2,6 +2,10 @@ package ru.spbstu.telematics.java.lab2.list;
 
 import ru.spbstu.telematics.java.lab2.MyIterable;
 
+/**
+ * An ordered MyIterable
+ * @param <T> the type of elements in this list
+ */
 public interface MyList<T> extends MyIterable<T> {
     /**
      * Check if the list is empty
@@ -23,6 +27,7 @@ public interface MyList<T> extends MyIterable<T> {
      * @param index   index of the element to replace
      * @param element the element to be stored at the specified position
      * @throws IndexOutOfBoundsException when index is out of range
+     * @return the previous value at that position
      */
     T set(int index, T element) throws IndexOutOfBoundsException;
     /**
@@ -44,12 +49,6 @@ public interface MyList<T> extends MyIterable<T> {
      */
     T remove(int index) throws IndexOutOfBoundsException;
 
-    /**
-     * Remove the item
-     * @param o the item to remove
-     * @return the removed item
-     */
-    boolean remove(Object o);
     /**
      * Find the index of the given element.
      * @param element the element to find

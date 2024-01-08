@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+/**
+ * Test for lab 3
+ */
 public class CashierTest {
     BlockingDeque<Buyer> allBuyer = new LinkedBlockingDeque<>(10);
     Buyer hb1 = new CalmBuyer("Calm 1", allBuyer);

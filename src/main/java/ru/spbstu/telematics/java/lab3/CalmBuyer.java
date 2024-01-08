@@ -8,13 +8,16 @@ import java.util.concurrent.TimeUnit;
  */
 public class CalmBuyer extends Buyer{
 
+    /**
+     * {@inheritDoc}
+     */
     public CalmBuyer(String name, BlockingDeque<Buyer> queue) {
         super(name, queue);
     }
 
     /**
-     * {@inheritDoc}
-     * Calm Buyer comes after the end of queue
+     * {@inheritDoc}.
+     * Calm Buyer comes after the end of queue.
      */
     @Override
     public boolean toQueue(BlockingDeque<Buyer> queue) {

@@ -5,7 +5,7 @@ import ru.spbstu.telematics.java.lab2.MyIterable;
 /**
  * {@inheritDoc}
  * Defines a collection that counts the number of times an object appears in the collection.
- * @param <T>
+ * @param <T> type parameter for Bag
  */
 
 public interface MyBag<T> extends MyIterable<T> {

@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Class for Lab 1: Overwrite file
+ */
 public class Lab1 {
 
     /**

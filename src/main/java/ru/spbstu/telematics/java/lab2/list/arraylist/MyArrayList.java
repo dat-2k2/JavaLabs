@@ -8,7 +8,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-// a wrapping class for plain array
+/**
+ * An implementation for List as a continuous array
+ * @param <T> type parameter for objects in that array
+ */
 public class MyArrayList<T> implements MyList<T> {
     private static final int DEFAULT_CAPACITY = 10;
     int sizeArray;
@@ -16,14 +19,22 @@ public class MyArrayList<T> implements MyList<T> {
     //prevent serialization
     transient Object[] itemArray;
 
-    //----------------------------------------------------------------------------
     //These constructors ensure that every object in the array is an instance of T
+
+    /**
+     * Default constructor for MyArrayList. Create an array with default capacity and size 0.
+     */
     public MyArrayList() {
         sizeArray = 0;
         capacityArray = 10;
         itemArray = new Object[DEFAULT_CAPACITY];
     }
 
+    /**
+     * Construct an array with the specified capacity
+     * @param cap the specified capacity
+     * @throws IllegalArgumentException if capacity smaller than 0
+     */
     public MyArrayList(int cap) throws IllegalArgumentException {
         if (cap < 0)
             throw new IllegalArgumentException();
@@ -32,6 +43,10 @@ public class MyArrayList<T> implements MyList<T> {
         itemArray = new Object[cap];
     }
 
+    /**
+     * Construct an array with data from another MyIterable object
+     * @param collection the object to construct array
+     */
     public MyArrayList(MyIterable<? extends T> collection) {
         sizeArray = collection.size();
         capacityArray = collection.size();
@@ -42,6 +57,10 @@ public class MyArrayList<T> implements MyList<T> {
         }
     }
 
+    /**
+     * Construct an array with data from another Collection object
+     * @param collection the object to construct array
+     */
     public MyArrayList(Collection<? extends T> collection) {
         sizeArray = collection.size();
         capacityArray = collection.size();
@@ -74,16 +93,25 @@ public class MyArrayList<T> implements MyList<T> {
         };
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int size() {
         return sizeArray;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean contains(Object item) {
         return indexOf(item) > -1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void add(T item) throws NullPointerException{
         if (item == null)
@@ -91,6 +119,9 @@ public class MyArrayList<T> implements MyList<T> {
         add(sizeArray, item);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isEmpty() {
         return sizeArray == 0;

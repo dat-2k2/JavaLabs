@@ -10,6 +10,7 @@ public class Cashier{
     static final int TIME_SERVE = 1000;
     /**
      * Cashier continuously serve the first in queue
+     * @param allBuyer the queue containing all Buyers
      */
     public static void run(BlockingDeque<Buyer> allBuyer){
         while(true){

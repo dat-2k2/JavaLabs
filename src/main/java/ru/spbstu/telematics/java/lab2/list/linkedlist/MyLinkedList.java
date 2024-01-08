@@ -28,9 +28,9 @@ public class MyLinkedList<T> implements MyList<T> {
 //----------------------------------------------------------
 
     /**
-     * Create a list from the given collection
+     * Create a list from the given MyIterable object
      *
-     * @param collection the collection for the list
+     * @param collection the object for the list
      * @throws NullPointerException if the collection is null object
      */
 
@@ -39,7 +39,12 @@ public class MyLinkedList<T> implements MyList<T> {
             throw new NullPointerException();
         collection.forEach(this::add);
     }
-
+    /**
+     * Create a list from the given collection
+     *
+     * @param collection the collection for the list
+     * @throws NullPointerException if the collection is null object
+     */
     public MyLinkedList(Collection<? extends T> collection) throws NullPointerException {
         if (collection == null)
             throw new NullPointerException();

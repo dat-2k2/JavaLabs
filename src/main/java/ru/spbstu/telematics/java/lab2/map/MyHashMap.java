@@ -5,6 +5,11 @@ import ru.spbstu.telematics.java.lab2.list.linkedlist.MyLinkedList;
 
 import java.util.function.BiConsumer;
 
+/**
+ * An implement of MyMap using hash table
+ * @param <K> type parameter for key
+ * @param <V> type parameter for value
+ */
 public class MyHashMap<K, V> implements MyMap<K, V> {
     private final float MAX_LOAD_FACTOR = 0.75F;
     private final int DEFAULT_CAPACITY = 16;
@@ -139,7 +144,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     }
 
     /**
-     * Object for the entry, which hold a key and a value
+     * Object for the entry, which hold a key and a value.
      *
      * @param <K> the type of keys maintained by this map.
      * @param <V> the type of mapped values
@@ -148,19 +153,37 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         K key;
         V value;
 
+        /**
+         * Constructor MyEntry
+         * @param key key
+         * @param value value
+         */
         public MyEntry(K key, V value) {
             this.key = key;
             this.value = value;
         }
 
+        /**
+         * Get the key of the entry
+         * @return the key of the entry
+         */
         public K getKey() {
             return key;
         }
 
+        /**
+         * Get the value of the entry
+         * @return the value of the entry
+         */
         public V getValue() {
             return value;
         }
 
+        /**
+         * Comparing to another MyEntry object or another key.
+         * {@inheritDoc}
+         */
+        @Override
         public boolean equals(Object o) {
             if (key.getClass() == o.getClass())
                 return key.equals(o);
@@ -169,11 +192,18 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
             else return false;
         }
 
+        /**
+         * Hash the MyEntry by its key's hashcode
+         * {@inheritDoc}
+         */
         @Override
         public int hashCode() {
             return key.hashCode();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public String toString() {
             return (key.toString() + ": " + value.toString());

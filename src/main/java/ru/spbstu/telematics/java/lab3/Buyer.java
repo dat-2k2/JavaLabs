@@ -13,6 +13,12 @@ public abstract class Buyer extends Thread {
     boolean isServed;
 
     BlockingDeque<Buyer> queue;
+
+    /**
+     * Constructor for Buyer
+     * @param name name of Buyer
+     * @param queue the reference to the queue that this Buyer will be added to.
+     */
     public Buyer(String name, BlockingDeque<Buyer> queue) {
         this.nameBuyer = name;
         this.isYourTurn = false;
@@ -22,7 +28,8 @@ public abstract class Buyer extends Thread {
     }
 
     /**
-     * Behaviour of Buyer when entering queue
+     * Behaviour of Buyer when entering queue.
+     * @param queue add the Buyer to this queue. If the queue is full, try to add during an amount of time.
      * @return true if the Buyer was successfully added to queue
      */
     public abstract boolean toQueue(BlockingDeque<Buyer> queue);
@@ -69,6 +76,10 @@ public abstract class Buyer extends Thread {
     }
 
 
+    /**
+     * Name of this Buyer
+     * @return Name of this Buyer
+     */
     @Override
     public String toString() {
         return this.nameBuyer;

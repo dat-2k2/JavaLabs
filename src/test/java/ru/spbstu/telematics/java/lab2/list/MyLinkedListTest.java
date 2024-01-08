@@ -6,6 +6,9 @@ import ru.spbstu.telematics.java.lab2.list.linkedlist.MyLinkedList;
 
 import java.util.*;
 
+/**
+ * A test class for MyLinkedList. Validate with another LinkedList object.
+ */
 public class MyLinkedListTest {
     final A[] testData = {new A(1), new B(2), new C(3), new A(4), new C(5)};
     MyLinkedList<A> testArray = new MyLinkedList<>(Arrays.asList(testData));
@@ -29,6 +32,9 @@ public class MyLinkedListTest {
         new MyLinkedList<A>(nullObj);
     }
 
+    /**
+     * Test the iterator
+     */
     @Test(expected = NoSuchElementException.class)
     public void testIterator() {
         MyIterator<A> testIt = testArray.iterator();
@@ -60,6 +66,9 @@ public class MyLinkedListTest {
         assert (testArray.get(0).equals(validArray.get(0)));
     }
 
+    /**
+     * Test add to a position in MyLinkedList
+     */
     @Test
     public void testAddPosition() {
         A addObj = new B(100);
@@ -70,8 +79,12 @@ public class MyLinkedListTest {
             assert (testArray.get(i).equals(validArray.get(i)));
     }
 
+
+    /**
+     * Test remove() method of the MyLinkedList
+     */
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testRemove() throws IndexOutOfBoundsException {
+    public void testRemove(){
         A removeObj = new C(1000);
         validArray.addFirst(removeObj);
         testArray.addHead(removeObj);
@@ -81,8 +94,11 @@ public class MyLinkedListTest {
         testArray.remove(testArray.size());
     }
 
+    /**
+     * Test get() method of the MyLinkedList
+     */
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testGet() throws IndexOutOfBoundsException {
+    public void testGet() {
         for (int i = 0; i < validArray.size(); i++) {
             assert (testArray.get(i).equals(validArray.get(i)));
         }
@@ -90,8 +106,11 @@ public class MyLinkedListTest {
         testArray.get(testArray.size());
     }
 
+    /**
+     * Test set() method of the MyLinkedList
+     */
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testSet() throws IndexOutOfBoundsException {
+    public void testSet() {
         C setObj = new C(100);
         testArray.set(2, setObj);
         validArray.set(2, setObj);
@@ -101,6 +120,9 @@ public class MyLinkedListTest {
         testArray.set(testArray.size(), new A(1));
     }
 
+    /**
+     * Test clear() method of the MyLinkedList
+     */
     @Test
     public void testClear() {
         testArray.clear();

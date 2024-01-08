@@ -1,6 +1,7 @@
 package ru.spbstu.telematics.java.lab2.bag;
 
 
+import org.apache.commons.collections4.Bag;
 import org.apache.commons.collections4.bag.HashBag;
 import org.junit.Test;
 import ru.spbstu.telematics.java.lab2.*;
@@ -16,13 +17,9 @@ public class MyHashBagTest {
     A item3 = new A(3);
     // add a new object to check equality rule of class A
     final A[] testData = {item1, item2, item3, item2, item3, new C(2)};
-    HashBag<A> validBag;
-    MyHashBag<A> testBag;
+    Bag<A> validBag = new HashBag<>(Arrays.asList(testData));;
+    MyBag<A> testBag = new MyHashBag<>(Arrays.asList(testData));;
 
-    public MyHashBagTest(){
-        validBag = new HashBag<>(Arrays.asList(testData));
-        testBag = new MyHashBag<>(Arrays.asList(testData));
-    }
     /**
      * Assert to validate a MyHashBag
      * @param test MyHashBag object
@@ -30,7 +27,7 @@ public class MyHashBagTest {
      */
 
 
-    void equal(MyHashBag<A> test, HashBag<A> valid){
+    void equal(MyBag<A> test, Bag<A> valid){
         assert(test.size() == valid.size());
         test.forEach((item)->{
             assert (valid.getCount(item) == test.getCount(item));
@@ -47,6 +44,9 @@ public class MyHashBagTest {
         equal(testBag,validBag);
     }
 
+    /**
+     * Test iterator of MyBag. Expect to iterate through all objects in MyBag
+     */
     @Test
     public void testIterator(){
         assert (!new MyHashBag<A>().iterator().hasNext());
@@ -70,7 +70,7 @@ public class MyHashBagTest {
 
     }
     /**
-     * Test getCount() method of MyBag
+     * Test getCount() method of MyBag. Expect to return the correct amount of each item in the Bag
      */
     @Test
     public void testGetCount() {
@@ -80,7 +80,7 @@ public class MyHashBagTest {
     }
 
     /**
-     * Test add() method of MyBag
+     * Test add() method of MyBag. The method does not receive null input
      */
     @Test(expected = NullPointerException.class)
     public void testAdd() {
@@ -105,6 +105,9 @@ public class MyHashBagTest {
         assert (!testBag.remove(new A(100)));
     }
 
+    /**
+     * Test clear() method of Bag
+     */
     @Test
     public void testClear(){
         testBag.clear();

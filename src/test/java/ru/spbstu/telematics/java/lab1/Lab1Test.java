@@ -9,7 +9,10 @@ import java.io.*;
  */
 public class Lab1Test {
 
-    @Test //test the main function
+    /**
+     * Test the main function
+     */
+    @Test
     public void testOverWrite() {
 
         //create new file
@@ -56,7 +59,11 @@ public class Lab1Test {
         assert (overwriteString.equals(new String(cbuff)));
     }
 
-    @Test(expected = FileNotFoundException.class)    // test if the nonexisted File case is covered.
+    /**
+     * test if the non-existed File case is covered.
+     * @throws FileNotFoundException expect to throw this exception
+     */
+    @Test(expected = FileNotFoundException.class)
     public void testFileNotFound() throws FileNotFoundException {
         Lab1.overwriteFile("", "");
     }

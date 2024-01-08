@@ -9,11 +9,15 @@ import java.util.Random;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
-
+/**
+ * Main class to demonstrates result of labs.
+ */
 public class App {
     static CommandLineParser parser = new DefaultParser();
     static Options options = new Options();
-
+    /**
+     * Main method for program, which demonstrates Lab1 and Lab3 actions. Only run 1 Lab at once
+     */
     // main function
     public static void main(String[] args) {
         // Lab 1, using the cli
@@ -30,7 +34,12 @@ public class App {
 
     }
 
-
+    /**
+     * Set up program to handle command line in Lab 1
+     * @param args main args
+     * @throws ParseException if parsing CLI parameters failed
+     * @throws FileNotFoundException if file specified not found
+     */
     public static void actionLab1(String[] args) throws ParseException, FileNotFoundException {
         Option ow = new Option("ow", false, "Run lab 1: Overwrite File");
         options.addOption(ow);
@@ -60,6 +69,9 @@ public class App {
         }
     }
 
+    /**
+     * Action for Lab3: Buyer. Infinitely generate Buyers.
+     */
     public static void actionLab3(){
         BlockingDeque<Buyer> allBuyer = new LinkedBlockingDeque<>();
         Random rand = new Random(31);

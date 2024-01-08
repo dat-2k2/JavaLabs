@@ -18,6 +18,10 @@ public class MyArrayListTest {
     ArrayList<A> validArray = new ArrayList<>(Arrays.asList(testData));
 
     //---------------------------------------------------------------
+
+    /**
+     * Test default constructor for MyArrayList
+     */
     @Test(expected = NullPointerException.class)
     public void testConstructor() {
         assert ((new MyArrayList<>()).isEmpty());
