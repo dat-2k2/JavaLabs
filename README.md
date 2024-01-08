@@ -38,6 +38,7 @@ git pull origin main --allow-unrelated-histories (разрешить несов�
 
 
 - Чтобы запустить jar-файл, вам необходимо включить *maven jar plugin* info pom.xml
+- 
 ```
  <build>
   <plugins>
@@ -57,6 +58,7 @@ git pull origin main --allow-unrelated-histories (разрешить несов�
   </plugins>
 </build>
 ```
+
 # Выполнение
 Использование jar-выполнения:
 ```
@@ -79,6 +81,7 @@ java -jar target\JavaLabs-1.0-SNAPSHOT.jar [команда]
       </configuration>
     </plugin>
 ```
+
 и построить с командой:
 ```
 mvn clean package assembly:single
