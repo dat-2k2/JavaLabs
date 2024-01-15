@@ -6,6 +6,7 @@ import org.apache.commons.collections4.bag.HashBag;
 import org.junit.Test;
 import ru.spbstu.telematics.java.lab2.*;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -25,8 +26,6 @@ public class MyHashBagTest {
      * @param test MyHashBag object
      * @param valid a HashBag object with the same data to validate
      */
-
-
     void equal(MyBag<A> test, Bag<A> valid){
         assert(test.size() == valid.size());
         test.forEach((item)->{
@@ -63,6 +62,7 @@ public class MyHashBagTest {
                 assert (currentItem.equals(item));
             }
             else {
+                assert (validBag.getCount(currentItem) == count);
                 count = 1;
                 currentItem = null;
             }

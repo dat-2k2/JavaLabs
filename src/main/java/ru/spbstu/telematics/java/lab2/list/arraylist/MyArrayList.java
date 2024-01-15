@@ -135,6 +135,7 @@ public class MyArrayList<T> implements MyList<T> {
         itemArray = new Object[newCapacity];
 
         capacityArray = newCapacity;
+
         // copy the old data to the new array;
         System.arraycopy(oldArray, 0, itemArray, 0, sizeArray);
     }
