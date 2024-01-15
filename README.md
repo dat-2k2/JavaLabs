@@ -84,7 +84,7 @@ java -jar target\JavaLabs-1.0-SNAPSHOT.jar [команда]
 ```
 mvn clean package assembly:single
 ```
-JAR файл с *commons-cli* заканчивается на *jar-with-dependencies*.
+JAR файл с *commons-cli* заканчивается на *jar-with-dependencies*..
 
 # Документация
 См. [документация](https://dat-2k2.github.io/JavaLabs/docs/)
