@@ -1,7 +1,6 @@
 package ru.spbstu.telematics.java.lab2.bag;
 
 
-import com.sun.tools.javac.jvm.Gen;
 import org.apache.commons.collections4.Bag;
 import org.apache.commons.collections4.bag.HashBag;
 import org.junit.Test;
@@ -18,7 +17,7 @@ public class MyHashBagTest {
     A item3 = new A(3);
     // add a new object to check equality rule of class General
     final A[] testData = {item1, item2, item3, item2, item3, new C(2)};
-    Bag<General> validBag = new HashBag<>(Arrays.asList(testData));;
+    Bag<A> validBag = new HashBag<>(Arrays.asList(testData));;
     MyBag<General> testBag = new MyHashBag<>(Arrays.asList(testData));;
 
     /**
@@ -26,7 +25,7 @@ public class MyHashBagTest {
      * @param test MyHashBag object
      * @param valid a HashBag object with the same data to validate
      */
-    void equal(MyBag<General> test, Bag<General> valid){
+    void equal(MyBag<? extends General> test, Bag<? extends General> valid){
         assert(test.size() == valid.size());
         test.forEach((item)->{
             assert (valid.getCount(item) == test.getCount(item));

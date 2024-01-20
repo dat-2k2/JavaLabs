@@ -31,7 +31,6 @@ public class App {
 
         //Lab3
         actionLab3();
-
     }
 
     /**

@@ -57,10 +57,10 @@ public class Cashier{
             //wake it up
             synchronized (currentBuyer){
                 currentBuyer.setYourTurn(true);
-                currentBuyer.notifyAll();
+                currentBuyer.notify();
                 waiting(TIME_SERVE);
                 currentBuyer.setServed(true);
-                currentBuyer.notifyAll();
+                currentBuyer.notify();
                 //wait till the Buyer exit before serving another
                 try {
                     currentBuyer.join();
