@@ -1,212 +1,172 @@
-# Конфигурация
-ОС: Windows 11
-## Установка JDK, Maven, Git
+# Configuration
+System: Windows 11
+## Install JDK, Maven, Git
 - JDK 17: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
 - Maven: https://maven.apache.org/download.cgi
 - Git: https://git-scm.com/downloads
 
-Чтобы избежать чувствительных символов в пути, рекомендуем создать папку с "безопасным" именем для установки всех пакетов.
+To avoid sensitive characters in path, recommend to create a folder with a "safe" name to install all packages.
 
-После загрузки установите эти пакеты и добавьте PATH, чтобы сделать их доступными.
-Проверить версию:
+After downloading, install those packages and add PATH to make them accessible.
+
+Check the version:
 ```
 java --version 
 mvn --version
 git --version
 ```
-## Создать проект
-- Перейдите в клонированную папку git, инициализируйте проект Maven с помощью этой команды:
- ```
- mvn archetype:generate -DgroupId=[главный пакет] -DartifactId=[имя репо] -DarchetypeArtifactId=[шаблон проекта] -DinteractiveMode=false  
- ```
- при этом:
-  - главный пакет = ru.spbstu.telematics.java
-  - имя репо = JavaLabs
-  - шаблон проекта = maven-archetype-quickstart
+## Create project
+- Initialize a Maven project with this command:
+  ``` mvn archetype:generate -DgroupId=[main package] -DartifactId=[repo name] -DarchetypeArtifactId=[project template] -DinteractiveMode=false ``` where:
+    - main package = ru.spbstu.telematics.java
+    - repo name = JavaLabs
+    - project template = maven-archetype-quickstart
 
 
-- После инициализации создайте отчет в Git, затем используйте эти команды, чтобы связать локальное репозиторий с вышестоящей веткой:
-```
-git init (инициализировать проект git)
+- After initialization, create a repo on Git, then use these commands to link the local repo to the upstream branch:
+``` 
+git init (initialize git project)
 git remote add origin [repo link] 
-(это создаст локальную ветку "master", которая конфликтует с вышестоящей веткой "main".)
+(this will create the local branch "master", which conflicts with the upstream branch "main")
 git branch -m master main 
-(при необходимости измените название ветки)
-git pull origin main --allow-unrelated-histories (разрешить несовпадающие истории)
+(change the name of branch if needed)
+git pull origin main --allow-unrelated-histories (allow mismatched histories)
 ```
-Затем вы можете совершать действия как обычно.
+From now you can commit as usual.
 
-- Чтобы запустить jar-файл, вам необходимо включить *maven jar plugin* info pom.xml
-<pre>
- <build>
-  <plugins>
-    <plugin>
-      <!-- Build an executable JAR -->
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-jar-plugin</artifactId>
-      <version>3.1.0</version>
-      <configuration>
-        <archive>
-          <manifest>
-            <mainClass>ru.spbstu.telematics.java.App</mainClass>
-          </manifest>
-        </archive>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
-</pre>
-
-# Выполнение
-Использование jar-выполнения:
+- To execute jar file, you need to include *maven jar plugin* into pom.xml
+```xml
+  <build>
+   <plugins>
+     <plugin>
+       <!-- Build an executable JAR -->
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-jar-plugin</artifactId>
+       <version>3.1.0</version>
+       <configuration>
+         <archive>
+           <manifest>
+             <mainClass>ru.spbstu.telematics.java.App</mainClass>
+           </manifest>
+         </archive>
+       </configuration>
+     </plugin>
+   </plugins>
+ </build>
 ```
-java -jar target\JavaLabs-1.0-SNAPSHOT.jar [команда]
+# Execution
+Using jar execution:
 ```
-
-Чтобы использовать dependencies (commons-cli) с jar, надо добавить/ заменить плагин *maven-jar-plugin* с *maven-assembly-plugin*.
+java -jar target\JavaLabs-1.0-SNAPSHOT.jar [command]
 ```
+To use commons-cli with jar, we need to pack the jar file along with the dependencies. Add or replace maven-jar-plugin with this plugin:
+```xml
 <plugin>
-      <artifactId>maven-assembly-plugin</artifactId>
-      <configuration>
-        <archive>
-          <manifest>
-            <mainClass>ru.spbstu.telematics.java.App</mainClass>
-          </manifest>
-        </archive>
-        <descriptorRefs>
-          <descriptorRef>jar-with-dependencies</descriptorRef>
-        </descriptorRefs>
-      </configuration>
-    </plugin>
+    <artifactId>maven-assembly-plugin</artifactId>
+    <configuration>
+      <archive>
+        <manifest>
+          <mainClass>ru.spbstu.telematics.java.App</mainClass>
+        </manifest>
+      </archive>
+      <descriptorRefs>
+        <descriptorRef>jar-with-dependencies</descriptorRef>
+      </descriptorRefs>
+    </configuration>
+</plugin>
 ```
 
-и построить с командой:
-```
+
+and build with command
+```jshelllanguage
 mvn clean package assembly:single
 ```
-JAR файл с *commons-cli* заканчивается на *jar-with-dependencies*.
+The jar file with cli ends with *jar-with-dependencies*.
 
-# Документация
-См. [документация](https://dat-2k2.github.io/JavaLabs/docs/)
+## Documentation
+Visit https://dat-2k2.github.io/JavaLabs to see the docs.
 
-# Структура программы
-Каждая лабораторная работа (сок. *лаб*) находится в отдельном подпакете общего пакета *ru.spbstu.telematics.java*, называемая **lab1, lab2,**... 
+# Program Structure
+Each laboratory (short. *lab*) is put in a separated subpackage of the main pack *ru.spbstu.telematics.java*, named as **lab1, lab2,**...
 
-Класс **App** имитирует CLI, где он управляет программу на соответственную задачку при первом аргументе. Например, главный аргумент для *Лаб 1* - **ow** (перезапись)
+The class **App** mocks the CLI, which navigates the program to the respective task by the first argument. For example, the command argument for *Lab 1* is **ow** (overwrite). However for lab 2 and lab 3 argument is not required, just run the main method.
 
-```
-public class App 
-{	// main function
-    public static void main(String[] args){
-		if ("ow".equals(args[0])){
-			Lab1.overwriteFile(args[1], args[2]);		
-		}
-    }
+The testing class using package **junit** contains every methods to test all functions.
+## Lab 1
+This lab requires to write a program that helps overwrite an *existed* file with a text.
+### Overwriting method
+The overwriting method open a file named *pathName*, then overwrite it by *buffer*. During execution it also needs to handle the case of nonexisted file.
 
-}
-```
-Тестовый класс использующий пакет **junit** содержает все методы проверки всех функций. 
-
-## Лаб 1
-Этот лаб требует чтобы написал программу, которая перезаписывает существующий файл с заданным текстом. 
-### Метод перезаписи
-
-Метод перезаписи откроет файл с имени *pathName*, затем перезапишет его с *buffer*. При выполнения надо также обрабатывать случай несуществующего файла.
-
-```
-     public static void overwriteFile(String pathName, String buffer) throws FileNotFoundException{
-        //throw exception if the file doesn't exist
-        if (!new File(pathName).exists()){
-            throw new FileNotFoundException();
-        }
-        
-        // if file already exists, write the new data to it. 
-        try {
-            FileWriter writer = new FileWriter(pathName,false);
-            writer.write(buffer);
-            writer.close();
-        }
-        catch (IOException e){
-            System.out.println("An error occured");
-            e.printStackTrace();
-        }
-    }
-```
-
-### Главный метод
-Главный метод выполняет метод перезаписи пакета **Lab 1** если он передается аргументом **ow**
+### Main method
+The main function executes the overwriting method of package **Lab 1** if it receives argument **ow**.
 
 
-### Тестирование
-Надо тестировать общий случай (перезапись) и случай несуществующего файла. 
-#### Перезапись 
+### Testing
+We need to test the general case of overwriting and the case of non-existed file.
 
-Подготовить один файл, туда написать несколько данных, затем запустить метод *Lab1.overwriteFile*, почитать новые данные и проверить одним же ли они с перезаписанными данными. Здесь использовать пакеты *File*, *FileWriter* и *FileReader*.
+#### Overwriting
+Prepare a file, write some data to it, then run the overwriting method *Lab1.overwriteFile*, read the new data and check whether they are the same with the overwritten. Here used *File*, *FileWriter* and *FileReader*.
 
 #### FileNotFound
-Проверка нормально ли работает метод при том, что файл несуществует.
+Test if the FileNotFound is handled, check if the method throw the exception.
 
 ## Lab 2
+This lab requires to implement a *Bag* in Java, which should include methods *size*, *contains*,  *add*, *remove*, *get* and some others if needed.
 
-В этой лабораторной работе требуется реализовать *Bag* на Java, который должен включать методы *size*, *contains*, *add*, *remove*, *get* и некоторые другие, если необходимо.
+*Bag* is an **unordered** collection which accepts duplicates. It helps users quickly get the statistics of data.
 
-*Bag* - это ** неупорядоченная ** коллекция, которая принимает дубликаты. Это помогает пользователям быстро получать статистику данных.
+The basic implementation of *Bag* is *HashBag*, using *HashMap* as underlay structure. The *HashMap* support getting count of an item with complexity O(1).
 
-Базовой реализацией *Bag* является *HashBag*, использующая *HashMap* в качестве базовой структуры. *HashMap* поддерживает получение количества элементов со сложностью O(1).
+### Program structure
 
-### Структура программы
-
-<h4>Главная</h4>
+<h4>Main</h4>
 <p>
     <img src="resource/lab2UML.png" alt>
-    </img>
 </p>
 
-*MyArrayList* и *MyLinkedList*, по сути, не требовались для реализации, вместо этого *HashMap* мог использовать только *Node* и массив. Однако должен быть добавлен метод изменения размера *MyMap* и должны быть реализованы основные методы LinkedList.
+The *MyArrayList* and the *MyLinkedList*, in fact, were not required to implement, instead the HashMap could use flat array and *Node* only. However, the Map must be added resizing and main methods of LinkedList must be implemented.
 
-Сначала нужно реализовать *MyMap*, тогда *MyBag* будет * Map* с ключом в качестве элемента и значением в качестве количества дубликатов.
+Need to implement a *Map* at first, then a *Bag* would be a Map with key as item and value as item's count.
 
-<h4>Итерация</h4>
+<h4>Iterate</h4>
 
-Выполнить итерацию по всем элементам *MyBag*, включая его дубликаты. Однако действие, примененное к каждому элементу, также повлияет на другие дубликаты, поскольку возвращаемое значение является ключом записи элемента в хэш-таблице.
+Iterate through all elements of Bag including it duplicates. However, action applied on each item will also effect other duplicates, since the return value is the key of item's entry in the hash table.
 
-<h4>Добавить</h4>
+<h4>Add</h4>
 
-Товар, добавленный в *MyBag*, увеличит его количество там или создаст новую запись с количеством 1, если для этого товара не было никакой записи. Из-за хэширования заказ на добавление не зарезервирован.
+An item added to *Bag* will increase its count there, or create a new entry with count 1 if there hasn't been any entry of the item. Due to hashing, adding order is not reserved.
 
-<h4>Удалить</h4>
+<h4>Remove</h4>
 
-При удалении товара удаляются все его количества в пакете или удаляется определенное количество, если указано количество. 
+Remove an item will remove all its counts in the bag, or remove a certain quantity if the number is specified.
 
-<h4>Получить (getCount)</h4>
+<h4>Get (getCount)</h4>
 
-Попасть в *MyBag* означает получить его количество. Количество непредставленных элементов равно 0.
+Get in *Bag* means getting its count. Non-presented item has count 0.
 
-### Тест
+### Test
 
-Используйте допустимый *HashBag* из *Common Apache* для проверки *MyHashBag*. Класс *A* с двумя дочерними классами *B* и *C* был создан для обеспечения универсальности тестирования. Тест включает в себя 3 основных метода, описанных выше, и сравнивается с действительными методами *HashBag*.
+Use a valid HashBag from Common Apache to validate the MyHashBag. A class *A* with 2 child classes *B* and *C* were created to ensure generality in testing. Test includes 3 main methods above and compare with valid methods of HashBag.
 
 ## Lab 3
 
-**Покупатели**. В отделе сыра в супермаркете постоянно собираются голодные покупатели. Есть два типа покупателей: **торопливые покупатели**, которые стремятся опередить других и требуют обслуживания; и **спокойные покупатели**, которые терпеливо ждут обслуживания. Запрос на обслуживание обозначается действием “get Cheese”, а окончание обслуживания обозначается действием “Cheese”. Сыр всегда есть в наличии, и постоянное количество покупателей - два **торопливых** и два **спокойных**. Каждый клиент должен быть создан как отдельный поток, который входит в очередь, обслуживается и перестает работать.
+**Customers**. The cheese department in the supermarket continuously gathers hungry customers. There are two types of buyers: **hurry buyers** who push to get ahead and demand service; and **calm buyers** who patiently wait for service. The service request is indicated by the “getCheese” action, and the end of the service is indicated by the “Cheese” action. There is always cheese available, and a constant number of two **hurry** buyers and two **calm** ones. Each customer must be created as a separate thread that enters the queue, is served, and stops working.
 
-### Структура программы
-<h4>Главная</h4>
+### Program structure
+<h4>Main</h4>
 <p>
     <img src="resource/lab3UML.png" alt>
-    </img>
 </p>
 
-*Buyer* инициализируется именем и очередью *allBuyer*. В зависимости от поведения, он будет добавлен в первую или последнюю очередь. Каждый покупатель будет ждать, пока его указатель поворота не установит значение true. Служебный класс *Cashier* одновременно получает первого покупателя в очереди, будит его и продает ему сыр. После этого *Buyer* завершает свою рутинную работу.
+A *Buyer* is initialized with a name and a queue of *Buyer*. Depending on behaviour, it will be added to the first or last of the queue. Each Buyer will wait until its turn indicator is true. Utility class *Cashier* concurrently gets the first buyer of the queue, wakes them up and sells cheese to them. After that the *Buyer* ends its routine.
 
-Основной метод случайным образом и в конечном итоге генерирует *Buyer* для имитации проблемной сцены.
+The main method randomly and eventually generates *Buyer* to simulate the problem scene.
 
 <h4>Buyer </h4>
+After started, _Buyer_ enters the waiting state until the state variable _isYourTurn_ is true, as well as the thread wakes up. After that, it again waits until the state variable _isServed_ is true, which means the customer is served, and exits.
 
-Покупатель ждет, пока *isYourTurn* не примет значение true. *функция wait()* должна находиться внутри цикла while.
-После того, как кассир разбудит *Покупателя*, приступайте к оформлению заказа. 
+A small trick was used here, that is the state variables _isYourTurn_ and _isServed_ should be a wrapped class of boolean type for the updated results to be observed when pass the variable to another function.
 ```
-    @Override
     public void run() {
         //come to the queue
         if (!toQueue(queue)) {
@@ -214,53 +174,62 @@ public class App
             return;
         }
 
-        waitTillTurn();
         //request order
+        waitTill(this.isYourTurn);
         System.out.println(this.nameBuyer + " get cheese");
-        waitTillServed();
+
+        //be served
+        waitTill(this.isServed);
         System.out.println(this.nameBuyer + " cheese");
+
     }
 ```
 
 <h4>Cashier</h4>
 
-*Cashier* - это служебный класс. Его метод *sell()* выводит первого *Buyer* из очереди, обслуживает его и ждет, пока *Buyer* не завершит свою процедуру.
+*Cashier* is an utility class. Its method *sell()* takes the *Buyer*, serve them and waits until the *Buyer* ends their routine. Method _run()_ eventually takes the first customer out of the queue to serve. 
+
+When the queue is empty, _Cashier_ will try taking the customer out of the queue 5 times more. If the queue is still empty, the _Cashier_ will end their routine.
 
 ```
 static void sell(BlockingDeque<Buyer> allBuyer){
-  Buyer currentBuyer;
-  System.out.println("Current queue " + allBuyer);
-  currentBuyer = allBuyer.pollFirst();
+        Buyer currentBuyer;
+        System.out.println("Current queue " + allBuyer);
+        currentBuyer = allBuyer.pollFirst();
 
-  //Buyer can join the queue while Cashier is selling so no sync here.
-  if (currentBuyer != null){
-    System.out.println("Serving "+currentBuyer.nameBuyer);
-
-    //wake it up
-    synchronized (currentBuyer){
-      currentBuyer.setYourTurn(true);
-      currentBuyer.notifyAll();
-
-      waiting(TIME_SERVE);
-
-      currentBuyer.setServed(true);
-      currentBuyer.notifyAll();
-
-      //wait till the Buyer exit before serving another
-      try {
-        currentBuyer.join();
-      } catch (InterruptedException e) {
-        System.out.println("Buyer "+ currentBuyer.nameBuyer +" is interrupted");
-      }
-    }
-  }
+        //Buyer can join the queue while Cashier is selling so no sync here.
+        if (currentBuyer != null){
+            System.out.println("Serving "+currentBuyer.nameBuyer);
+            //wake it up
+            synchronized (currentBuyer){
+                currentBuyer.setYourTurn(true);
+                currentBuyer.notifyAll();
+                waiting(TIME_SERVE);
+                currentBuyer.setServed(true);
+                currentBuyer.notifyAll();
+                //wait till the Buyer exit before serving another
+                try {
+                    currentBuyer.join();
+                } catch (InterruptedException e) {
+                    System.out.println("Buyer "+ currentBuyer.nameBuyer +" is interrupted");
+                }
+            }
+        }
 }
 ```
-### Результат
-Это решение не учитывает состояние 2 спокойных и 2 торопливых покупателей в очереди, вместо этого оно решает проблему с любой очередью покупателей.
 
+### Run
+```
+mvn clean package assembly:single
+java -cp .\target\JavaLabs-1.0-SNAPSHOT-jar-with-dependencies.jar  ru.spbstu.telematics.java.lab3.Main
+```
+### Result
+This solution does not take account of the condition of 2 Calm and 2 Hurry Buyers in a queue, instead it solves the problem with any queue of buyers.
 
 <p>
     <img src="resource/result.png" alt>
-    </img>
 </p>
+
+
+
+
