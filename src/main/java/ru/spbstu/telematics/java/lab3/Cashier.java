@@ -5,11 +5,13 @@ import java.util.Deque;
  */
 public class Cashier{
     static final int TIME_SERVE = 1000;
+    static final int MAX_TRY_WAITING_NEW_BUYER = 5;
     /**
      * Cashier continuously serve the first in queue
      * @param allBuyer the queue containing all Buyers
      */
     public static void run(Deque<Buyer> allBuyer){
+        int tryWaitingNewBuyer = 0;
         while(true){
             try {
                 Buyer currentBuyer;
@@ -19,10 +21,19 @@ public class Cashier{
                 currentBuyer = allBuyer.pollFirst();
                 // serve
                 sell(currentBuyer);
+                if (tryWaitingNewBuyer > 0)
+                    tryWaitingNewBuyer = 0;
             }
             catch (NullPointerException e){
                 System.out.println(e.getMessage());
+                if (tryWaitingNewBuyer == 5)
+                {
+                    System.out.println("No new Buyer. Exit...");
+                    return;
+                }
+                System.out.println("Queue empty. Try waiting new Buyer: " + (tryWaitingNewBuyer+1));
                 waiting(TIME_SERVE);
+                tryWaitingNewBuyer++;
             }
         }
     }
