@@ -1,7 +1,5 @@
 package ru.spbstu.telematics.java.lab3;
-import java.util.concurrent.BlockingDeque;
-
-
+import java.util.Deque;
 /**
  * Utility Class for Cashier. Cashier eventually serve the first in queue, while new Buyers are added to queue concurrently.
  */
@@ -11,7 +9,7 @@ public class Cashier{
      * Cashier continuously serve the first in queue
      * @param allBuyer the queue containing all Buyers
      */
-    public static void run(BlockingDeque<Buyer> allBuyer){
+    public static void run(Deque<Buyer> allBuyer){
         while(true){
             try {
                 Buyer currentBuyer;
@@ -19,9 +17,8 @@ public class Cashier{
 
                 //get the first Buyer
                 currentBuyer = allBuyer.pollFirst();
-
                 // serve
-                    sell(currentBuyer);
+                sell(currentBuyer);
             }
             catch (NullPointerException e){
                 System.out.println(e.getMessage());

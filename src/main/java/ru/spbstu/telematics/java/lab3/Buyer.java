@@ -1,24 +1,23 @@
 package ru.spbstu.telematics.java.lab3;
 
-import java.util.concurrent.BlockingDeque;
+import java.util.Deque;
 
 /**
  * Abstract class for Buyer. Buyer comes to queue, request order and finished after being served
  */
 public abstract class Buyer extends Thread {
-    static final int TIME_WAIT = 1000;
     String nameBuyer;
     State isYourTurn;
     State isServed;
 
-    BlockingDeque<Buyer> queue;
+    Deque<Buyer> queue;
 
     /**
      * Constructor for Buyer
      * @param name name of Buyer
      * @param queue the reference to the queue that this Buyer will be added to.
      */
-    public Buyer(String name, BlockingDeque<Buyer> queue) {
+    public Buyer(String name, Deque<Buyer> queue) {
         this.nameBuyer = name;
         this.isYourTurn = new State(false);
         this.isServed = new State(false);
@@ -31,7 +30,7 @@ public abstract class Buyer extends Thread {
      * @param queue add the Buyer to this queue. If the queue is full, try to add during an amount of time.
      * @return true if the Buyer was successfully added to queue
      */
-    public abstract boolean toQueue(BlockingDeque<Buyer> queue);
+    public abstract boolean toQueue(Deque<Buyer> queue);
 
     /**
      * After being added to queue, Buyer wait until Cashier wakes them up. They request order by "get cheese"
