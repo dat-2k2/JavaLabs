@@ -28,27 +28,46 @@ public class CashierTest {
 
         CashierWithLog.run(allBuyer);
 
+        assert (CashierWithLog.log.get(0).equals(HurryBuyer.class));
+        assert (CashierWithLog.log.get(1).equals(HurryBuyer.class));
+        assert (CashierWithLog.log.get(2).equals(CalmBuyer.class));
+        assert (CashierWithLog.log.get(3).equals(CalmBuyer.class));
     }
 
+    /**
+     * This class extends Cashier and add log feature to test the serving order.
+     */
     static class CashierWithLog extends Cashier{
         static ArrayList<Class> log = new ArrayList<>();
+        private static int takes = 0;
+
+        /**
+         * Test serving with a queue of 2 HurryBuyer and 2 CalmBuyer
+         * @param allBuyer the queue to test
+         */
         public static void run(BlockingDeque<Buyer> allBuyer){
             while(true){
-                if (!allBuyer.isEmpty()) {
-                    log.add(allBuyer.getFirst().getClass());
-                    sell(allBuyer);
+                try {
+                    Buyer currentBuyer;
+                    System.out.println("Current queue " + allBuyer);
+
+                    //get the first Buyer
+                    currentBuyer = allBuyer.pollFirst();
+
+                    // serve
+                    sell(currentBuyer);
+                    log.add(currentBuyer.getClass());
+                    if (takes > 0)
+                        takes = 0;
                 }
-                else {
-                    waiting(TIME_SERVE);
-                    if (allBuyer.isEmpty()){
-                        break;
-                    }
+                catch (NullPointerException e){
+                    System.out.println(e.getMessage());
+                    if (takes == 3)
+                        return;
+                    takes++;
                 }
             }
-            assert (log.get(0).equals(HurryBuyer.class));
-            assert (log.get(1).equals(HurryBuyer.class));
-            assert (log.get(2).equals(CalmBuyer.class));
-            assert (log.get(3).equals(CalmBuyer.class));
+
         }
     }
 }

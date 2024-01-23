@@ -1,10 +1,9 @@
 package ru.spbstu.telematics.java.lab3;
-
 import java.util.concurrent.BlockingDeque;
 
 
 /**
- * Class for Cashier. Cashier eventually serve the first in queue, while new Buyers are added to queue concurrently.
+ * Utility Class for Cashier. Cashier eventually serve the first in queue, while new Buyers are added to queue concurrently.
  */
 public class Cashier{
     static final int TIME_SERVE = 1000;
@@ -14,19 +13,25 @@ public class Cashier{
      */
     public static void run(BlockingDeque<Buyer> allBuyer){
         while(true){
-            if (!allBuyer.isEmpty()) {
-                sell(allBuyer);
+            try {
+                Buyer currentBuyer;
+                System.out.println("Current queue " + allBuyer);
+
+                //get the first Buyer
+                currentBuyer = allBuyer.pollFirst();
+
+                // serve
+                    sell(currentBuyer);
             }
-            else {
+            catch (NullPointerException e){
+                System.out.println(e.getMessage());
                 waiting(TIME_SERVE);
-                if (allBuyer.isEmpty()){
-                    return;
-                }
             }
         }
     }
 
-    static void waiting(int time){
+    protected static void waiting(int time)
+    {
         try {
             Thread tmp = new Thread(){
                 @Override
@@ -46,28 +51,32 @@ public class Cashier{
     }
 
 
-    static void sell(BlockingDeque<Buyer> allBuyer){
-        Buyer currentBuyer;
-        System.out.println("Current queue " + allBuyer);
-        currentBuyer = allBuyer.pollFirst();
+    /**
+     * Sell to a buyer
+     * @param b - buyer to serve
+     * @throws NullPointerException if b is null
+     */
+    public static void sell(Buyer b) throws NullPointerException
+    {
+        if (b == null)
+            throw new NullPointerException("Null buyer");
 
-        //Buyer can join the queue while Cashier is selling so no sync here.
-        if (currentBuyer != null){
-            System.out.println("Serving "+currentBuyer.nameBuyer);
-            //wake it up
-            synchronized (currentBuyer){
-                currentBuyer.setYourTurn(true);
-                currentBuyer.notify();
-                waiting(TIME_SERVE);
-                currentBuyer.setServed(true);
-                currentBuyer.notify();
-                //wait till the Buyer exit before serving another
-                try {
-                    currentBuyer.join();
-                } catch (InterruptedException e) {
-                    System.out.println("Buyer "+ currentBuyer.nameBuyer +" is interrupted");
-                }
-            }
+        System.out.println("Serving "+b.nameBuyer);
+
+        //your turn
+        b.setYourTurn(true);
+        waiting(TIME_SERVE);
+
+        //serving
+        b.setServed(true);
+
+        //wait till the Buyer exit before serving another
+        try {
+            b.join();
+        } catch (InterruptedException e) {
+            System.out.println("Buyer "+ b.nameBuyer +" is interrupted");
         }
     }
+
+
 }

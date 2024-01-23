@@ -1,7 +1,6 @@
 package ru.spbstu.telematics.java.lab3;
 
 import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Abstract class for Buyer. Buyer comes to queue, request order and finished after being served
@@ -9,8 +8,8 @@ import java.util.concurrent.BlockingQueue;
 public abstract class Buyer extends Thread {
     static final int TIME_WAIT = 1000;
     String nameBuyer;
-    boolean isYourTurn;
-    boolean isServed;
+    State isYourTurn;
+    State isServed;
 
     BlockingDeque<Buyer> queue;
 
@@ -21,8 +20,8 @@ public abstract class Buyer extends Thread {
      */
     public Buyer(String name, BlockingDeque<Buyer> queue) {
         this.nameBuyer = name;
-        this.isYourTurn = false;
-        this.isServed = false;
+        this.isYourTurn = new State(false);
+        this.isServed = new State(false);
         this.queue = queue;
 
     }
@@ -45,36 +44,36 @@ public abstract class Buyer extends Thread {
             return;
         }
 
-        waitTillTurn();
         //request order
+        waitTill(this.isYourTurn);
         System.out.println(this.nameBuyer + " get cheese");
-        waitTillServed();
+
+        //be served
+        waitTill(this.isServed);
         System.out.println(this.nameBuyer + " cheese");
 
     }
 
-    synchronized void waitTillTurn(){
-        while (!isYourTurn) {
+    /**
+     * Wrapped class for Boolean, used to pass-by-reference
+     */
+    static class State{
+        public State(boolean prop) {
+            this.prop = prop;
+        }
+        boolean prop;
+    }
+
+    private synchronized void waitTill(State state){
+        while (!state.prop) {
             try {
-                wait();
+                this.wait();
             } catch (InterruptedException e) {
                 this.interrupt();
                 System.out.println(nameBuyer + " is interrupted");
             }
         }
     }
-
-    synchronized void waitTillServed(){
-        while (!isServed) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                this.interrupt();
-                System.out.println(nameBuyer + " is interrupted");
-            }
-        }
-    }
-
 
     /**
      * Name of this Buyer
@@ -85,12 +84,13 @@ public abstract class Buyer extends Thread {
         return this.nameBuyer;
     }
 
-
-    public void setYourTurn(boolean yourTurn) {
-        isYourTurn = yourTurn;
+    public synchronized void setYourTurn(boolean yourTurn) {
+        isYourTurn.prop = yourTurn;
+        this.notify();
     }
-    public void setServed(boolean Served) {
-        isServed = Served;
+    public synchronized void setServed(boolean Served) {
+        isServed.prop = Served;
+        this.notify();
     }
 
 }

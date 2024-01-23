@@ -53,6 +53,7 @@ public class MyHashBagTest {
         General currentItem = null;
         while (it.hasNext()){
             General item = it.next();
+            System.out.println(item);
             if (currentItem == null)
                 currentItem = item;
 
@@ -139,8 +140,6 @@ public class MyHashBagTest {
         A(int id) {
             this.id = id;
         }
-
-
     }
 
     static class B extends A {
