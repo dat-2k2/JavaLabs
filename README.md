@@ -57,9 +57,9 @@ From now you can commit as usual.
  </build>
 ```
 # Execution
-Using jar execution:
+The default main class for this repo is Main of Lab 1 (see [Lab 1](#lab-1)) with Apache Commons CLI. 
 ```
-java -jar target\JavaLabs-1.0-SNAPSHOT.jar [command]
+java -jar target\JavaLabs-1.0-SNAPSHOT.jar [args]
 ```
 To use commons-cli with jar, we need to pack the jar file along with the dependencies. Add or replace maven-jar-plugin with this plugin:
 
@@ -86,24 +86,67 @@ mvn clean package assembly:single
 ```
 The jar file with cli ends with *jar-with-dependencies*.
 
+For other labs, see further description below.
 ## Documentation
 Visit [JavaDoc](https://dat-2k2.github.io/JavaLabs/docs) to see the package documentation.
 
 # Program Structure
 Each laboratory (short. *lab*) is put in a separated subpackage of the main pack *ru.spbstu.telematics.java*, named as **lab1, lab2,**...
 
-The class **App** mocks the CLI, which navigates the program to the respective task by the first argument. For example, the command argument for *Lab 1* is **ow** (overwrite). However for lab 2 and lab 3 argument is not required, just run the main method.
-
 The testing class using package **junit** contains every methods to test all functions.
+
 ## Lab 1
 This lab requires to write a program that helps overwrite an *existed* file with a text.
-### Overwriting method
-The overwriting method open a file named *pathName*, then overwrite it by *buffer*. During execution it also needs to handle the case of nonexisted file.
+### MyFileUtility class
+Class _MyFileUtility_ has only one static method 
+```java 
+  public static void overwriteFile(String pathName, String buffer) throws FileNotFoundException {
+      if (!new File(pathName).exists()) {
+          throw new FileNotFoundException("File " + pathName + " not found");
+      }
 
-### Main method
-The main function executes the overwriting method of package **Lab 1** if it receives argument **ow**.
+      try {
+          FileWriter writer = new FileWriter(pathName, false);
+          writer.write(buffer);
+          writer.close();
+      } catch (IOException e) {
+          System.out.println("Cannot open file " + pathName);
+      }
+  }
+``` 
+This method opens a file named *pathName*, then overwrite it by *buffer*. During execution it also needs to handle the case of nonexisted file.
 
+### CLI handling
+The _Main::main()_ method requires 2 parameters to overwrite a file: _f_ - file name, _d_ - data to overwrite. If the data for parameters does not present, program raises an error and print the _help_ menu. The program also provides _help_ option with flag _h_.
+```java
+  public static void main(String[] args) {
+      try {
+          CommandLine cmd = parser.parse(options, args);
+          if (cmd.hasOption(help)) {
+              HelpFormatter formatter = new HelpFormatter();
+              formatter.printHelp("Usage:", "", options, "", true);
+          }
+          else if (cmd.hasOption(owFile)) {
+              String fileName = cmd.getOptionValue(owFile);
+              String data = cmd.getOptionValue(owData);
 
+              if (fileName == null || data == null)
+                  throw new ParseException("Argument error");
+
+              System.out.println("Overwrite file " + fileName);
+              MyFileUtility.overwriteFile(fileName, data);
+          }
+          else{
+              throw new ParseException("");
+          }
+      }
+      catch (FileNotFoundException | ParseException e) {
+          System.out.println(e.getMessage());
+          HelpFormatter formatter = new HelpFormatter();
+          formatter.printHelp("Usage:", "", options, "", true);
+      }
+  }
+```
 ### Testing
 We need to test the general case of overwriting and the case of non-existed file.
 
@@ -113,6 +156,11 @@ Prepare a file, write some data to it, then run the overwriting method *Lab1.ove
 #### FileNotFound
 Test if the FileNotFound is handled, check if the method throw the exception.
 
+### Run
+```
+java -cp .\target\JavaLabs-1.0-SNAPSHOT-jar-with-dependencies.jar  ru.spbstu.telematics.java.lab3.Main
+
+```
 ## Lab 2
 This lab requires to implement a *Bag* in Java, which should include methods *size*, *contains*,  *add*, *remove*, *get* and some others if needed.
 
@@ -150,6 +198,9 @@ Get in *Bag* means getting its count. Non-presented item has count 0.
 ### Test
 
 Use a valid HashBag from Common Apache to validate the MyHashBag. A class *A* with 2 child classes *B* and *C* were created to ensure generality in testing. Test includes 3 main methods above and compare with valid methods of HashBag.
+
+### Run
+(incoming)
 
 ## Lab 3
 
@@ -253,7 +304,6 @@ Method _sell()_:
 
 ### Run
 ```
-mvn clean package assembly:single
 java -cp .\target\JavaLabs-1.0-SNAPSHOT-jar-with-dependencies.jar  ru.spbstu.telematics.java.lab3.Main
 ```
 ### Result
