@@ -7,7 +7,7 @@ System: Windows 11
 
 To avoid sensitive characters in path, recommend to create a folder with a "safe" name to install all packages.
 
-After downloading, install those packages and add PATH to make them accessible.
+After downloaded, install those packages and add PATH to make them accessible.
 
 Check the version:
 ```
@@ -25,11 +25,13 @@ git --version
 
 - After initialization, create a repo on Git, then use these commands to link the local repo to the upstream branch:
 ``` 
-git init (initialize git project)
+git init #(initialize git project)
+
 git remote add origin [repo link] 
 (this will create the local branch "master", which conflicts with the upstream branch "main")
-git branch -m master main 
-(change the name of branch if needed)
+
+git branch -m master main (change the name of branch if needed)
+
 git pull origin main --allow-unrelated-histories (allow mismatched histories)
 ```
 From now you can commit as usual.
@@ -60,6 +62,7 @@ Using jar execution:
 java -jar target\JavaLabs-1.0-SNAPSHOT.jar [command]
 ```
 To use commons-cli with jar, we need to pack the jar file along with the dependencies. Add or replace maven-jar-plugin with this plugin:
+
 ```xml
 <plugin>
     <artifactId>maven-assembly-plugin</artifactId>
@@ -78,13 +81,13 @@ To use commons-cli with jar, we need to pack the jar file along with the depende
 
 
 and build with command
-```jshelllanguage
+```
 mvn clean package assembly:single
 ```
 The jar file with cli ends with *jar-with-dependencies*.
 
 ## Documentation
-Visit https://dat-2k2.github.io/JavaLabs to see the docs.
+Visit [JavaDoc](https://dat-2k2.github.io/JavaLabs/docs) to see the package documentation.
 
 # Program Structure
 Each laboratory (short. *lab*) is put in a separated subpackage of the main pack *ru.spbstu.telematics.java*, named as **lab1, lab2,**...
@@ -166,22 +169,22 @@ The main method randomly and eventually generates *Buyer* to simulate the proble
 After started, _Buyer_ enters the waiting state until the state variable _isYourTurn_ is true, as well as the thread wakes up. After that, it again waits until the state variable _isServed_ is true, which means the customer is served, and exits.
 
 A small trick was used here, that is the state variables _isYourTurn_ and _isServed_ should be a wrapped class of boolean type for the updated results to be observed when pass the variable to another function.
-```
+
+```java
     public void run() {
-        //come to the queue
-        if (!toQueue(queue)) {
-            System.out.println("[" + nameBuyer + "]: Queue full");
-            return;
-        }
+      //come to the queue
+      if (!toQueue(queue)) {
+          System.out.println("[" + nameBuyer + "]: Queue full");
+          return;
+      }
 
-        //request order
-        waitTill(this.isYourTurn);
-        System.out.println(this.nameBuyer + " get cheese");
+      //request order
+      waitTill(this.isYourTurn);
+      System.out.println(this.nameBuyer + " get cheese");
 
-        //be served
-        waitTill(this.isServed);
-        System.out.println(this.nameBuyer + " cheese");
-
+      //be served
+      waitTill(this.isServed);
+      System.out.println(this.nameBuyer + " cheese");
     }
 ```
 
@@ -191,31 +194,61 @@ A small trick was used here, that is the state variables _isYourTurn_ and _isSer
 
 When the queue is empty, _Cashier_ will try taking the customer out of the queue 5 times more. If the queue is still empty, the _Cashier_ will end their routine.
 
-```
-static void sell(BlockingDeque<Buyer> allBuyer){
-        Buyer currentBuyer;
-        System.out.println("Current queue " + allBuyer);
-        currentBuyer = allBuyer.pollFirst();
+Method _run()_:
 
-        //Buyer can join the queue while Cashier is selling so no sync here.
-        if (currentBuyer != null){
-            System.out.println("Serving "+currentBuyer.nameBuyer);
-            //wake it up
-            synchronized (currentBuyer){
-                currentBuyer.setYourTurn(true);
-                currentBuyer.notifyAll();
-                waiting(TIME_SERVE);
-                currentBuyer.setServed(true);
-                currentBuyer.notifyAll();
-                //wait till the Buyer exit before serving another
-                try {
-                    currentBuyer.join();
-                } catch (InterruptedException e) {
-                    System.out.println("Buyer "+ currentBuyer.nameBuyer +" is interrupted");
+```java
+    public static void run(Deque<Buyer> allBuyer){
+        int tryWaitingNewBuyer = 0;
+        while(true){
+            try {
+                Buyer currentBuyer;
+                System.out.println("Current queue " + allBuyer);
+
+                //get the first Buyer
+                currentBuyer = allBuyer.pollFirst();
+                // serve
+                sell(currentBuyer);
+                if (tryWaitingNewBuyer > 0)
+                    tryWaitingNewBuyer = 0;
+            }
+            catch (NullPointerException e){
+                System.out.println(e.getMessage());
+                if (tryWaitingNewBuyer == 5)
+                {
+                    System.out.println("No new Buyer. Exit...");
+                    return;
                 }
+                System.out.println("Queue empty. Try waiting new Buyer: " + (tryWaitingNewBuyer+1));
+                waiting(TIME_SERVE);
+                tryWaitingNewBuyer++;
             }
         }
-}
+    }
+```
+Method _sell()_:
+
+```java
+    public static void sell(Buyer b) throws NullPointerException 
+    {
+        if (b == null)
+            throw new NullPointerException("Null buyer");
+
+        System.out.println("Serving "+b.nameBuyer);
+
+        //your turn
+        b.setYourTurn(true);
+        waiting(TIME_SERVE);
+
+        //serving
+        b.setServed(true);
+
+        //wait till the Buyer exit before serving another
+        try {
+            b.join();
+        } catch (InterruptedException e) {
+            System.out.println("Buyer "+ b.nameBuyer +" is interrupted");
+        }
+    }
 ```
 
 ### Run
