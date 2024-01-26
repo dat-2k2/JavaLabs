@@ -29,7 +29,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         size = 0;
     }
 
-    void reHashing() {
+    private void reHashing() {
         int tableSize = hashTable.size();
         int newCap = tableSize * 2;
         MyTable<K, V> newTable = new MyTable<>(newCap);
@@ -42,7 +42,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         hashTable = newTable;
     }
 
-    MyBucketType<K, V> getBucket(Object key) {
+    private MyBucketType<K, V> getBucket(Object key) {
         return hashTable.get(indexOf(key));
     }
 
@@ -208,7 +208,5 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
         public String toString() {
             return (key.toString() + ": " + value.toString());
         }
-
-
     }
 }

@@ -15,19 +15,17 @@ public class MyHashBagTest {
     B item1 = new B(1);
     C item2 = new C(2);
     A item3 = new A(3);
-    // add a new object to check equality rule of class A
+    // add a new object to check equality rule of class General
     final A[] testData = {item1, item2, item3, item2, item3, new C(2)};
     Bag<A> validBag = new HashBag<>(Arrays.asList(testData));;
-    MyBag<A> testBag = new MyHashBag<>(Arrays.asList(testData));;
+    MyBag<General> testBag = new MyHashBag<>(Arrays.asList(testData));;
 
     /**
      * Assert to validate a MyHashBag
      * @param test MyHashBag object
      * @param valid a HashBag object with the same data to validate
      */
-
-
-    void equal(MyBag<A> test, Bag<A> valid){
+    void equal(MyBag<? extends General> test, Bag<? extends General> valid){
         assert(test.size() == valid.size());
         test.forEach((item)->{
             assert (valid.getCount(item) == test.getCount(item));
@@ -49,12 +47,13 @@ public class MyHashBagTest {
      */
     @Test
     public void testIterator(){
-        assert (!new MyHashBag<A>().iterator().hasNext());
-        MyIterator<A> it = testBag.iterator();
+        assert (!new MyHashBag<General>().iterator().hasNext());
+        MyIterator<General> it = testBag.iterator();
         int count = 1;
-        A currentItem = null;
+        General currentItem = null;
         while (it.hasNext()){
-            A item = it.next();
+            General item = it.next();
+            System.out.println(item);
             if (currentItem == null)
                 currentItem = item;
 
@@ -63,6 +62,7 @@ public class MyHashBagTest {
                 assert (currentItem.equals(item));
             }
             else {
+                assert (validBag.getCount(currentItem) == count);
                 count = 1;
                 currentItem = null;
             }
@@ -84,8 +84,8 @@ public class MyHashBagTest {
      */
     @Test(expected = NullPointerException.class)
     public void testAdd() {
-        testBag.add(testData[1]);
-        validBag.add(testData[1]);
+        testBag.add(new B(100));
+        validBag.add(new B(100));
         equal(testBag,validBag);
 
         testBag.add(null);
@@ -114,15 +114,10 @@ public class MyHashBagTest {
         assert (testBag.isEmpty());
     }
     /**
-     * Test constructors of MyBag
+     * Create custom classes to check variance
      */
-    static class A  {
+    static class General{
         int id;
-
-        A(int id) {
-            this.id = id;
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -139,6 +134,11 @@ public class MyHashBagTest {
         @Override
         public String toString(){
             return Integer.toString(id);
+        }
+    }
+    static class A extends General{
+        A(int id) {
+            this.id = id;
         }
     }
 
