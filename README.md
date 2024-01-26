@@ -160,10 +160,7 @@ Prepare a file, write some data to it, then run the overwriting method *Lab1.ove
 Test if the FileNotFound is handled, check if the method throw the exception.
 
 ### Run
-```
-java -cp .\target\JavaLabs-1.0-SNAPSHOT-jar-with-dependencies.jar  ru.spbstu.telematics.java.lab3.Main
-
-```
+See [Execution](#execution).
 ## Lab 2
 This lab requires to implement a *Bag* in Java, which should include methods *size*, *contains*,  *add*, *remove*, *get* and some others if needed.
 
