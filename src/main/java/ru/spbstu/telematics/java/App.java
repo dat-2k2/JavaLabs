@@ -20,18 +20,14 @@ public class App {
      */
     // main function
     public static void main(String[] args) {
-        // Lab 1, using the cli
-        //        try {
-        //            actionLab1(args);
-        //        } catch (FileNotFoundException | ParseException e) {
-        //            System.out.println(e.getMessage());
-        //            HelpFormatter formatter = new HelpFormatter();
-        //            formatter.printHelp("Usage:", "", options, "", true);
-        //        }
-
-        //Lab3
-        actionLab3();
-
+//         Lab 1, using the cli
+                try {
+                    actionLab1(args);
+                } catch (FileNotFoundException | ParseException e) {
+                    System.out.println(e.getMessage());
+                    HelpFormatter formatter = new HelpFormatter();
+                    formatter.printHelp("Usage:", "", options, "", true);
+                }
     }
 
     /**
@@ -67,42 +63,5 @@ public class App {
             System.out.println("Overwrite file " + fileName);
             Lab1.overwriteFile(fileName, data);
         }
-    }
-
-    /**
-     * Action for Lab3: Buyer. Infinitely generate Buyers.
-     */
-    public static void actionLab3(){
-        BlockingDeque<Buyer> allBuyer = new LinkedBlockingDeque<>();
-        Random rand = new Random(31);
-
-        //continuously add new customer
-        Thread buyerFactory = new Thread() {
-            @Override
-            public void run() {
-                int c = 0;
-                while (true){
-                    int id = rand.nextInt();
-                    if (id > 0){
-                        new HurryBuyer("Hurry "+id%50, allBuyer).start();
-                        new HurryBuyer("Hurry "+(id+1)%50, allBuyer).start();
-                    }
-                    else {
-                        new CalmBuyer("Calm "+ (-id)%50, allBuyer).start();
-                        new CalmBuyer("Calm "+ (-id+1)%50, allBuyer).start();
-
-                    }
-                    synchronized (this) {
-                        try {
-                            wait(2000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            }
-        };
-        buyerFactory.start();
-        Cashier.run(allBuyer);
     }
 }
