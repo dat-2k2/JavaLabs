@@ -16,14 +16,15 @@ mvn --version
 git --version
 ```
 ## Create project
-- Initialize a Maven project with this command: ``` mvn archetype:generate -DgroupId=[main package] -DartifactId=[repo name] -DarchetypeArtifactId=[project template] -DinteractiveMode=false ``` where:
+
+1. Initialize a Maven project with this command: ``` mvn archetype:generate -DgroupId=[main package] -DartifactId=[repo name] -DarchetypeArtifactId=[project template] -DinteractiveMode=false ``` where:
     - main package = ru.spbstu.telematics.java
     - repo name = JavaLabs
     - project template = maven-archetype-quickstart
 
 
-- After initialization, create a repo on Git, then use these commands to link the local repo to the upstream branch:
-- 
+2. After initialization, create a repo on Git, then use these commands to link the local repo to the upstream branch:
+
 ```
   git init (initialize git project)
   
@@ -34,9 +35,11 @@ git --version
   
   git pull origin main --allow-unrelated-histories (allow mismatched histories)
 ```
+
 From now you can commit as usual.
 
-- To execute jar file, you need to include *maven jar plugin* into pom.xml
+3. To execute jar file, you need to include *maven jar plugin* into pom.xml
+
 ```xml
 <build>
  <plugins>
