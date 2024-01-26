@@ -16,7 +16,6 @@ on:
 
 jobs:
   build:
-
     permissions: write-all
     runs-on: windows-latest
 
@@ -28,7 +27,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
+    - name: Build and test with Maven
       run: mvn -B clean package assembly:single --file pom.xml
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive

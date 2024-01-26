@@ -9,8 +9,8 @@ public abstract class Buyer extends Thread {
     String nameBuyer;
     State isYourTurn;
     State isServed;
-
     Deque<Buyer> queue;
+
 
     /**
      * Constructor for Buyer
@@ -22,7 +22,6 @@ public abstract class Buyer extends Thread {
         this.isYourTurn = new State(false);
         this.isServed = new State(false);
         this.queue = queue;
-
     }
 
     /**
@@ -30,7 +29,7 @@ public abstract class Buyer extends Thread {
      * @param queue add the Buyer to this queue. If the queue is full, try to add during an amount of time.
      * @return true if the Buyer was successfully added to queue
      */
-    public abstract boolean toQueue(Deque<Buyer> queue);
+    abstract boolean toQueue(Deque<Buyer> queue);
 
     /**
      * After being added to queue, Buyer wait until Cashier wakes them up. They request order by "get cheese"
@@ -61,6 +60,7 @@ public abstract class Buyer extends Thread {
             this.prop = prop;
         }
         boolean prop;
+
     }
 
     private synchronized void waitTill(State state){
