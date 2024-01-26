@@ -31,7 +31,7 @@ public class Lab1Test {
         //try overwrite
         String overwriteString = "this is the overwritten data";
         try {
-            Lab1.overwriteFile(testPath, overwriteString);
+            MyFileUtility.overwriteFile(testPath, overwriteString);
         } catch (FileNotFoundException e) {
             return;
         }
@@ -65,7 +65,7 @@ public class Lab1Test {
      */
     @Test(expected = FileNotFoundException.class)
     public void testFileNotFound() throws FileNotFoundException {
-        Lab1.overwriteFile("", "");
+        MyFileUtility.overwriteFile("", "");
     }
 
 }
