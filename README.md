@@ -23,6 +23,7 @@ git --version
 
 
 - After initialization, create a repo on Git, then use these commands to link the local repo to the upstream branch:
+- 
 ```
   git init (initialize git project)
   
@@ -37,23 +38,23 @@ From now you can commit as usual.
 
 - To execute jar file, you need to include *maven jar plugin* into pom.xml
 ```xml
-  <build>
-   <plugins>
-     <plugin>
-       <!-- Build an executable JAR -->
-       <groupId>org.apache.maven.plugins</groupId>
-       <artifactId>maven-jar-plugin</artifactId>
-       <version>3.1.0</version>
-       <configuration>
-         <archive>
-           <manifest>
-             <mainClass>ru.spbstu.telematics.java.App</mainClass>
-           </manifest>
-         </archive>
-       </configuration>
-     </plugin>
-   </plugins>
- </build>
+<build>
+ <plugins>
+   <plugin>
+     <!-- Build an executable JAR -->
+     <groupId>org.apache.maven.plugins</groupId>
+     <artifactId>maven-jar-plugin</artifactId>
+     <version>3.1.0</version>
+     <configuration>
+       <archive>
+         <manifest>
+           <mainClass>ru.spbstu.telematics.java.App</mainClass>
+         </manifest>
+       </archive>
+     </configuration>
+   </plugin>
+ </plugins>
+</build>
 ```
 # Execution
 The default main class for this repo is Main of Lab 1 (see [Lab 1](#lab-1)) with Apache Commons CLI. 
