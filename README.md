@@ -16,23 +16,22 @@ mvn --version
 git --version
 ```
 ## Create project
-- Initialize a Maven project with this command:
-  ``` mvn archetype:generate -DgroupId=[main package] -DartifactId=[repo name] -DarchetypeArtifactId=[project template] -DinteractiveMode=false ``` where:
+- Initialize a Maven project with this command: ``` mvn archetype:generate -DgroupId=[main package] -DartifactId=[repo name] -DarchetypeArtifactId=[project template] -DinteractiveMode=false ``` where:
     - main package = ru.spbstu.telematics.java
     - repo name = JavaLabs
     - project template = maven-archetype-quickstart
 
 
 - After initialization, create a repo on Git, then use these commands to link the local repo to the upstream branch:
-``` 
-git init #(initialize git project)
-
-git remote add origin [repo link] 
-(this will create the local branch "master", which conflicts with the upstream branch "main")
-
-git branch -m master main (change the name of branch if needed)
-
-git pull origin main --allow-unrelated-histories (allow mismatched histories)
+```
+  git init (initialize git project)
+  
+  git remote add origin [repo link] 
+  (this will create the local branch "master", which conflicts with the upstream branch "main")
+  
+  git branch -m master main (change the name of branch if needed)
+  
+  git pull origin main --allow-unrelated-histories (allow mismatched histories)
 ```
 From now you can commit as usual.
 
