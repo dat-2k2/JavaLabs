@@ -36,23 +36,23 @@ From now you can commit as usual.
 
 - To execute jar file, you need to include *maven jar plugin* into pom.xml
 ```xml
-  <build>
-   <plugins>
-     <plugin>
-       <!-- Build an executable JAR -->
-       <groupId>org.apache.maven.plugins</groupId>
-       <artifactId>maven-jar-plugin</artifactId>
-       <version>3.1.0</version>
-       <configuration>
-         <archive>
-           <manifest>
-             <mainClass>ru.spbstu.telematics.java.App</mainClass>
-           </manifest>
-         </archive>
-       </configuration>
-     </plugin>
-   </plugins>
- </build>
+<build>
+ <plugins>
+   <plugin>
+     <!-- Build an executable JAR -->
+     <groupId>org.apache.maven.plugins</groupId>
+     <artifactId>maven-jar-plugin</artifactId>
+     <version>3.1.0</version>
+     <configuration>
+       <archive>
+         <manifest>
+           <mainClass>ru.spbstu.telematics.java.App</mainClass>
+         </manifest>
+       </archive>
+     </configuration>
+   </plugin>
+ </plugins>
+</build>
 ```
 # Execution
 Using jar execution:
@@ -60,6 +60,7 @@ Using jar execution:
 java -jar target\JavaLabs-1.0-SNAPSHOT.jar [command]
 ```
 To use commons-cli with jar, we need to pack the jar file along with the dependencies. Add or replace maven-jar-plugin with this plugin:
+
 ```xml
 <plugin>
     <artifactId>maven-assembly-plugin</artifactId>
@@ -166,7 +167,7 @@ The main method randomly and eventually generates *Buyer* to simulate the proble
 After started, _Buyer_ enters the waiting state until the state variable _isYourTurn_ is true, as well as the thread wakes up. After that, it again waits until the state variable _isServed_ is true, which means the customer is served, and exits.
 
 A small trick was used here, that is the state variables _isYourTurn_ and _isServed_ should be a wrapped class of boolean type for the updated results to be observed when pass the variable to another function.
-```
+```java
     public void run() {
         //come to the queue
         if (!toQueue(queue)) {
@@ -191,7 +192,7 @@ A small trick was used here, that is the state variables _isYourTurn_ and _isSer
 
 When the queue is empty, _Cashier_ will try taking the customer out of the queue 5 times more. If the queue is still empty, the _Cashier_ will end their routine.
 
-```
+```java
 static void sell(BlockingDeque<Buyer> allBuyer){
         Buyer currentBuyer;
         System.out.println("Current queue " + allBuyer);
