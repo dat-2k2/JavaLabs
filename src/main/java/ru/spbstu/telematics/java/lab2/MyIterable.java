@@ -4,11 +4,13 @@ import java.util.function.Consumer;
 
 /**
  * Implementing this interface allows an object to be the target of the "for-each loop" statement
+ *
  * @param <T> the type of elements returned by the iterator
  */
 public interface MyIterable<T> {
     /**
      * Performs the given action for each element of the MyIterable until all elements have been processed or the action throws an exception.
+     *
      * @param action the action
      */
     default void forEach(Consumer<? super T> action) {
@@ -19,6 +21,7 @@ public interface MyIterable<T> {
 
     /**
      * Return an iterator for the MyIterable object
+     *
      * @return an iterator
      */
     MyIterator<T> iterator();
@@ -47,6 +50,7 @@ public interface MyIterable<T> {
 
     /**
      * Remove an item in MyIterable.
+     *
      * @param item the item to be removed
      * @return true if the MyIterable object changes.
      */

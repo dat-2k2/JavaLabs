@@ -2,8 +2,8 @@ package ru.spbstu.telematics.java.lab2.bag;
 
 import ru.spbstu.telematics.java.lab2.MyIterable;
 import ru.spbstu.telematics.java.lab2.MyIterator;
+import ru.spbstu.telematics.java.lab2.list.MyArrayList;
 import ru.spbstu.telematics.java.lab2.map.MyHashMap;
-import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
 import ru.spbstu.telematics.java.lab2.map.MyMap;
 
 import java.util.Collection;
@@ -16,9 +16,8 @@ import java.util.NoSuchElementException;
  * @param <T> type parameter of HashBag
  */
 public class MyHashBag<T> implements MyBag<T> {
-    transient MyMap<T, Integer> listItem;
-    int size = 0;
-
+    private transient MyMap<T, Integer> listItem;
+    private int size = 0;
     String repr = "";
 
     /**
@@ -30,6 +29,7 @@ public class MyHashBag<T> implements MyBag<T> {
 
     /**
      * Create a Bag from items in a MyIterable object
+     *
      * @param collection the object containing items
      * @throws NullPointerException if the input object is null
      */
@@ -40,8 +40,10 @@ public class MyHashBag<T> implements MyBag<T> {
         listItem = new MyHashMap<>();
         collection.forEach(this::add);
     }
+
     /**
      * Create a Bag from items in a Collection object
+     *
      * @param collection the object containing items
      * @throws NullPointerException if the input object is null
      */

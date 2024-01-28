@@ -1,12 +1,13 @@
 package ru.spbstu.telematics.java.lab2.map;
 
-import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
-import ru.spbstu.telematics.java.lab2.list.linkedlist.MyLinkedList;
+import ru.spbstu.telematics.java.lab2.list.MyArrayList;
+import ru.spbstu.telematics.java.lab2.list.MyLinkedList;
 
 import java.util.function.BiConsumer;
 
 /**
  * An implement of MyMap using hash table
+ *
  * @param <K> type parameter for key
  * @param <V> type parameter for value
  */
@@ -47,7 +48,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
     }
 
     @Override
-    public V put(K key, V value) throws NullPointerException{
+    public V put(K key, V value) throws NullPointerException {
         MyBucketType<K, V> bucket = getBucket(key);
         MyEntry<K, V> possibleEntry = bucket.get(key);
         V oldValue = null;
@@ -155,7 +156,8 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
         /**
          * Constructor MyEntry
-         * @param key key
+         *
+         * @param key   key
          * @param value value
          */
         public MyEntry(K key, V value) {
@@ -165,6 +167,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
         /**
          * Get the key of the entry
+         *
          * @return the key of the entry
          */
         public K getKey() {
@@ -173,6 +176,7 @@ public class MyHashMap<K, V> implements MyMap<K, V> {
 
         /**
          * Get the value of the entry
+         *
          * @return the value of the entry
          */
         public V getValue() {

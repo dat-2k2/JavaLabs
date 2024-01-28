@@ -1,4 +1,4 @@
-package ru.spbstu.telematics.java.lab2.list.arraylist;
+package ru.spbstu.telematics.java.lab2.list;
 
 import ru.spbstu.telematics.java.lab2.MyIterable;
 import ru.spbstu.telematics.java.lab2.MyIterator;
@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 
 /**
  * An implementation for List as a continuous array
+ *
  * @param <T> type parameter for objects in that array
  */
 public class MyArrayList<T> implements MyList<T> {
@@ -32,6 +33,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     /**
      * Construct an array with the specified capacity
+     *
      * @param cap the specified capacity
      * @throws IllegalArgumentException if capacity smaller than 0
      */
@@ -45,6 +47,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     /**
      * Construct an array with data from another MyIterable object
+     *
      * @param collection the object to construct array
      */
     public MyArrayList(MyIterable<? extends T> collection) {
@@ -59,6 +62,7 @@ public class MyArrayList<T> implements MyList<T> {
 
     /**
      * Construct an array with data from another Collection object
+     *
      * @param collection the object to construct array
      */
     public MyArrayList(Collection<? extends T> collection) {
@@ -113,7 +117,7 @@ public class MyArrayList<T> implements MyList<T> {
      * {@inheritDoc}
      */
     @Override
-    public void add(T item) throws NullPointerException{
+    public void add(T item) throws NullPointerException {
         if (item == null)
             throw new NullPointerException();
         add(sizeArray, item);
@@ -220,12 +224,12 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String repr = "[";
         MyIterator<T> it = this.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             repr += it.next();
-            if(it.hasNext())
+            if (it.hasNext())
                 repr += ",";
         }
         repr += "]";

@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 /**
  * An iterator over a collection.
+ *
  * @param <T> the type of elements returned by this iterator
  */
 public interface MyIterator<T> {

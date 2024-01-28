@@ -1,6 +1,6 @@
 package ru.spbstu.telematics.java.lab2.map;
 
-import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
+import ru.spbstu.telematics.java.lab2.list.MyArrayList;
 
 import java.util.function.BiConsumer;
 

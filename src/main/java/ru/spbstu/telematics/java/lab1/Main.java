@@ -22,6 +22,7 @@ public class Main {
 
     /**
      * Main method for program, which demonstrates MyFileUtility: Overwrite file.
+     *
      * @param args main args
      */
     public static void main(String[] args) {
@@ -30,8 +31,7 @@ public class Main {
             if (cmd.hasOption(help)) {
                 HelpFormatter formatter = new HelpFormatter();
                 formatter.printHelp("Usage:", "", options, "", true);
-            }
-            else if (cmd.hasOption(owFile)) {
+            } else if (cmd.hasOption(owFile)) {
                 String fileName = cmd.getOptionValue(owFile);
                 String data = cmd.getOptionValue(owData);
 
@@ -40,12 +40,10 @@ public class Main {
 
                 System.out.println("Overwrite file " + fileName);
                 MyFileUtility.overwriteFile(fileName, data);
-            }
-            else{
+            } else {
                 throw new ParseException("");
             }
-        }
-        catch (FileNotFoundException | ParseException e) {
+        } catch (FileNotFoundException | ParseException e) {
             System.out.println(e.getMessage());
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("Usage:", "", options, "", true);

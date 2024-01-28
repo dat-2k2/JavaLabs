@@ -1,15 +1,10 @@
 package ru.spbstu.telematics.java.lab2.bag;
 
-import ru.spbstu.telematics.java.lab2.list.MyList;
-import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
-
 import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
-        //TODO: Add REPL
-        System.out.println("Interactive example of MyBag");
         MyBag<String> myHashBag = new MyHashBag<>(Arrays.asList("Apple", "Banana", "Orange", "Apple", "Apple", "Orange"));
         System.out.println();
 
