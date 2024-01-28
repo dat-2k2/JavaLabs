@@ -196,8 +196,8 @@ Remove an item will remove all its counts in the bag, or remove a certain quanti
 Get in *Bag* means getting its count. Non-presented item has count 0.
 
 ### Test
+For each class, use a respective object from Apache or JDK to validate. A class *A* with 2 child classes *B* and *C* were created to ensure generality in testing. Each test includes methods defined in class interface, some tests check whether the method throws specific exceptions. 
 
-Use a valid HashBag from Common Apache to validate the MyHashBag. A class *A* with 2 child classes *B* and *C* were created to ensure generality in testing. Test includes 3 main methods above and compare with valid methods of HashBag.
 
 ### Run
 (incoming)
