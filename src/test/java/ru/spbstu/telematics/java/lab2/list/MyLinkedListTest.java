@@ -9,7 +9,7 @@ import java.util.*;
  * A test class for MyLinkedList. Validate with another LinkedList object.
  */
 public class MyLinkedListTest extends MyListTest{
-    protected final A[] testData = {new A(1), new B(2), new C(3), new A(4), new C(5)};
+    final A[] testData = {new A(1), new B(2), new C(3), new A(4), new C(5)};
     public MyLinkedListTest(){
         super.testArray = new MyLinkedList<>(Arrays.asList(testData));
         super.validArray = new LinkedList<>(Arrays.asList(testData));
