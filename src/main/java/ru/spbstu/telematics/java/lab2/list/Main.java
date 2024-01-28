@@ -1,9 +1,9 @@
 package ru.spbstu.telematics.java.lab2.list;
-import ru.spbstu.telematics.java.lab2.list.arraylist.MyArrayList;
+
 import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         MyList<String> arrayList = new MyArrayList<>(Arrays.asList("Apple", "Banana", "Orange", "Pineapple", "Tomato", "Peach", "Blossom"));
         System.out.println("This is an array list");

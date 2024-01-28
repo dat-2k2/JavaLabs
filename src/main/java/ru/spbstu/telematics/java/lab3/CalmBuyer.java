@@ -5,7 +5,7 @@ import java.util.Deque;
 /**
  * Calm Buyer come after the end of queue, they will wait till their turn
  */
-public class CalmBuyer extends Buyer{
+public class CalmBuyer extends Buyer {
 
     /**
      * {@inheritDoc}
@@ -22,7 +22,6 @@ public class CalmBuyer extends Buyer{
     public boolean toQueue(Deque<Buyer> queue) {
         return queue.offerLast(this);
     }
-
 
 
 }

@@ -11,10 +11,10 @@ public abstract class Buyer extends Thread {
     State isServed;
     Deque<Buyer> queue;
 
-
     /**
      * Constructor for Buyer
-     * @param name name of Buyer
+     *
+     * @param name  name of Buyer
      * @param queue the reference to the queue that this Buyer will be added to.
      */
     public Buyer(String name, Deque<Buyer> queue) {
@@ -26,6 +26,7 @@ public abstract class Buyer extends Thread {
 
     /**
      * Behaviour of Buyer when entering queue.
+     *
      * @param queue add the Buyer to this queue. If the queue is full, try to add during an amount of time.
      * @return true if the Buyer was successfully added to queue
      */
@@ -52,18 +53,7 @@ public abstract class Buyer extends Thread {
 
     }
 
-    /**
-     * Wrapped class for Boolean, used to pass-by-reference
-     */
-    static class State{
-        public State(boolean prop) {
-            this.prop = prop;
-        }
-        boolean prop;
-
-    }
-
-    private synchronized void waitTill(State state){
+    private synchronized void waitTill(State state) {
         while (!state.prop) {
             try {
                 this.wait();
@@ -76,6 +66,7 @@ public abstract class Buyer extends Thread {
 
     /**
      * Name of this Buyer
+     *
      * @return Name of this Buyer
      */
     @Override
@@ -87,9 +78,22 @@ public abstract class Buyer extends Thread {
         isYourTurn.prop = yourTurn;
         this.notify();
     }
+
     public synchronized void setServed(boolean Served) {
         isServed.prop = Served;
         this.notify();
+    }
+
+    /**
+     * Wrapped class for Boolean, used to pass-by-reference
+     */
+    static class State {
+        boolean prop;
+
+        public State(boolean prop) {
+            this.prop = prop;
+        }
+
     }
 
 }

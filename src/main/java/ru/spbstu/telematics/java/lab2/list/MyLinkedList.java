@@ -1,4 +1,4 @@
-package ru.spbstu.telematics.java.lab2.list.linkedlist;
+package ru.spbstu.telematics.java.lab2.list;
 
 import ru.spbstu.telematics.java.lab2.MyIterable;
 import ru.spbstu.telematics.java.lab2.MyIterator;
@@ -39,6 +39,7 @@ public class MyLinkedList<T> implements MyList<T> {
             throw new NullPointerException();
         collection.forEach(this::add);
     }
+
     /**
      * Create a list from the given collection
      *
@@ -172,7 +173,7 @@ public class MyLinkedList<T> implements MyList<T> {
 
         Object returnVal = delNode.value;
         //size = 1;
-        if (sizeList == 1){
+        if (sizeList == 1) {
             this.clear();
             return (T) returnVal;
         }
@@ -245,6 +246,18 @@ public class MyLinkedList<T> implements MyList<T> {
         sizeList = 0;
     }
 
+    @Override
+    public String toString() {
+        String res = "";
+        Node tmp = headNode;
+        while (tmp != null) {
+            res += (tmp + ", ");
+            tmp = tmp.nextNode;
+        }
+        res = res.substring(0, res.length()-2);
+        return res;
+    }
+
     /**
      * Node class
      */
@@ -260,23 +273,13 @@ public class MyLinkedList<T> implements MyList<T> {
         Node(Object element) {
             value = element;
         }
+
         @Override
-        public String toString(){
+        public String toString() {
             if (value != null)
                 return value.toString();
             else
                 return "null";
         }
-    }
-
-    @Override
-    public String toString(){
-        String res = "";
-        Node tmp = headNode;
-        while (tmp != null){
-            res += (tmp.toString() + ", ");
-            tmp=tmp.nextNode;
-        }
-        return res;
     }
 }

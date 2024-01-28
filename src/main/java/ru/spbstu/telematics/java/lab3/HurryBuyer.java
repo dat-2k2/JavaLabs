@@ -6,7 +6,7 @@ import java.util.Deque;
 /**
  * HurryBuyer, which will come to the head of queue
  */
-public class HurryBuyer extends Buyer{
+public class HurryBuyer extends Buyer {
     /**
      * {@inheritDoc}
      */

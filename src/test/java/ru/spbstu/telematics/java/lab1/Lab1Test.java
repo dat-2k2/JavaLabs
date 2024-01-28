@@ -61,6 +61,7 @@ public class Lab1Test {
 
     /**
      * test if the non-existed File case is covered.
+     *
      * @throws FileNotFoundException expect to throw this exception
      */
     @Test(expected = FileNotFoundException.class)
